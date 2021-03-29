@@ -2,7 +2,7 @@ package com.hy.Sheji.bean;
 
 import java.sql.Timestamp;
 
-public class Product implements java.io.Serializable{
+public class Product {
 
 	private Integer pId; 
 	private String pName;

@@ -20,7 +20,8 @@ import com.hy.Sheji.biz.MallBiz;
 @RestController
  public class MallAction {
 	
-	  @Resource private MallBiz mb;
+	  @Resource
+	  private MallBiz mb;
 	 
 	  @GetMapping ("mall") 
 		public ModelAndView Mall(ModelAndView mav) {
@@ -32,7 +33,7 @@ import com.hy.Sheji.biz.MallBiz;
 		}	
 		
 	  @GetMapping ("category")
-		public List<Product> Category(@RequestParam(value="pCid" ,defaultValue = "4") int pCid) {
+		public List<Product> Category(@RequestParam(value="pCid" ,defaultValue = "1") int pCid) {
 	
 		//商城mall商品界面分展示
 		  System.out.println("+=============");
