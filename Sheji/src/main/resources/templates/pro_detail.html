@@ -20,52 +20,15 @@
 		<script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/jquery.SuperSlide.2.1.js"></script>
 		<script src="js/common.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+        <script type="text/javascript" src="js/axios.min.js"></script>
+	    
 	</head>
 
 	<body>
 	<!--header star-->
 	<div class="header clearfix">
-		<div class="top clearfix">
-			<div class="topctent clearfix">
-				<div class="left clearfix fl">
-					公告：您好
-				</div>
-				<div class="right clearfix fr">
-					<div class="zuo clearfix fl">
-						<ul class="clearfix fl">
-							<li>
-								<span class="fl">欢迎</span>
-								<a href="grxx.html" class="fl">&nbsp;夕雾&nbsp;</a>
-								<span class="fl">进入</span>
-							</li>
-							<li>
-								<a href="register.html">
-									免费注册
-								</a>
-							</li>
-							<li>
-								<a href="settled.html">
-									农家入驻
-								</a>
-							</li>
-						</ul>
-					</div>
-					<div class="shopcar-btn clearfix fl">
-						<a href="cart.html" class="box-s">
-							购物车（0）
-						</a>
-					</div>
-					<div class="fenxiang clearfix fl">
-						<span class="fl">分享到：</span>
-						<ul class="clearfix fl">
-							<li><a href="#"><img src="img/sina.png"/></a></li>
-							<li><a href="#"><img src="img/qq.png"/></a></li>
-							<li><a href="#"><img src="img/wechat.png"/></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
+		<div th:include="index::.toubu"></div>
 		<div class="bottom clearfix">
 
 			<div class="search clearfix fr ra5">
@@ -80,36 +43,36 @@
 	<div class="navbar clearfix">
 		<div class="content clearfix">
 			<ul>
-				<li ><a href="index.html">首页</a></li>
-				<li><a href="mall.html">商城</a></li>
-				<li><a href="special.html">一市一县</a></li>
-				<li><a href="area.html">助力地区</a></li>
+				<li ><a href="index">首页</a></li>
+				<li><a href="mall">商城</a></li>
+				<li><a href="special">一市一县</a></li>
+				<li><a href="area">助力地区</a></li>
 			</ul>
 		</div>
 	</div>
 		<!--navbar end-->
 		<!--Main-wrap-->
-		<div class="main-wrap graybgtwo pt40 pb40">
+		<div id="pd" class="main-wrap graybgtwo pt40 pb40">
 			<div class="wrapper">
 				<!--Main-pro-info-->
 				<div class="main-pro-info white-box  clearfix">
 					<div class="fangda clearfix fl">
 						<p class="showpage">
-					       <img src="upload/2.jpg">
+					       <img :src="p.pImg">
 						</p>
 						
 						</div>
 					<!--产品信息介绍-->
 					<div class="fr pro-intro">
-						<div class="pb20 line-bot">
-							<h3 class="fs26 darkblack lh50 ellipsis">衡东特产三樟青黄贡椒/3斤</h3>
+						<div class="pb20 line-bot"> 
+							<h3 class="fs26 darkblack lh50 ellipsis" >{{p.pName}}</h3>
 							<p class="fs14 lh20 over2">这里是简介产品</p>
 
-							<p class="price pt10 clearfix"><strong class="fl red fs40">¥56.8</strong></p>
+							<p class="price pt10 clearfix" ><strong class="fl red fs40"> ¥{{p.price}}</strong></p>
 						</div>
 						<div class="pro-ctent clearfix">
 							<ul>
-								<li><span>发货地 ：</span>衡东</li>
+								<li><span>发货地 ：</span>{{aShi}}  {{aXian}} </li>
 								<li><span>运 费 ：</span>免运费</li>
 								<li><span>规 格：</span>3斤</li>
 
@@ -170,9 +133,9 @@
 						</div>
 						<div class="tab-bd">
 							<div class="tab-pal">
-								<p ><img style="margin: 0 auto" src="upload/2.jpg" alt="" />
-									<img style="margin: 0 auto" src="upload/2.jpg" alt="" />
-									<img style="margin: 0 auto" src="upload/2.jpg" alt="" />
+								<p ><img style="margin: 0 auto" :src="p.pImg" alt="" />
+									<img style="margin: 0 auto" :src="p.pImg" alt="" />
+									<img style="margin: 0 auto" :src="p.pImg" alt="" />
 								</p>
 							</div>
 							<div class="tab-pal">
@@ -186,85 +149,32 @@
 			</div>
 
 		</div>
+		 <script>
+		    var vue=new Vue({
+		    	el:"#pd",
+		    	data:{
+		    		pId:"",
+		    		p:{},
+		    		aXian:"",
+		    		aShi:""
+		    	},
+		    	created:
+		    		function(){
+		    		this.pId=location.hash.substr(1);
+		    		axios.get("pro_details?pId="+this.pId).then(res=>{
+		    			this.p=res.data;
+		    			this.aXian=res.data.area.aXian;
+		    			this.aShi=res.data.area.aShi;
+		    		    console.info(res.data)
+		    		})
+		    	}
+		    })
+		 </script>
 		<!--/end-->
 	<!--footer star-->
-	<div class="footer clearfix">
-		<div class="content clearfix">
-
-			<div class="bottom clearfix">
-				<div class="left clearfix fl">
-					<div class="list clearfix">
-						<div class="shang clearfix">
-							<p>新手指南</p>
-							<span></span>
-						</div>
-						<div class="xia clearfix">
-							<ul>
-								<li><a href="scgmlc.html">商城购买流程</a></li>
-								<li><a href="cjwt.html">常见问题</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="list clearfix">
-						<div class="shang clearfix">
-							<p>账户管理</p>
-							<span></span>
-						</div>
-						<div class="xia clearfix">
-							<ul>
-								<li><a href="zhcz.html">账户充值</a></li>
-								<li><a href="zhtx.html">账户提现</a></li>
-								<li><a href="zffs.html">支付方式</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="list clearfix">
-						<div class="shang clearfix">
-							<p>服务合作</p>
-							<span></span>
-						</div>
-						<div class="xia clearfix">
-							<ul>
-								<li><a href="friend-link.html">友情链接</a></li>
-								<li><a href="ysjrz.html">农户入驻</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="list clearfix">
-						<div class="shang clearfix">
-							<p>关于我们</p>
-							<span></span>
-						</div>
-						<div class="xia clearfix">
-							<ul>
-								<li><a href="gsjj.html">公司简介</a></li>
-								<li><a href="contact.html">联系我们</a></li>
-								<li><a href="jrwm.html">加入我们</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="list clearfix">
-						<div class="shang clearfix">
-							<p>售后服务</p>
-							<span></span>
-						</div>
-						<div class="xia clearfix">
-							<ul>
-								<li><a href="wlsm.html">物流说明</a></li>
-								<li><a href="mzsm.html">免责声明</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-		<div class="banquan clearfix ta-center">
-
-		</div>
-	</div>
+	 <div class="weibu" th:include="index::.weibu">
 	<!--footer end-->
-		<!--footer end-->
+	 
 
 	</body>
 	<script src="js/other.js" type="text/javascript" ></script>

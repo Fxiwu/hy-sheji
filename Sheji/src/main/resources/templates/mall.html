@@ -42,8 +42,8 @@
 		<ul>
 			<li><a href="index">首页</a></li>
 			<li class="cur"><a href="mall">商城</a></li>
-			<li><a href="special.html">一市一县</a></li>
-			<li><a href="area.html">助力地区</a></li>
+			<li><a href="special">一市一县</a></li>
+			<li><a href="area">助力地区</a></li>
 		</ul>
 	</div>
 </div>
@@ -79,8 +79,8 @@
                  <li   v-for="mc in mclist">
 					<div class="list clearfix transition">
 						<div class="tu clearfix">
-							<a href="index.html">
-								<a ><img  :src="mc.pImg"/></a>
+							<a :href="'pro_detail?#'+mc.pId">
+								<img :src="mc.pImg"/>
 							</a>
 							<span></span>
 						</div>
@@ -103,8 +103,8 @@
                  <li th:each="p:${mall}">
 					<div class="list clearfix transition">
 						<div class="tu clearfix">
-							<a href="index.html">
-								<a ><img th:src="${p.pImg}"/></a>
+							<a th:href="'pro_detail?#'+${p.pId}">
+								<img th:src="${p.pImg}"/>
 							</a>
 							<span></span>
 						</div>

@@ -9,6 +9,7 @@ public class Area {
 	private String aWeizhi; 
 	private String aTese; 
 	private String aLvyou;
+	private String aPhoto;
 	
 	public Integer getaId() {
 		return aId;
@@ -59,6 +60,12 @@ public class Area {
 	}
 	public void setaLvyou(String aLvyou) {
 		this.aLvyou = aLvyou;
+	}
+	public String getaPhoto() {
+		return aPhoto;
+	}
+	public void setaPhoto(String aPhoto) {
+		this.aPhoto = aPhoto;
 	} 
 	
 }

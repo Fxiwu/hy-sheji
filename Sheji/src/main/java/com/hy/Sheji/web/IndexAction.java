@@ -19,7 +19,7 @@ public class IndexAction{
 	    @Resource
         ProductMapper pm;
         
-        @GetMapping("index")
+        @GetMapping("index" )
         public List<Product> index(Model m) {
 			//首页商城热销
         	List<Product> list=pm.selectIndexhot();

@@ -13,6 +13,17 @@ public class Product {
 	private Integer pCid;
 	private Integer pHot;
 	private Integer pAid;
+	
+	private Area area;
+	
+	
+	public Area getArea() {
+		return area;
+	}
+	public void setArea(Area area) {
+		this.area = area;
+	}
+	
 	public Integer getpId() {
 		return pId;
 	}
