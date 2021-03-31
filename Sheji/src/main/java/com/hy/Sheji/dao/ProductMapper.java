@@ -25,5 +25,9 @@ public interface ProductMapper {
 					 one=@One(select="com.hy.Sheji.dao.SpecialMapper.selArea" ))
 		 })
 		Product selectPro(int pId);
-	
+	 //product_detail喜欢模块
+	@Select("select * from hy_product where p_hot=1 order by p_createime desc limit 0,3 ;")
+	List<Product> selectLike();
 	 }
+
+   

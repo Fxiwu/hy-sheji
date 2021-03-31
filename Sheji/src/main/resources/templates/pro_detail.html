@@ -66,7 +66,7 @@
 					<div class="fr pro-intro">
 						<div class="pb20 line-bot"> 
 							<h3 class="fs26 darkblack lh50 ellipsis" >{{p.pName}}</h3>
-							<p class="fs14 lh20 over2">这里是简介产品</p>
+							<p class="fs14 lh20 over2">{{p.pDesc}}</p>
 
 							<p class="price pt10 clearfix" ><strong class="fl red fs40"> ¥{{p.price}}</strong></p>
 						</div>
@@ -74,7 +74,7 @@
 							<ul>
 								<li><span>发货地 ：</span>{{aShi}}  {{aXian}} </li>
 								<li><span>运 费 ：</span>免运费</li>
-								<li><span>规 格：</span>3斤</li>
+								<li><span>规 格：</span>&nbsp;&nbsp;{{p.pGuige}}</li>
 
 							</ul>
 						</div>
@@ -105,22 +105,12 @@
 					<div class="fl pro-likes white-box">
 						<div class="title"><strong class="fs16 white">大家都喜欢</strong></div>
 						<ul class="likelist">
-							<li>
-								<a href="#" class="db pic"><span><img src="upload/2.jpg" alt=""/></span></a>
-								<a href="#" class="full-db tit darkblack ellipsis">衡东特产三樟青黄贡椒</a>
+							<li th:each="l:${like}">
+								<a href="#" class="db pic"><span><img th:src="${l.pImg}" alt=""/></span></a>
+								<a href="#" class="full-db tit darkblack ellipsis" th:text="${l.pName}">衡东特产三樟青黄贡椒</a>
 								<strong class="full-db red"><em class="fs12">¥</em>65.00</strong>
 							</li>
-							<li>
-								<a href="#" class="db pic"><span><img src="upload/2.jpg" alt=""/></span></a>
-								<a href="#" class="full-db tit darkblack ellipsis">衡东特产三樟青黄贡椒</a>
-								<strong class="full-db red"><em class="fs12">¥</em>65.00</strong>
-							</li>
-							<li>
-								<a href="#" class="db pic"><span><img src="upload/2.jpg" alt=""/></span></a>
-								<a href="#" class="full-db tit darkblack ellipsis">衡东特产三樟青黄贡椒</a>
-								<strong class="full-db red"><em class="fs12">¥</em>65.00</strong>
-							</li>
-
+							 
 						</ul>
 					</div>
 					

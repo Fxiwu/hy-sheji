@@ -13,7 +13,7 @@ public class Product {
 	private Integer pCid;
 	private Integer pHot;
 	private Integer pAid;
-	
+	private String  pGuige;
 	private Area area;
 	
 	
@@ -77,6 +77,12 @@ public class Product {
 	}
 	public void setpAid(Integer pAid) {
 		this.pAid = pAid;
+	}
+	public String getpGuige() {
+		return pGuige;
+	}
+	public void setpGuige(String pGuige) {
+		this.pGuige = pGuige;
 	}
 	 
 	 
