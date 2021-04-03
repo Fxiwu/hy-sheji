@@ -23,10 +23,10 @@
 	<body class="sign-bg">
 		<div class="sign clearfix">
 			<div class="top clearfix">
-				<a href="index.html" class="fl fanhui">返回首页</a>
+				<a href="index" class="fl fanhui">返回首页</a>
 				<p class="fr">
 					已有账号？
-					<a href="sign.html" class="zhuce ra3">
+					<a href="sign" class="zhuce ra3">
 						登录
 					</a>
 				</p>
@@ -38,40 +38,48 @@
 				<div class="title">
 					<strong  >会员注册</strong>
 				</div>
-                <form>
+                <form action="registers" method="post">
 					<table>
 						<tbody>
 						<tr>
 							<th><span class="requiredField">*</span>用户名:</th>
-							<td><input type="text" name="username" v-model="username"
-									   class="text" maxlength="20"  onblur=""  />
-								<span
-										id="span1">
-									</span></td>
+							<td>
+							<input type="text" id="uName" name="uName" class="text" maxlength="20"  th:value="${user}!=null ? ${user.uName} :''"/>
+								<span class="span1" th:if="${errors}!=null" th:text="${errors.get('uName')}"> </span>
+						   </td>
 						</tr>
 						<tr>
 							<th><span class="requiredField">*</span>密&nbsp;&nbsp;码:</th>
-							<td><input type="password"  id="password" name="password"   class="text" maxlength="20" autocomplete="off" /><span>
-									</span></td>
+							<td><input type="password"  id="uPassword" name="uPassword"   class="text" maxlength="20" autocomplete="off" />
+							 <span class="span1" th:if="${errors}!=null" th:text="${errors.get('uPassword')}"> </span>
+
+									</td>
 						</tr>
 						<tr>
 							<th><span class="requiredField">*</span>确认密码:</th>
 							<td><input type="password"  id="repassword" name="repassword" class="text" maxlength="20"
-									   autocomplete="off" /></td>
+									   autocomplete="off" />
+						       <span class="span1" th:if="${pwderror}!=null" th:text="${pwderror}"> </span>
+						       
+						       </td>
+						
 						</tr>
 
 						<tr>
 							<th><span class="requiredField">*</span>电话:</th>
-							<td><input type="text"  id="phone" name="phone" class="text" maxlength="200" onkeyup="" onafterpaste="">
+							<td><input type="text"  id="uPhone" name="uPhone" class="text" maxlength="200"  th:value="${user}!=null ? ${user.uPhone} :''">
+							<span class="span1" th:if="${errors}!=null" th:text="${errors.get('uPhone')}"> </span>
+							<span class="span1" th:if="${phoneerrors}!=null" th:text="${phoneerrors}"> </span>
+			
 							</td>
 						</tr>
 
 						<tr>
 							<th>性别:</th>
 							<td><span class="fieldSet"> <label>
-								<input type="radio" name="sex" value="男">男
+								<input type="radio" id="uSex" name="uSex" value="男"  checked>男
 										</label> <label>
-								<input type="radio"  name="sex" value="女">女
+								<input type="radio" id="uSex"  name="uSex" value="女">女
 
 										</label> </span></td>
 						</tr>
@@ -85,17 +93,21 @@
 							<td>
 										<span class="fieldSet">
 											<input type="text"  class="yanzheng" id="captcha" name="captcha"   maxlength="4"  >
-											<img  class="captchaImage" src="img/yzm.png" title="点击更换验证码" onclick=" " style="height: 30px; width:120px;font-size: 10px">
+                                            <img id="captchaImage" class="captchaImage" src="getCode"
+											 title="点击更换验证码"  onclick="this.src='getCode?'+(new Date()).getTime();" style="height: 30px; width:100px">
+									       
 										</span>
+										<span class="span1" th:if="${captchaerror}!=null" th:text="${captchaerror}" > </span>
+
 							</td>
 						</tr>
 
 					</table>
 
-
+                     <button  class="sign-btn zhuce-btn ra5">立即注册</button>
 				</form>
 
-					<a href="#" class="sign-btn zhuce-btn ra5">立即注册</a>
+					
 			</div>
 
 		</div>

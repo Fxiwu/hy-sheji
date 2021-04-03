@@ -4,6 +4,7 @@ package com.hy.Sheji.web;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +25,9 @@ import com.hy.Sheji.biz.MallBiz;
 	  private MallBiz mb;
 	 
 	  @GetMapping ("mall") 
-		public ModelAndView Mall(ModelAndView mav) {
+		public ModelAndView Mall(ModelAndView mav ,HttpSession session) {
 		  List<Product> mlist=mb.Mall();
-		  
+		  mav.addObject("se",session.getAttribute("LoginUser"));
 			mav.addObject("mall", mlist);
 			mav.setViewName("mall");
 			return mav;

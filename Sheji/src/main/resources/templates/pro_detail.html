@@ -106,8 +106,8 @@
 						<div class="title"><strong class="fs16 white">大家都喜欢</strong></div>
 						<ul class="likelist">
 							<li th:each="l:${like}">
-								<a href="#" class="db pic"><span><img th:src="${l.pImg}" alt=""/></span></a>
-								<a href="#" class="full-db tit darkblack ellipsis" th:text="${l.pName}">衡东特产三樟青黄贡椒</a>
+								<a th:href="'#'+${l.pId}" class="db pic"><span><img th:src="${l.pImg}" alt=""/></span></a>
+								<a th:href="'#'+${l.pId}" class="full-db tit darkblack ellipsis" th:text="${l.pName}">衡东特产三樟青黄贡椒</a>
 								<strong class="full-db red"><em class="fs12">¥</em>65.00</strong>
 							</li>
 							 

@@ -3,6 +3,7 @@ package com.hy.Sheji.web;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +22,10 @@ public class AreaAction {
 	   AreaBiz ab;
        
        @GetMapping("area")
-       public Model area(Model m) {
+       public Model area(Model m,HttpSession session) {
 			//area页面展示
          List<Area> alist= ab.area();
+         m.addAttribute("se",session.getAttribute("LoginUser"));
          m.addAttribute("alist", alist);
        	return m;
        	
@@ -31,9 +33,10 @@ public class AreaAction {
        
        
        @GetMapping("area_detail")
-       public String areadet() {
+       public String areadet(HttpSession session,Model m) {
 			//area_detail页面展示
-        
+           m.addAttribute("se",session.getAttribute("LoginUser"));
+
        	return "area_detail";
        	
        }

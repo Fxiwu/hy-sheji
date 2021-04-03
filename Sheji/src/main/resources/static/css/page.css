@@ -981,6 +981,15 @@
 	color: #fff;
 }
 
+/*
+   register
+*/
+.span1 {
+	width:20px;
+	height:10px;
+	color:red;
+	font-size:10px;
+}
 
 /*sign*/
 
@@ -991,8 +1000,8 @@
 }
 
 .sign {
-	width: 540px;
-	margin: 100px auto 0;
+	width:580px;
+	margin: 100px auto 20px;
 }
 
 .sign .top {
@@ -1037,7 +1046,8 @@
 	width: 100%;
 	background-color: #fff;
 	margin-top: 10px;
-	padding: 30px 55px 80px;
+   padding: 30px 40px 80px ; 
+	
 	position: relative;
 	box-shadow: 0 0 5px #ccc;
 	-webkit-box-shadow: 0 0 5px #ccc;
@@ -1055,7 +1065,7 @@
 
 	font-size: 25px;
 	text-align: center;
-
+   padding-bottom:15px;
 }
 
 .sign .bottom .requiredField {
@@ -1075,13 +1085,13 @@
 .sign .bottom tr{
 
 
-	font-size:15px;
+	font-size:20px;
 
 }
 .sign .bottom .text{
    width:260px;
    height: 28px;
-
+   color: #2d2d2d;
 }
 .sign .bottom .yanzheng{
 	width:160px;
@@ -1135,9 +1145,10 @@ label {
 	background: url(../img/xuanzhong.png) no-repeat;
 }
 
+ 
 
 /*----------------------------------------------------------------
- artist
+ 
  * */
 .shenqin{
 	height: 30px;

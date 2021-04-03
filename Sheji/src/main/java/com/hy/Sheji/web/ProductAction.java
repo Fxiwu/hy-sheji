@@ -5,6 +5,7 @@ package com.hy.Sheji.web;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +26,10 @@ import com.hy.Sheji.dao.ProductMapper;
 	 
 	 
 	 @GetMapping ("pro_detail") //产品详情界面
-		public Model pro_detail(Model m) {
+		public Model pro_detail(Model m,HttpSession session) {
 		 List<Product> like=pm.selectLike();
-		         m.addAttribute("like", like);
+	        m.addAttribute("se",session.getAttribute("LoginUser"));
+		         m.addAttribute("like", like);  //产品详情界面喜欢模块数据渲染
 				return m;
 			}	
 	 
@@ -41,12 +43,5 @@ import com.hy.Sheji.dao.ProductMapper;
 				return p;
 			}	
 	 
-	 @ResponseBody      //产品详情界面大家都喜欢模块
-	  @GetMapping ("like") 
-		public Product like(@RequestParam(value="pId" ,defaultValue ="1") int pId ) {
-			
-		  Product p=pm.selectPro(pId);
-			 
-				return p;
-			}	
+	 
 }
