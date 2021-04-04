@@ -16,7 +16,7 @@ public interface ProductMapper {
 	@Select("select * from hy_product where p_hot=1")
 	List<Product> selectIndexhot();
 	
-	//产品详情展示
+	//产品详情+地区展示
 		@Select("select * from hy_product where p_id=#{pId}")
 		@Results({
 			 @Result(column="p_id",property="pId"),

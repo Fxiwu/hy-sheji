@@ -113,10 +113,9 @@ public class SignAction {
 			String realcaptcha=session.getAttribute("captcha").toString();
                  System.out.println("realcaptcha:"+realcaptcha);
 		if(captcha.equals(realcaptcha)) {
-				
-				User dbuser = sb.login(user);
+		    User dbuser = sb.login(user);
+ 			Result res = new Result(1, "登录成功!", dbuser);
 			session.setAttribute("loginedUser", dbuser);
-			Result res = new Result(1, "登录成功!", dbuser);
 			 session.setAttribute("LoginUser", dbuser.getuName());
  
 			return res;
