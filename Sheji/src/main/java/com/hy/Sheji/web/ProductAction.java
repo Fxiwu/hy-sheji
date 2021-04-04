@@ -34,7 +34,7 @@ import com.hy.Sheji.dao.ProductMapper;
 			}	
 	 
 	
-	 @ResponseBody      //产品详情界面数据传递
+	  @ResponseBody      //产品详情界面数据传递
 	  @GetMapping ("pro_details") 
 		public Product Product(@RequestParam(value="pId" ,defaultValue ="1") int pId ) {
 			
