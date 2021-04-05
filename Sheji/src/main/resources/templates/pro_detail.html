@@ -88,8 +88,8 @@
 								</p>
 							</div>
 							<div class="but-box mt30">
-								<input type="button" class="fl orange-but gray-but radius3" onclick="window.location.href='jiesuan.html'" value="立即购买">
-								<input type="button" class="fl ml20 orange-but gray-but radius3 " onclick="window.location.href='cart.html'" value="加入购物车">
+								<button  class="fl orange-but gray-but radius3" onclick="window.location.href='jiesuan.html'" >立即购买</button>
+								<button  @click="addcart()"   class="fl ml20 orange-but gray-but radius3 "  >加入购物车</button>
 							</div>
 						</div>
 					</div>
@@ -167,6 +167,13 @@
 			    			this.aXian=res.data.area.aXian;
 			    			this.aShi=res.data.area.aShi;
 			    		    console.info(res.data)
+			    		})
+		    		},
+		    		addcart(){
+		    			axios.get("addcart?pId="+this.pId).then(res=>{
+			    			  
+			    				 alert(res.data.msg);
+			    			 
 			    		})
 		    		}
 		    	}

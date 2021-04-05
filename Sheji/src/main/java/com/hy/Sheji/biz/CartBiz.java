@@ -36,21 +36,25 @@ public class CartBiz {
 			return cm.addCart(cart);
 		}
 		//添加购物车中商品的数量
-		public  int addupdate(Cart cart){
+		public  int addupdate(int cId){
 	         
-			return cm.addupdate(cart);
+			return cm.addupdate(cId);
 		}
  	    
 		//减少购物车中商品的数量
-		public  int deupdate(Cart cart){
+		public  int deupdate(int cId){
 	         
-			return cm.deupdate(cart);
+			return cm.deupdate(cId);
 		}		     
 		
 		//删除购物车中的商品类商品
 		public  int deleteByUid(int cId){
 	         
 			return cm.deleteByCid(cId);
+		}
+		//在结算时通过用户ID实现购物车清空
+		public int deleteBycUid(int cUid) {
+			 return cm.deleteBycUid(cUid);
 		}
 		 
 }

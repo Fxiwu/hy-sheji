@@ -35,15 +35,18 @@ public interface CartMapper {
 	int addCart(Cart cart);
 	
 	//添加购物车中商品的数量
-	@Update("update hy_cart set c_count=c_count+1 where c_uid=#{cUid} and c_pid=#{cPid}")
-     int addupdate(Cart cart);
+	@Update("update hy_cart set c_count=c_count+1 where c_id=#{cId}")
+     int addupdate(int cId);
 	
 	//减少购物车中商品的数量
-		@Update("update hy_cart set c_count=c_count+1 where c_uid=#{cUid} and c_pid=#{cPid}")
-	     int deupdate(Cart cart);
+		@Update("update hy_cart set c_count=c_count-1 where c_id=#{cId}")
+	     int deupdate(int cId);
 	
 	//删除购物车中的某商品类商品
 	@Delete("delete from hy_cart where c_id=#{cId}")
 	int deleteByCid(int cart);
+
+	@Delete("delete from hy_cart where c_uid=#{cUid}")
+	int deleteBycUid(int cUid);
 	
 }

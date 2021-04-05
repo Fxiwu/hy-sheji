@@ -36,14 +36,14 @@ public class CartAction {
 		  }
 		uName=(String) session.getAttribute("LoginUser");
 		m.addAttribute("se",uName);
-		try {
+		try {  //若用户已登陆，则通过uName来获取uId
 			if(uName!=null) {
 				int uId=cm.selectUer(uName).getuId();
 				List<Cart> clist=cb.selectCart(uId);
 				//System.out.println("======"+clist.toString());
 				m.addAttribute("clist", clist);
 				double sum=0.0;
-				 for (Cart str : clist) {            
+				 for (Cart str : clist) {   //算出购物车总金额         
  			        System.out.println(str.getcCount()*str.getProduct().getPrice());
  			        sum+=str.getcCount()*str.getProduct().getPrice();
  			    }
@@ -61,4 +61,17 @@ public class CartAction {
 		}
 		return m;
 	}
+	
+	@GetMapping("carts")
+	public Result carts(String uName) {
+		int uId=cm.selectUer(uName).getuId();
+		if(cb.deleteBycUid(uId)>0) {
+			Result res=new Result(1,"购物车清楚成功，前往结算页面");
+			return res;
+		};
+		return new Result(0,"购物车清楚失败");
+		
+	}
+	
+	
 }
