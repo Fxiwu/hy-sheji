@@ -1,12 +1,15 @@
 package com.hy.Sheji.bean;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
+
+ 
 
 
 
@@ -28,6 +31,10 @@ public class User {
 	private String uSex;
 	private Timestamp uCreatetime;
 	private String uStatus;
+	private String uImg;
+	
+	private List<Address> address;
+	
 	public Integer getuId() {
 		return uId;
 	}
@@ -70,6 +77,19 @@ public class User {
 	public void setuStatus(String uStatus) {
 		this.uStatus = uStatus;
 	}
+	public String getuImg() {
+		return uImg;
+	}
+	public void setuImg(String uImg) {
+		this.uImg = uImg;
+	}
+	public List<Address> getAddress() {
+		return address;
+	}
+	public void setAddress(List<Address> address) {
+		this.address = address;
+	}
+	 
 	
 	
 	

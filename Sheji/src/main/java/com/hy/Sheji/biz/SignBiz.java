@@ -19,6 +19,10 @@ public class SignBiz {
 			
 			throw new BizException("该手机号已注册账户");
 		}
+       if(sm.ByName(user.getuName())>0){
+			
+			throw new BizException("该用户名已注册账户");
+		}
 		sm.Register(user);
 		
 	}

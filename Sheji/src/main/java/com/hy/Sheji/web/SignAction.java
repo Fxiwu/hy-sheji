@@ -90,7 +90,13 @@ public class SignAction {
 		} catch (BizException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			m.addAttribute("phoneerrors","该手机号已注册");
+		   if(e.getMessage().equals("该用户名已注册账户")) {
+			   m.addAttribute("nameerrors","该用户名已注册账户");
+		   }
+		   if(e.getMessage().equals("该用户名已注册账户")) {
+			   m.addAttribute("phoneerrors","该手机号已注册");
+		   }
+			 
 			return "register";
 		}
 		return "index";

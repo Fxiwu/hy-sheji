@@ -21,6 +21,7 @@ public class BizException extends Exception {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
+	 
 
 	public BizException(Throwable cause) {
 		super(cause);

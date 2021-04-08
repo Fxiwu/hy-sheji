@@ -186,7 +186,7 @@
 .user-info .base-infotwo{width:600px;}
 .user-info .user-info{width:140px;}
 .user-info .base-info ul li{ display:block; width:100%; height:40px; line-height:40px;margin:0 0 20px 0;}
-.base-info ul li .l-option{ font-size:14px;width:50px; text-align:right; color:#888;}
+.base-info ul li .l-option{ font-size:14px;width:70px; text-align:right; color:#888;}
 .base-info ul li .l-optiontwo{ font-size:14px;width:70px; text-align:right; color:#888;}
 .base-info ul li input[type="text"]{width:300px; height:28px;padding:5px 10px; border:1px solid #e3e3e3;}
 .base-info input.green-but{width:323px; height:48px; border: none;}
@@ -294,6 +294,12 @@
 /*结算*/
 .check-box{ border:1px solid #dfdfdf;}
 
+.check-box .ra{
+	float:right;
+	padding-top:0px;
+	 color:red;
+}
+
 .js-box .title{ height:59px; line-height:59px;}
 .js-box .title span{ border-left:3px solid #EA5763;}
 .consignee-info-info{ border-top:3px solid #f8c166;}
@@ -366,109 +372,10 @@
 .pro-detail .tab-bd{width:820px; padding:20px 60px; clear:both; position:relative;overflow:hidden;   }
 .pro-detail .tab-bd  img{ display:block; max-width:100%;padding-top: 50px;}
 
+ 
+ 
 
-/*互点商城*/
-.main-product{width:100%; height:500px; overflow:hidden; position:relative;}
-.main-product .m-pro-intro{width:352px;padding-top:200px;}
-.main-product .title{width:316px; height:110px; background:#f39800; color:#fff; position:absolute; top:56px;padding:10px 42px;}
-.main-product .title .num{ width:130px; height:80px; border-bottom:1px solid #fff;background-position:center center; background-repeat:no-repeat;}
-.main-product .title .english{ text-transform:Uppercase; height:30px; line-height:30px; text-align:center;}
-.main-product .title .tit{margin:16px 0 0 48px; height:78px; padding:0 0 0 46px; font-size:35px; border-left:1px solid #cf8100; line-height:40px;}
-.product01 .title{ left:0;}
-.product02 .title{ right:0;}
-.product01 .title .num{ background-image:url(../images/num01.png);}
-.product02 .title .num{ background-image:url(../images/num02.png);}
-.m-pro-intro .intro{width:272px;padding:15px 40px; line-height:24px;}
-.m-pro-intro .s-pro-info{width:300px;padding:0 26px;}
-.s-pro-info p{width:120px; height:120px; text-align:center; overflow:hidden;}
-.s-pro-info p span{ overflow:hidden;display:table-cell;vertical-align:middle; text-align:center; width:120px; height:120px;}
-.s-pro-info p span img{ display:inline-block; max-width:100%;}
-.s-pro-info strong,.s-pro-info em{padding-top:64px; line-height:40px;}
-.main-product .m-pro-img{width:848px; overflow:hidden;}
-.main-product .m-pro-img img{ display:block; width:848px; height:500px;}
-
-
-.assist-foods .title .more{ display:inline-block; width:124px; height:26px; text-align:center; color:#fff; line-height:26px; background:url(../images/more_bg.png) 0 0 no-repeat;}
-.assist-foods .title .more em{ display:inline-block;width:10px; height:10px; background:url(../images/icon/jt-right.png) 0 0 no-repeat;margin-right:3px;}
-
-.foods-list{zoom:1; overflow:hidden; margin-right:-20px;}
-.foods-list ul li{ float:left; width:530px; height:290px;padding:15px 30px;margin:0 20px 20px 0; cursor:pointer;}
-.foods-list ul li .pic{width:260px; height:290px; text-align:center;}
-.foods-list ul li .pic span{width:260px; height:290px; display:table-cell; text-align:center; vertical-align:middle; overflow:hidden;}
-.foods-list ul li .pic img{ display:inline-block; max-width:100%;}
-.foods-list ul li .pro-info{width:230px;}
-.foods-list .pro-info p{padding:15px 0;}
-.foods-list ul li:hover,.foods-list ul li.on{-webkit-box-shadow: 0 0 9px rgba(0,0,0,.07);-moz-box-shadow: 0 0 9px rgba(0,0,0,.07);-o-box-shadow: 0 0 9px rgba(0,0,0,.07);box-shadow: 0 0 9px rgba(0,0,0,.07);}
-
-
-/*公司简介*/
-.slide-list{width:260px;}
-.slide-cont{width:850px;padding:0 35px 15px;}
-
-.slide-list ul li{ display:block; width:100%;margin-bottom:2px;}
-.slide-list li .main-nav{ display:block; width:220px; height:32px; line-height:32px; color:#fff; font-size:16px; font-weight:bold;padding:10px 20px; background:#f39800 url(../images/icon/slide_icon_jt.png) 227px center no-repeat;}
-.slide-list li dl{width:220px;padding:3px 22px 11px;}
-.slide-list li dl dd{ display:block; width:204px; height:40px; line-height:40px;padding:0 7px; border-bottom:1px solid #ebebeb; font-size:14px;}
-.slide-list li dl dd a{display:block; width:100%; height:40px;background-position:198px center; background-repeat:no-repeat; background-image:url(../images/icon/nav_jt01.png); color:#333;}
-.slide-list li dd a:hover,.slide-list li dd a.on{ color:#f39800; background-image:url(../images/icon/nav_jt02.png);}
-
-/*生命历程*/
-.cont-box{width:1140px;padding:25px 30px;}
-.intro-box{width:1140px; height:340px;padding-top:80px; background-repeat:no-repeat; background-position:0 0;}
-.intro-box .para{width:770px; height:116px; background:url(../images/trans_red.png) 0 0 repeat;margin:0px auto; color:#fff;padding:20px 40px; line-height:50px;}
-
-.smll-box{width:450px;}
-.smll-box .text-info{ border-top:1px solid #adadad;}
-.smll-box .text-info .item{width:80px; height:30px; background:#f39800; color:#fff;  line-height:30px; font-size:14px;}
-.smll-box .text-info .info{width:360px;}
-.smll-box .long-info .item{width:130px;}
-.smll-box .long-info .info{width:310px;}
-
-/*种植环境*/
-.o-l-box{width:569px; border-right:3px solid #f39800;}
-.o-r-box{width:498px;padding-left:70px;}
-
-.plant-box,.zone-box{width:490px; color:#666; position:relative;}
-.plant-box em{ display:block;padding:0 20px; height:36px; background:#f39800;line-height:36px; position:absolute; border-radius:20px;-webkit-border-radius:20px;-moz-border-radius:20px;-o-border-radius:20px;}
-.box01 em{ top:-8px;right:-96px;}
-.box02 em{top:40px; left:-90px;}
-.box03 em{top:3px; right:-97px;}
-.zone-box .tit{width:480px; height:41px; background:url(../images/sharp_bg.jpg) left center no-repeat; line-height:40px;padding-left:10px;}
-.zone-box em{ display:block;width:16px; height:16px; background:url(../images/orange_circle.png) 0 0 no-repeat; position:absolute; }
-.zbox01 em{top:35px; right:-88px;}
-.zbox02 em{top:22px; left:-80px;}
-.zbox04 em,.zbox06 em{top:13px; left:-80px;}
-.zbox03 em,.zbox05 em{top:8px; right:-88px;}
-
-/*修改密码*/
-.passbox{width:400px; margin:80px auto;}
-.passbox label{ width:100px; height:40px; line-height:40px; text-align:right; color:#888; }
-.passbox input[type="text"]{ width:260px; height:28px;  line-height:28px;padding:5px 10px; border:1px solid #e3e3e3; color:#999;}
-.passbox input[type="button"]{width:136px; height:40px; line-height:40px;}
-.passbox .reset-but,.add-address .reset-but{ background:none; border:1px solid #600000; color:#600000;}
-
-/*找回密码*/
-.find-box{width:818px;margin:0 auto;}
-.find-nav{width:818px;  height:78px; margin:0 auto;}
-.find-nav .nav-bg{width:678px; height:38px; background:url(../images/step_bg.png) 0 0 no-repeat; margin:0 auto;}
-.find-nav .nav-bg .static{ display:block; height:38px; background:url(../images/orange_step.png) left center no-repeat;}
-.find-nav .nav-bg .static1{width:37px;}
-.find-nav .nav-bg .static2{width:254px;}
-.find-nav .nav-bg .static3{width:466px;}
-.find-nav .nav-bg .static4{width:100%;}
-.find-nav .step-text span{ float:left; width:120px; text-align:center;}
-.find-nav .step-text span.on{ color:#f39800;}
-
-.find-cont{width:370px; text-align:center;margin:0px auto; }
-.find-cont p{ width:100%; height:54px;position:relative;}
-.find-cont input[type="text"],.find-cont input[type="password"]{width:340px; height:28px;padding:12px 14px;color:#bbb;}
-.find-cont input[type="button"]{ display:inline-block; width:100%; height:54px; line-height:54px;}
-.find-cont .yzm{ position:absolute; right:5px; top:1px; height:52px; vertical-align:middle; overflow:hidden;}
-.find-cont .get-yzm{ height:34px; line-height:34px;padding:0 10px;border-left:1px solid #d2d2d2;position:absolute; top:10px; right:0;}
-.find-cont .obtain{ position:absolute; right:-110px; top:2px;padding:0 10px;}
-.find-cont .obtain:hover{ text-decoration:underline;}
-
-
+ 
 
 .check_on{ border-color:#EA5763; position:relative;}
 .check_on em{ position:absolute; bottom:0; right:0;width:21px; height:22px; background:url(../img/check.png) 0 0 no-repeat;}

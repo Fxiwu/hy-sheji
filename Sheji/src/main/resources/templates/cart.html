@@ -83,18 +83,20 @@
 					<div class="shopping-result white-box mt20 clearfix">
 						<a href="index" class="fl fs16 pl10">继续购物>></a>
 						<p class="fr">
-							<button  th:value="${se}"   th:onclick="javascript:jiesuan([[${se}]])" class="fr orange-but fs20" style="background: #AF1622;border:none">去结算</button>
-							<span class="fr pr20 fs14 " >总计：<em class="orange fs24" th:text="'￥'+${sum}"></em></span>
+							<button  th:value="${se}"  th:if="${sum}!=null " th:onclick="javascript:jiesuan([[${sum}]])" class="fr orange-but fs20" style="background: #AF1622;border:none">去结算</button>
+							<span class="fr pr20 fs14 " >总计：<em class="orange fs24" th:if="${sum}!=null " th:text="'￥'+${sum}">&nbsp;&nbsp;</em></span>
 						</p>
 					</div>
                         <script>
-                            function jiesuan(uName){
-                            	axios.get("carts?uName="+uName).then(res=>{
+                            function jiesuan(sum){
+                            	 //orderAction中进行订单添加
+                            	  axios.get("order?sum="+sum).then(res=>{
                             		if(res.data.code==1){
-                            			location.href="jiesuan.html";
+                            			location.href="jiesuan";
                             		}
                             		
                             	})
+                            	 
                             }
                         
                         </script>

@@ -62,16 +62,16 @@ public class CartAction {
 		return m;
 	}
 	
-	@GetMapping("carts")
-	public Result carts(String uName) {
-		int uId=cm.selectUer(uName).getuId();
-		if(cb.deleteBycUid(uId)>0) {
-			Result res=new Result(1,"购物车清楚成功，前往结算页面");
-			return res;
-		};
-		return new Result(0,"购物车清楚失败");
-		
-	}
+//	@GetMapping("carts")
+//	public Result carts(String uName) {
+//		int uId=cm.selectUer(uName).getuId();
+//		if(cb.deleteBycUid(uId)>0) {
+//			Result res=new Result(1,"购物车清除成功，前往结算页面");
+//			return res;
+//		};
+//		return new Result(0,"购物车清除失败");
+//		
+//	}
 	
 	
 }

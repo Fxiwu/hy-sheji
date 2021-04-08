@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 
@@ -36,15 +37,15 @@ public class CartBiz {
 			return cm.addCart(cart);
 		}
 		//添加购物车中商品的数量
-		public  int addupdate(int cId){
-	         
-			return cm.addupdate(cId);
+		public  int addupdate(int cUid,int cPid){
+			 
+			return cm.addupdate(cUid,cPid);
 		}
  	    
 		//减少购物车中商品的数量
-		public  int deupdate(int cId){
+		public  int deupdate(int cUid,int cPid){
 	         
-			return cm.deupdate(cId);
+			return cm.deupdate(cUid,cPid);
 		}		     
 		
 		//删除购物车中的商品类商品
@@ -56,5 +57,11 @@ public class CartBiz {
 		public int deleteBycUid(int cUid) {
 			 return cm.deleteBycUid(cUid);
 		}
-		 
+		
+		//查询登录用户是否有某件商品 
+		@Select("select count(*) from hy_cart where c_uId=#{cUid} and c_pid=#{cPid}")
+		  
+		public int  selectupId(int cUid,int cPid) {
+			  return cm.selectupId(cUid,cPid);
+	     } 
 }

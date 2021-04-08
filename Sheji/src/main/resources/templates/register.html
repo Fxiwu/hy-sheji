@@ -46,6 +46,7 @@
 							<td>
 							<input type="text" id="uName" name="uName" class="text" maxlength="20"  th:value="${user}!=null ? ${user.uName} :''"/>
 								<span class="span1" th:if="${errors}!=null" th:text="${errors.get('uName')}"> </span>
+						        <span class="span1" th:if="${nameerrors}!=null" th:text="${nameerrors}"> </span>
 						   </td>
 						</tr>
 						<tr>

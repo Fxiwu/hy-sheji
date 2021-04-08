@@ -28,6 +28,11 @@ public interface ProductMapper {
 	 //product_detail喜欢模块
 	@Select("select * from hy_product where p_hot=1 order by p_createime desc limit 0,3 ;")
 	List<Product> selectLike();
-	 }
+	
+	//查询商品
+		@Select("select * from hy_product where p_id=#{pId}")
+     Product selectBypid(int pId);
 
-   
+}
+
+  

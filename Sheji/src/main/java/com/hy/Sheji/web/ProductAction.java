@@ -64,7 +64,13 @@ import com.hy.Sheji.dao.ProductMapper;
 			   return new Result(0,"请先登录");
 		   }
 		  if(pId>0) {
-				Cart cart=new Cart();
+			  if(cb.selectupId(uId, pId)>0) {  //判断购物车中产品是否已经添加
+				 int i= cb.addupdate(uId, pId);
+				  if(i>0) {
+						return new Result(1,"添加购物车成功");
+					}
+			  }else {
+				  Cart cart=new Cart();
 				cart.setcCount(1);
 				cart.setcPid(pId);
 				cart.setcUid(uId);
@@ -73,6 +79,8 @@ import com.hy.Sheji.dao.ProductMapper;
 					return new Result(1,"添加购物车成功");
 				}
 				return new Result(0,"添加失败");
+			  }
+				
 			}
 		return new Result(0,"失败");
 				

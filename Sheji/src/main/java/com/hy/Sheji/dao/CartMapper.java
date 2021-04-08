@@ -30,17 +30,22 @@ public interface CartMapper {
 		 
 		User selectUer(String uName);
 	
+	  //查询登录用户是否有某件商品 
+				@Select("select count(*) from hy_cart where c_uId=#{cUid} and c_pid=#{cPid}")
+				 
+				int selectupId(int cUid,int cPid);
+	
 	//商品到添加购物车
 	@Insert("insert into hy_cart values(null,#{cUid},#{cPid},#{cCount})")
 	int addCart(Cart cart);
 	
 	//添加购物车中商品的数量
-	@Update("update hy_cart set c_count=c_count+1 where c_id=#{cId}")
-     int addupdate(int cId);
+	@Update("update hy_cart set c_count=c_count+1 where c_uid=#{cUid} and c_pid=#{cPid}")
+     int addupdate(int cUid,int cPid);
 	
 	//减少购物车中商品的数量
-		@Update("update hy_cart set c_count=c_count-1 where c_id=#{cId}")
-	     int deupdate(int cId);
+		@Update("update hy_cart set c_count=c_count-1 where c_uid=#{cUid} and c_pid=#{cPid}")
+	     int deupdate(int cUid,int cPid);
 	
 	//删除购物车中的某商品类商品
 	@Delete("delete from hy_cart where c_id=#{cId}")
