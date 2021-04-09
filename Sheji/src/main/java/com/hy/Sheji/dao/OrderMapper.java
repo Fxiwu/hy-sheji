@@ -38,7 +38,7 @@ public interface OrderMapper {
   		        @Result(column="o_id",property="ordertail",
   		       one=@One(select="selectOrderdetail"))
   		        })
-  	  public  List<Order>  selectOrder(int oId);
+  	  public  Order  selectOrder(int oId);
   	  
   	  //查询orderdetail
  	  @Select("select * from hy_orderdetail where d_oid=#{dOid}")
@@ -46,7 +46,7 @@ public interface OrderMapper {
  	        @Result(column="d_pid",property="product",
  	       one=@One(select="com.hy.Sheji.dao.ProductMapper.selectBypid"))
  	        })
-  	  public List<Orderdetail> selectOrderdetail(int dOid);
+  	  public Orderdetail selectOrderdetail(int dOid);
 
  	 //jiesuan中删除某商品更改order表total
  	  @Update("update hy_order set o_total=o_total-#{price} where o_id=#{oid}")
@@ -55,5 +55,9 @@ public interface OrderMapper {
  	//删除orderdetail中对应的orderdetail
  	  @Delete("delete  from hy_orderdetail where d_oid=#{dOid} and d_pid=#{dPid}")
 	public int delod(int dPid, int dOid);
+
+ 	//jiesuan界面中确定修改收货地址
+ 	  @Update("update hy_order set o_addid=#{addId} where o_id=#{oid}")
+	public int updateOrderAddr(int addId, int oid);
  	  
 }

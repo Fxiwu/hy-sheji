@@ -36,7 +36,7 @@ public class OrderAction {
 	
 	//jiesuan页面
 	@GetMapping("jiesuan")
-	public Model jiesuan(@RequestParam(value="cId" ,defaultValue = "0") int cId,Model m,HttpSession session) {
+	public Model jiesuan(@RequestParam(value="cId" ,defaultValue = "0") int cId,@RequestParam(value="addId" ,defaultValue = "0") int addId,Model m,HttpSession session) {
 		String uName=(String) session.getAttribute("LoginUser");
 		m.addAttribute("se",uName);
 		if(uName!=null) {   //登录用户的地址信息
@@ -51,7 +51,7 @@ public class OrderAction {
 			int uId=cm.selectUer(uName).getuId();
 		      //关联order orderdetail product三表展示jiesuan中的商品展示
  			   int oid=(int) session.getAttribute("oid");
- 			  List<Order> order=ob.selectOrder(oid);
+ 			  Order  order=ob.selectOrder(oid);
  			  m.addAttribute("order", order);
  			//删除购物车中相应的订单
         			cm.deleteBycUid(uId);
@@ -125,5 +125,15 @@ public class OrderAction {
 		return new Result(0,"商品删除失败");
 		
 	}
-	 
+	
+	@GetMapping("zhifu")
+	public Result zhifu(@RequestParam(value="addId" ,defaultValue = "0")int addId,@RequestParam(value="oid" ,defaultValue = "0")int oid ) {
+		 
+		if(addId>0) {
+			 ob.updateOrderAddr(addId,oid);
+			return new Result(1,"成功");
+		}
+		
+		return new Result(0,"失败");
+	}
 }

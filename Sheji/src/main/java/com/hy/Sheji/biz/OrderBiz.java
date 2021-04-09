@@ -42,7 +42,7 @@ public class OrderBiz {
 		}	
 	  
  	//查询Order
- 	  public List<Order> selectOrder(int oid) {
+ 	  public  Order  selectOrder(int oid) {
  		
  
  		  return  om.selectOrder(oid);
@@ -60,6 +60,12 @@ public class OrderBiz {
 	public int delod(int pId, int oid) {
 		 
 		return om.delod( pId,oid);
+	}
+
+
+	//jiesuan界面中确定修改收货地址
+	public int updateOrderAddr(int addId, int oid) {
+		 return om.updateOrderAddr(addId,  oid);
 	}
 	
 

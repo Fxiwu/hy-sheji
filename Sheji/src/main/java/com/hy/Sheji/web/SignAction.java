@@ -99,7 +99,7 @@ public class SignAction {
 			 
 			return "register";
 		}
-		return "index";
+		return "sign";
 	}
 	
 	

@@ -46,7 +46,7 @@
 		<!--navbar end-->
 
 		<!--Main-wrap-->
-		<div class="main-wrap graybg pt40 pb40">
+		<div class="main-wrap graybg pt40 pb40" id="jie">
 			<div class="js-box wrapper white-box">
 				<!--收货人信息-->
 				<div class="consignee-info">
@@ -55,8 +55,7 @@
 					     
 						<div  th:each="a:${user.address}" class="consignee-block check-box radius5" >
 							 <div class = "ra">
-	                             <input id="txm" type="radio" name = "check" class = "ra" th:if="${a.addDft}==1 "checked  ></input> 
-	                              <input id="txm" type="radio" name = "check" class = "ra" th:if="${a.addDft}!=1 " ></input>   
+ 	                              <input id="check" type="radio" v-model="check"  name = "check" th:value="${a.addId}" class = "ra"   ></input>   
 	                          </div>
  
 							<p class="fs14 lh40 clearfix">
@@ -127,7 +126,7 @@
 					<div class="shopping-result white-box mt20 clearfix">
 						<a href="index" class="fl fs16 pl10">继续购物>></a>
 						<p class="fr">
-							<button      th:onclick="javascript:jiesuan([[${od.oTotal}]])" class="fr orange-but fs20" style="background: #AF1622;border:none">支&nbsp;&nbsp;&nbsp;&nbsp;付</button>
+							<button  @click="zhifu()" class="fr orange-but fs20" style="background: #AF1622;border:none">支&nbsp;&nbsp;&nbsp;&nbsp;付</button>
 							<span class="fr pr20 fs14 " >总计：<em class="orange fs24" th:if="${od.oTotal}!=null " th:text="'￥'+${od.oTotal}">&nbsp;&nbsp;</em></span>
 						</p>
 					</div>
@@ -135,26 +134,49 @@
 					</div>
 				</div>
 				<!--/end-->
-             <script>
-                     
-                 //使用th:onclick来传参并调用js删除指定pId
-                	function del(pId,price){
-                			this.pId=pId;
-                			this.price=price;
-                			alert(this.pId+" "+this.price);
-                			axios.get("delorder?pId="+this.pId+"&price="+this.price).then(res=>{
-                				alert(res.data.code);
-                				if(res.data.code==1){
-                					window.location.reload();
-                				}
-                				
-                			})
-                		}
-                	
-                	 
-               </script>
+             
 			</div>
 		</div>
+		  	<script>
+		  	 //使用th:onclick来传参并调用js删除指定pId
+        	function del(pId,price){
+        			this.pId=pId;
+        			this.price=price;
+        	 
+        			axios.get("delorder?pId="+this.pId+"&price="+this.price).then(res=>{
+        				 
+        				if(res.data.code==1){
+        					window.location.reload();
+        				}
+        				
+        			})
+        		}
+		  	
+		  	   var vue=new Vue({
+		  		   el:"#jie",
+		  		   data:{
+		  			   check:"1",//默认地址
+		  			 oid:[[${order.oId}]]
+		  		   },
+		  		 methods:{
+		  	    	 zhifu(){ 
+		                 
+		                	var addId=this.check;
+		                	axios.get("zhifu?addId="+addId+"&oid="+this.oid).then(res=>{
+		                		  
+		                		if(res.data.code==1){
+		                			        alert("支付成功");
+		                					window.location.reload();
+		                				}else{
+		                					 alert("支付shibai");
+		                				}
+		                	})
+		  	       }
+		  	  
+		  	   }
+		  	 })
+		  	
+		  	</script>
 		<!--/end-->
 
 		<!--footer star-->
