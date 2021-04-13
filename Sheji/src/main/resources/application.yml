@@ -11,7 +11,13 @@ spring:
   jackson:    
      date-format:   yyyy-MM-dd HH:mm:ss
      time-zone:   GMT+8   
-  
+#文件上传
+  servlet:
+    multipart:
+      max-file-size: 7MB  # 单个文件最大值
+      max-request-size: 14MB  # 总上传文件最大和值
+      enabled: true 
+      
 logging: 
   level:  
     com: 

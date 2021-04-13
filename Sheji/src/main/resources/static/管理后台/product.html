@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- <meta http-equiv="Content-Type" content="multipart/form-data" charset="utf-8">
+ -->
+<meta charset="UTF-8">
+<title>商品管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+ 
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+input {
+	width: 200px
+}
+</style>
+<script type="text/javascript">
+	
+//图片字段的格式化方法
+function fmtImg(value, row, index) {
+
+		return "<img height='100px' src='../"+value+"'>";
+}
+
+// 出版时间字段的格式化方法
+	function fmtDate(date){
+		var y= date.getFullYear();
+		var m= date.getMonth()+1;
+		var d= date.getDate();
+		return y + "-" + m + '-' + d;
+	}
+	//分类格式化方法
+	function fmtcate(category){
+		 
+		var d=category.pcName;
+		return d;
+	}
+	//地区格式化方法
+	function fmtdiqu(area){
+		 
+		var d=area.aShi;
+		var c=area.aXian;
+		return d+" "+c;
+	}
+	//热卖格式化方法
+	function fmthot(pHot){
+		if(pHot==1){
+			return "是";
+		}else{
+			return "否" ;
+		}
+		
+		
+	}
+//操作字段的格式化方法
+	function fmtOp(value, row, index) {
+		return "<button onclick='edit("+index+")'>修改</button>  <button onclick='del("+index+")'>删除</button> ";
+	}
+ //操作字段的删除方法
+	function del(index){
+		  var row=$('#dg').datagrid('getRows')[index].pId;
+		  $.messager.confirm('Confirm', '您现在要将此商品删除吗?', function(r){
+				//取消
+				if (!r){
+					return;
+				}//可调用axios 删除
+		  $("#menuform").form('submit',{
+			  url:' ../../delpro',
+			  onSubmit:function(param){
+				 
+				  param.pId=row;
+			  },	  
+			  success:res=>{
+				  res = JSON.parse(res);
+				
+				  $.messager.alert('tip',res.msg);
+				  if(res.code == 1 ){
+						
+						// 刷新表格
+						$('#dg').datagrid("reload");
+					}
+				
+			  }
+		  });
+		  });
+	}
+
+
+
+	// 打开修改窗口
+	function edit(index) {
+		$("#dd").dialog('open');
+		// index 有值 就是修改表格中的某一行记录, 否则是新增
+		// edit() 不传参数 index 为 undefined
+		if(index != undefined){
+			var rows = $('#dg').datagrid("getRows");
+			//驼峰命名要重新复值？？？？
+			rows[index].category = rows[index].category.pcName;
+		 	rows[index].area = rows[index].area.aShi+rows[index].area.aXian;
+		 	 
+		 	if(rows[index].pHot==1){
+		 		rows[index].pHot="是";
+		 	}else{
+		 		rows[index].pHot="否";
+		 	}
+		   
+		 	$('#ff').form('load',rows[index]);
+  		} else {
+  			$('#ff').form('clear');
+  		}
+	}
+	//修改后保存
+	function save( ){
+		 		// easyui 的表单的ajax提交方式
+	  $('#ff').form('submit', {
+		  url:'../../savepro',
+		  
+		  onSubmit: function(param){
+ 		 		//  扩展请求参数
+ 			// pCid: $("#pcate").textbox('getValue');
+	      //  pAid: $("#parea").textbox('getValue');
+	   
+ 			},
+ 			
+		  success:res=>{
+			  alert($("#pcate").textbox('getValue')+" "+$("#parea").textbox('getValue'));
+			// 原有的 res ==> 消息, 现在的 res ==> json对象  {  code , msg, data }
+ 				res = JSON.parse(res);
+ 				alert(res.msg);
+ 				if(res.code == 1 ){
+ 					// 关闭窗口
+ 					$("#dd").dialog('close');
+ 					// 刷新表格
+ 					$('#dg').datagrid("reload");
+ 				}
+ 				// 否则什么都不做 
+		  }
+	  });
+		 
+		}
+	 //图片上传
+	   function upload(newValue, oldValue){
+	 	var url = "../../uploadImg";
+	 	alert("可");
+	  
+	 	var fd = new FormData(ff);	alert("fd"+fd);
+	 
+	 		axios.post(url, fd).then(res=>{
+	 		
+	 		
+	 		if(res.data.code){
+	 			alert(res.data.code);
+	 				// upImg 是原生的 html 控件对象
+	 			 if(res.data.data.indexOf("/")!=0){
+	 				// 不以 / 开头的图片
+	 				upImg.src = "../" + res.data.data;
+	 			} else { 
+	 				// 以 / 开头的图片( 上传的图片 )
+	 				upImg.src = res.data.data;
+	 			alert(upImg.src);
+	 		}
+	 		// tbImg 是Easyui的 控件对象
+	 				$("#tbImg").textbox('setValue',res.data.data);
+	 			}
+	 		});
+	 	}
+	 
+	 //搜索
+	   function query(){
+		   $('#dg').datagrid('load',{
+			   pCid: $("#pcategory").textbox('getValue'),
+	 			aId: $("#parea").textbox('getValue')
+	 			 
+	 	   });
+		  
+	  }
+</script>
+</head>
+<body>  
+	<div class="easyui-layout" data-options="fit:true">	    
+			 <div data-options="region:'north'" style="height: 50px;">
+				 <input class="easyui-combobox" label=" 分类：" style="width:200px" id="pcategory"
+				         data-options="url:'../../category',
+		 		                     valueField:'pcId', 
+		 		                     textField:'pcName'">
+                 <input class="easyui-combobox" label="地区:" style="width:200px" id="parea"
+ 				        data-options="url:'../../arequery',
+		 		                     valueField:'aId', 
+		 		                     textField:'aShi',
+		 		                      formatter:fmtdiqu">
+ 			      
+		         <a id="btn" href="#" class="easyui-linkbutton" 
+		               data-options="iconCls:'icon-search'"
+		               onclick="query()">查询</a>
+						
+				<!--添加按钮  -->
+				 <a id="btn" href="#" class="easyui-linkbutton"
+ 				data-options="iconCls:'icon-add'"
+ 				onclick="edit()"  style="float:right;margin-top:10px;margin-right:45px">添加</a>   
+		    </div>
+		    <div data-options="region:'center',title:'查询结果', iconCls:'icon-ok'">
+				<table class="easyui-datagrid" id="dg"
+					data-options="
+				url:'../../productquery',
+				method:'get',
+				border:false,
+				singleSelect:true,
+				fit:true,
+				fitColumns:true,
+				pagination:true">
+					<thead>
+						<tr>
+							<th data-options="field:'pId', width:30">编号</th>
+							<th data-options="field:'pName', width:120">名称</th>
+							<th data-options="field:'price', width:40">价格</th>
+							<th data-options="field:'pDesc', width:150">商品介绍</th>
+							<th data-options="field:'category', width:40,formatter:fmtcate">分类</th>
+							<th data-options="field:'area', width:80,formatter:fmtdiqu">地区</th>
+							<th data-options="field:'pGuige', width:40">规格</th>
+							<th data-options="field:'pHot', width:30,formatter:fmthot">热卖</th>
+							<th data-options="field:'pCreatetime', width:110 ">上架日期</th>
+							<th data-options="field:'pImg', width:100,align:'center', formatter:fmtImg">图片</th>
+	 						<form action="#" id="menuform">
+								<th
+									data-options="field:'idd', width:60, formatter:fmtOp,align:'center'">操作</th>
+							</form>
+						</tr>
+					</thead>
+				</table>
+			</div>
+	 </div>
+	 <div id="dd" class="easyui-dialog" style="width:600px;height:400px"
+				data-options="title:'My Dialog',
+				 buttons:'#bb',
+				modal:true,
+				closed:true">
+			<form action="#" id="ff" enctype="multipart/form-data method="post">
+			 	 
+			 	<input class="easyui-textbox" name="pId" label="  编号" readonly="readonly"><br><br>	 
+		        <input class="easyui-textbox" name="pName" label="  名称"><br><br>
+		 		<input class="easyui-combobox" name="cId" label="  分类"  id="pcate"
+		 		       data-options="url:'../../category',
+		 		                     valueField:'pcId', 
+		 		                     textField:'pcName'"><br><br>
+		 	    <input class="easyui-textbox" name="price" label="  价格"><br><br>
+		 		<input class="easyui-textbox" name="pDesc" label="  商品介绍" data-options="width:400,height:100"><br><br>
+		 		<input id="parea" class="easyui-combobox" name="aId" label="  市县"	 	
+		 		         data-options="url:'../../arequery',
+		 		                     valueField:'aId', 
+		 		                     textField:'aShi',
+		 		                     formatter:fmtdiqu
+		 		                       "><br> <br>
+		 		<input class="easyui-textbox" name="pGuige" label="  规格"><br><br>
+		 		<input class="easyui-textbox" name="pHot"  label="  热卖" data-options="formatter:fmthot"><br><br>
+		 		<input class="easyui-textbox" name="pImg" label="  图片" id="tbImg"><br><br>
+		 	  <input class="easyui-filebox" label="选择" id="file" name="file"
+		 			data-options="onChange:upload" ><br>
+		 
+		 	 <img src="../img/photo.jpg" height="100px" id="upImg" id="upImg" onclick="filebox_file_id_1.click()"/><br> 
+		 		
+ 
+		 		 
+		 		
+			</form> 
+	</div>
+	<div id="bb">
+        <a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+       <a href="#" class="easyui-linkbutton" onclick="dialog('close')">取消</a>
+    </div>
+	  
+	 
+</body>
+</html>

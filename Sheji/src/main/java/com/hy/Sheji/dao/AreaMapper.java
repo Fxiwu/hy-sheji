@@ -8,8 +8,7 @@ import com.hy.Sheji.bean.Area;
 import com.hy.Sheji.bean.Product;
 
 public interface AreaMapper {
-	//Area界面展示
-	
+	//Area界面展示	
 	@Select("select * from hy_area ")
 	List<Area> selectArea();
 	

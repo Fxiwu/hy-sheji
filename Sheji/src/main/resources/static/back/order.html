@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>订单管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+ <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+ <script type="text/javascript" src="easyui/jquery.min.js"></script>
+ <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+ <script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+ <script type="text/javascript" src="../js/axios.min.js"></script>
+ <style>
+  input{
+     width:200px
+  }
+ </style> 
+   <script type="text/javascript"> 
+   //时间字段的格式化方法
+
+   function fmtDate(date){
+	    var y = date.getFullYear();
+	     var m = date.getMonth()+1;
+	    var d = date.getDate();
+	      return y+'-'+m+'-'+d;
+    }
+   //图片字段的格式化方法
+  function fmtImg(value,row,index){
+	if(value.indexOf("/")!=0){
+ 		return "<img height='100px' src='../"+value+"'>";
+	}else{
+			return "<img height='100px' src='"+value+"'>";
+	}
+}
+  function query(){
+	   $('#dg').datagrid('load',{
+		   id: $("#id").textbox('getValue'),
+			uid: $("#uid").textbox('getValue'),
+			//state: $("#state").textbox('getValue')
+ 	   });
+	  
+  }
+//操作字段的格式化方法
+  function fmtOp(value,row,index){
+		 
+return "<br><button onclick='edit("+index+")'>修改</button><br><br><button onclick='delet("+index+")'>删除</button>";
+		
+		
+		}
+//打开修改窗口
+  function edit(index){
+ 		 $("#dd").dialog('open');
+ 		// index 有值 就是修改表格中的某一行记录, 否则是新增
+  		if(index!=undefined){
+  		// edit() 不传参数 index 为 undefined
+  		var rows = $('#dg').datagrid("getRows");
+  		   
+  			$('#ff').form('load',rows[index]);
+  		} else {
+  			$('#ff').form('clear');
+  		}
+ 	}
+  function save( ){
+		// easyui 的表单的ajax提交方式
+	  $('#ff').form('submit', {
+		  url:"../backorder.do",
+		  onSubmit: function(param){
+ 				//  扩展请求参数
+ 				param.op = "modify";
+ 			},
+		  success:res=>{
+   			 
+ 					// 关闭窗口
+ 					$("#dd").dialog('close');
+ 					// 刷新表格
+ 					$('#dg').datagrid("reload");
+ 				 
+		  }
+	  });
+		 
+		}
+   
+   //删除
+function delet(index){
+	 var rows=$('#dg').datagrid("getRows");
+	 $("#delet").dialog('open');
+
+	 $('#de').form('load',rows[index]);
+	 
+	}
+function deletsave( ){
+ $('#de').form('submit', {
+	  url:"../backorder.do",
+	  onSubmit: function(param){
+			//  扩展请求参数
+			param.op = "del";
+		},
+	  success:res=>{
+		  alert(res);
+		  //关闭窗口
+		  $("#delet").dialog('close');
+		  //刷新表格
+		  $("#dg").datagrid('reload');
+	  }
+ });
+	 
+	}
+ 
+   </script>
+</head>
+<body>
+<div class="easyui-layout" data-options=" fit:true">
+		<div data-options="region:'north'" style="height:50px">
+		
+         <input class="easyui-textbox" label=" 编号：" style="width:200px" id="id">
+        <input class="easyui-textbox" label="用户：" style="width:200px" id="uid">
+ 		<input class="easyui-textbox" label="状态：" id="state" >
+         <a id="btn" href="#" class="easyui-linkbutton" 
+               data-options="iconCls:'icon-search'"
+               onclick="query()">查询</a>
+		</div>
+	    <div data-options="region:'center',title:'查询结果',iconCls:'icon-ok'">
+			<table class="easyui-datagrid " id="dg"
+					data-options="
+				    url:'../backorder.do?op=query1',
+					 method:'get',
+					 border:false,
+					 singleSelect:true,
+					 fit:true,
+					 fitColumns:true,
+					 
+					 pagination:true">
+				<thead>
+					<tr >
+					 	<th data-options="field:'id', width:30" align="center">订单编号</th>
+                        <th data-options="field:'uid', width:100" align="center">用户编号</th>
+                        <th data-options="field:'name',width:100" align="center">收货人</th>
+              			<th data-options="field:'total', width:50" align="center">总价</th>
+ 						<th data-options="field:'addr', width:100" align="center">地址</th>
+ 						<th data-options="field:'state', width:20" align="center">状态</th>
+ 						<th data-options="field:'idd', width:100, formatter:fmtOp,align:'center'" align="center">操作</th>
+                    </tr>
+				</thead>
+			</table>
+				 
+		</div>
+	</div>
+	<!--  修改窗口 -->
+     <div id="dd" class="easyui-dialog" title="My Dialog" style="width:400px;height:400px;"
+      data-options="
+         iconCls:'icon-save',
+         resizable:true,
+         modal:true ,
+        closed:true,
+      
+        buttons:'#bb'"  >
+      <form action="#" id="ff">
+          <input class="easyui-textbox" name="id" label="订单编号"> <br>
+        <input class="easyui-textbox" name="uid" label="用户编号"><br>
+        <input class="easyui-textbox" name="name" label="收货人"><br>
+ 		<input class="easyui-textbox" name="total" label="总价"><br>
+ 	    <input class="easyui-textbox" name="addr" label="地址"><br>
+ 		<input class="easyui-textbox" name="state" label="状态"><br>
+ 
+         </form>
+   </div>
+    <div id="bb">
+        <a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+       <a href="#" class="easyui-linkbutton" onclick="dialog('close')">取消</a>
+    </div>
+      
+      
+     <!-- 删除编辑窗口 -->
+     <div id="delet" class="easyui-dialog" title="My Dialog" style="width:400px;height:400px;"
+      data-options="
+         iconCls:'icon-save',
+         resizable:true,
+         modal:true ,
+        closed:true,
+        
+        buttons:'#del'"  >
+    <form action="#" id="de">
+        <input class="easyui-textbox" name="id" label="订单编号"> <br>
+        <input class="easyui-textbox" name="uid" label="用户编号"><br>
+        <input class="easyui-textbox" name="name" label="收货人"><br>
+ 		<input class="easyui-textbox" name="total" label="总价"><br>
+ 	    <input class="easyui-textbox" name="addr" label="地址"><br>
+ 		<input class="easyui-textbox" name="state" label="状态"><br>
+ 
+ 		          </form>
+   </div>
+    <div id="del">
+        <a href="#" class="easyui-linkbutton" onclick="deletsave()">确认</a>
+       <a href="#" class="easyui-linkbutton"  >取消</a>
+    </div>
+</body>
+</html>

@@ -9,14 +9,22 @@ public class Product {
 	private Double price;
 	private String pImg;
 	private String pDesc;
-	private Timestamp pCreateime;
+	private Timestamp pCreatetime;
 	private Integer pCid;
 	private Integer pHot;
 	private Integer pAid;
 	private String  pGuige;
+	
 	private Area area;
+	private Category category;
 	
 	
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 	public Area getArea() {
 		return area;
 	}
@@ -54,11 +62,11 @@ public class Product {
 	public void setpDesc(String pDesc) {
 		this.pDesc = pDesc;
 	}
-	public Timestamp getpCreateime() {
-		return pCreateime;
+	public Timestamp getpCreatetime() {
+		return pCreatetime;
 	}
-	public void setpCreateime(Timestamp pCreateime) {
-		this.pCreateime = pCreateime;
+	public void setpCreatetime(Timestamp pCreateime) {
+		this.pCreatetime = pCreateime;
 	}
 	public Integer getpCid() {
 		return pCid;
