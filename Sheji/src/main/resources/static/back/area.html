@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- <meta http-equiv="Content-Type" content="multipart/form-data" charset="utf-8">
+ -->
+<meta charset="UTF-8">
+<title>地区管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+ 
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+input {
+	width: 200px
+}
+</style>
+<script type="text/javascript">
+	
+//图片字段的格式化方法
+function fmtImg(value, row, index) {
+
+		return "<img height='100px' src='../"+value+"'>";
+}
+  //操作字段的格式化方法
+	function fmtOp(value, row, index) {
+		return "<button onclick='edit("+index+")'>修改</button>  <button onclick='del("+index+")'>删除</button> ";
+	}
+ //操作字段的删除方法
+	function del(index){
+		  var row=$('#dg').datagrid('getRows')[index].aId;
+		  $.messager.confirm('Confirm', '您现在要将此地区信息吗?', function(r){
+				//取消
+				if (!r){
+					return;
+				}//可调用axios 删除
+		  $("#menuform").form('submit',{
+			  url:' ../../delarea',
+			  onSubmit:function(param){
+				 
+				  param.aId=row;
+			  },	  
+			  success:res=>{
+				  res = JSON.parse(res);
+				
+				  $.messager.alert('tip',res.msg);
+				  if(res.code == 1 ){
+						
+						// 刷新表格
+						$('#dg').datagrid("reload");
+					}
+				
+			  }
+		  });
+		  });
+	}
+
+
+
+	// 打开修改窗口
+	function edit(index) {
+		$("#dd").dialog('open');
+		// index 有值 就是修改表格中的某一行记录, 否则是新增
+		// edit() 不传参数 index 为 undefined
+		if(index != undefined){
+			var rows = $('#dg').datagrid("getRows");
+			
+		 	$('#ff').form('load',rows[index]);
+  		} else {
+  			$('#ff').form('clear');
+  		}
+	}
+	//修改后保存
+	function save( ){
+		 		// easyui 的表单的ajax提交方式
+	  $('#ff').form('submit', {
+		  url:'../../savearea',
+		  
+		  onSubmit: function(param){
+ 		 		//  扩展请求参数
+ 			 
+ 			},
+ 			
+		  success:res=>{
+			
+			// 原有的 res ==> 消息, 现在的 res ==> json对象  {  code , msg, data }
+ 				res = JSON.parse(res);
+ 				alert(res.msg);
+ 				if(res.code == 1 ){
+ 					// 关闭窗口
+ 					$("#dd").dialog('close');
+ 					// 刷新表格
+ 					$('#dg').datagrid("reload");
+ 				}
+ 				// 否则什么都不做 
+		  }
+	  });
+		 
+		}
+	 //图片上传
+	   function upload(newValue, oldValue){
+	 	var url = "../../uploadImg";
+	 	 
+	 	var fd = new FormData(ff);	
+	 	alert("fd"+fd);
+	 
+	 		axios.post(url, fd).then(res=>{
+	 		
+	 		
+	 		if(res.data.code){
+	 			alert(res.data.code);
+	 				// upImg 是原生的 html 控件对象
+	 			 if(res.data.data.indexOf("/")!=0){
+	 				// 不以 / 开头的图片
+	 				upImg.src = "../" + res.data.data;
+	 			} else { 
+	 				// 以 / 开头的图片( 上传的图片 )
+	 				upImg.src = res.data.data;
+	 			alert(upImg.src);
+	 		}
+	 		// tbImg 是Easyui的 控件对象
+	 				$("#tbImg").textbox('setValue',res.data.data);
+	 			}
+	 		});
+	 	}
+	   //图片上传
+	    function up(newValue, oldValue){
+	 	var url = "../../uploadImg";
+	 	 
+	 	var fd = new FormData(ff);	
+	 	alert("fd"+fd);
+	 
+	 		axios.post(url, fd).then(res=>{
+	 		
+	 		
+	 		if(res.data.code){
+	 			alert(res.data.code);
+	 				// upImg 是原生的 html 控件对象
+	 			 if(res.data.data.indexOf("/")!=0){
+	 				// 不以 / 开头的图片
+	 				up.src = "../" + res.data.data;
+	 			} else { 
+	 				// 以 / 开头的图片( 上传的图片 )
+	 				up.src = res.data.data;
+	 			alert(up.src);
+	 		}
+	 		// tbImg 是Easyui的 控件对象
+	 			    $("#tb").textbox('setValue',res.data.data);
+	 			}
+	 		});
+	 	}
+	 //搜索
+	   function query(){
+		   $('#dg').datagrid('load',{
+			   pCid: $("#pcategory").textbox('getValue'),
+	 			aId: $("#parea").textbox('getValue')
+	 			 
+	 	   });
+		  
+	  }
+</script>
+</head>
+<body>  
+	<div class="easyui-layout" data-options="fit:true">	    
+			 <div data-options="region:'north'" style="height: 50px;">
+				 
+ 			     
+				<!--添加按钮  -->
+				 <a id="btn" href="#" class="easyui-linkbutton"
+ 				data-options="iconCls:'icon-add'"
+ 				onclick="edit()"  style="float:right;margin-top:10px;margin-right:45px">添加</a>   
+		    </div>
+		    <div data-options="region:'center',title:'查询结果', iconCls:'icon-ok'">
+				<table class="easyui-datagrid" id="dg"
+					data-options="
+				url:'../../areaquery',
+				method:'get',
+				border:false,
+				singleSelect:true,
+				fit:true,
+				fitColumns:true,
+				pagination:true">
+					<thead>
+						<tr>
+							<th data-options="field:'aId', width:30">编号</th>
+							<th data-options="field:'aShi', width:30">市</th>
+							<th data-options="field:'aXian', width:30">县</th>
+							<th data-options="field:'aImg', width:100,align:'center', formatter:fmtImg">地区图片</th>
+							<th data-options="field:'aJieshao', width:140">介绍</th>
+							<th data-options="field:'aWeizhi', width:180">位置</th>
+							<th data-options="field:'aTese', width:140">特色</th>
+							<th data-options="field:'aLvyou', width:130">旅游</th>
+							<th data-options="field:'aPhoto', width:100,align:'center', formatter:fmtImg">图片</th>
+							<form action="#" id="menuform">
+								<th
+									data-options="field:'idd', width:60, formatter:fmtOp,align:'center'">操作</th>
+							</form> 
+						</tr>
+					</thead>
+				</table>
+			</div>
+	 </div>
+	 <div id="dd" class="easyui-dialog" style="width:600px;height:400px"
+				data-options="title:'My Dialog',
+				 buttons:'#bb',
+				modal:true,
+				closed:true">
+			<form action="#" id="ff" enctype="multipart/form-data method="post">
+			    <input class="easyui-textbox" name="aId" id='aId' label="  编号" readonly="readonly"><br><br>	 
+		        <input class="easyui-textbox" name="aShi" id='aShi' label="  市"><br><br>
+ 		 	    <input class="easyui-textbox" name="aXian" id='aXian' label="  县"><br><br>
+		 		<input class="easyui-textbox" name="aImg"  label="  地区图片" id="tbImg" data-options="width:400,height:100"><br><br>
+		 		<input class="easyui-filebox" label="选择" id="file" name="file"
+		 			data-options="onChange:upload" ><br>
+		 
+		 	     <img src="../img/photo.jpg" height="100px" id="upImg" id="upImg" onclick="filebox_file_id_1.click()"/><br> 
+		 		
+ 		 		<input class="easyui-textbox" name="aJieshao" id='aJieshao' label="介绍"><br><br>
+		 		<input class="easyui-textbox" name="aWeizhi"  id='aWeizhi' label="  位置" ><br><br>
+		 		<input class="easyui-textbox" name="aTese"  id='aTese' label="  特色" ><br><br>
+		 		<input class="easyui-textbox" name="aLvyou" id='aLvyou'  label="  旅游" ><br><br>
+		 		<input class="easyui-textbox" name="aPhoto" label=" 图片" id="tb"><br><br>
+		 	    <input class="easyui-filebox" label="选择" id="file" name="file"
+		 			data-options="onChange:up" ><br>
+		 
+		 	     <img src="../img/photo.jpg" height="100px" id="up"  onclick="filebox_file_id_1.click()"/><br> 
+		 		
+ 
+		 		 
+		 		
+			</form> 
+	</div>
+	<div id="bb">
+        <a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+       <a href="#" class="easyui-linkbutton" onclick="dialog('close')">取消</a>
+    </div>
+	  
+	 
+</body>
+</html>

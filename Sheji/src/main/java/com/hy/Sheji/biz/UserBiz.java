@@ -13,7 +13,7 @@ public class UserBiz {
 	@Resource
 	private UserMapper um;
 	
-	public User selectByuName(String uName) throws BizException {
+	public User selectByuName(String uName)   {
 		User user=um.selectByuName(uName);
 		/*
 		 * if(user==null) { throw new BizException("没有该用户！"); }

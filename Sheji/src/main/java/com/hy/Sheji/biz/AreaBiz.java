@@ -29,5 +29,16 @@ public class AreaBiz {
     	return adlist;
     	
     }
+
+	public int insertarea(Area area) {
+		return am.insertarea(area);
+		 
+		
+	}
+
+	public int updatearea(Area area) {
+		// TODO Auto-generated method stub
+		return am.updatearea( area);
+	}
     
 }

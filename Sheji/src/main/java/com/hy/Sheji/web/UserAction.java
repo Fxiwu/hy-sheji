@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hy.Sheji.bean.User;
+import com.hy.Sheji.biz.BizException;
 import com.hy.Sheji.biz.UserBiz;
 import com.hy.Sheji.dao.UserMapper;
 
@@ -23,7 +24,7 @@ public class UserAction {
 
 	
 	@GetMapping("user")
-	public Model user(Model m, HttpSession session) {
+	public Model user(Model m, HttpSession session)  {
 		 String uName= (String) session.getAttribute("LoginUser");
 		  m.addAttribute("se",uName);
 		  User user=ub.selectByuName(uName); 

@@ -188,9 +188,9 @@ import com.hy.Sheji.dao.ProductMapper;
 		 
 		 
 		//后台商品管理  product.html  图片上传
-		 //@ResponseBody
-		// @RequestMapping(value = "uploadImg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-		   @PostMapping("uploadImg")	 
+		  @ResponseBody
+		  @RequestMapping(value = "uploadImg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		  // @PostMapping("uploadImg")	 
 		 public Result uploadImg(@RequestParam(value="file",required = false)MultipartFile file){
 			       
 			        //获取文件名
@@ -198,9 +198,9 @@ import com.hy.Sheji.dao.ProductMapper;
 			        String fileName = file.getOriginalFilename();
 			       System.out.println("fileName"+fileName);
 			        //获取文件后缀名
-			        String suffixName = fileName.substring(fileName.lastIndexOf("."));
+			        //String suffixName = fileName.substring(fileName.lastIndexOf("."));
 			        //重新生成文件名
-			        fileName =fileName+suffixName;
+			       // fileName =fileName+suffixName;
 			        System.out.println("fileName:"+fileName);
 			        //指定本地文件夹存储图片
 			        String filePath = "E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/upload/";
