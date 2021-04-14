@@ -60,4 +60,23 @@ public interface OrderMapper {
  	  @Update("update hy_order set o_addid=#{addId} where o_id=#{oid}")
 	public int updateOrderAddr(int addId, int oid);
  	  
+ 	  //back中 orders.html 中
+ 	 @Select("<script>"
+ 	 		+ "select * from  hy_order"
+ 	 		+ "<where>"
+ 	 		+ "<if test='oUid!=null'>o_uid=#{oUid}</if>"
+ 	 		+ "<if test='oState!=null'> and o_state=#{oState}</if>"
+ 	 		+ "</where>"
+ 	 		+ "</script>")
+ 	@Results({@Result(column="o_uid",property="user",
+ 			          one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId")),
+              @Result(column="o_addid",property="address",
+            		   one=@One(select="com.hy.Sheji.dao.UserMapper.selectAddressByaid")),
+            		   @Result(column="o_addid",property="user1",
+            		   one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId"))})
+ 	public List<Order> Orderquery(Order or);
+ 
+ 
+ 
+ 	  
 }

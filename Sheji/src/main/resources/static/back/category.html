@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>商品分类管理</title>
+<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
+ <style type="text/css">
+input{
+	width: 200px
+}
+</style>
+<script type="text/javascript">
+ 
+// 操作字段的格式化方法
+function fmtOp(value, row, index) {
+	return "<button onclick='del("+index+")'>删除</button> ";
+}
+
+//打开修改窗口
+function edit(index) {
+	$("#dd").dialog('open');
+	// index 有值 就是修改表格中的某一行记录, 否则是新增
+	// edit() 不传参数 index 为 undefined
+	if(index != undefined){
+		var rows = $('#dg').datagrid("getRows");
+		$('#ff').form('load',rows[index]);
+	} else {
+		$('#ff').form('clear');
+	}
+}
+
+function del(index){
+	  var row=$('#dg').datagrid('getRows')[index].pcId;
+	  $("#menuform").form('submit',{
+		  url:' ../../delcategory',
+		  onSubmit:function(param){
+			 
+			  param.cId=row;
+		  },	  
+		  success:res=>{
+			  res = JSON.parse(res);			
+			  $.messager.alert('tip',res.msg);
+			  if(res.code == 1 ){					
+					// 刷新表格
+					$('#dg').datagrid("reload");
+				}		
+		  }
+	  });
+}
+
+function save() {
+	// easyui 的表单的ajax提交方式
+	$('#ff').form('submit',{
+		url : "../../addcategory",//直接在后面拼接参数会出错？？？
+		onSubmit: function(param){		 
+		},
+		success : res=>{
+			// 原有的 res ==> 消息, 现在的 res ==> json对象  {  code , msg, data }
+			res = JSON.parse(res);
+			alert(res.msg);
+			if(res.code == 1 ){
+				// 关闭窗口
+				$("#dd").dialog('close');
+				// 刷新表格
+				$('#dg').datagrid("reload");
+			}
+			// 否则什么都不做 
+		}
+	});
+}
+
+
+
+</script>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true">
+	<div data-options="region:'north'" style="height: 50px;">
+		<div style="height: 50px; margin: 10px">
+	 
+		<a id="btn" href="#" class="easyui-linkbutton"
+			data-options="iconCls:'icon-add'"
+			onclick="edit()"style="float:right;">添加</a>
+			
+		</div>
+	</div>
+	<div data-options="region:'center',title:'查询结果', iconCls:'icon-ok'">
+		<table class="easyui-datagrid" id="dg"
+			data-options="
+			url:'../../category',
+			method:'post',
+			border:false,
+			singleSelect:true,
+			fit:true,
+			fitColumns:true,
+			pagination:true">
+			<thead>
+				<tr>
+					<th data-options="field:'pcId', width:30">编号</th>
+					<th data-options="field:'pcName', width:150 ,align:'center'">名称</th>
+					 
+					<form action="#"  id="menuform" >	
+					<th data-options="field:'idd', width:100, formatter:fmtOp,align:'center'">操作</th>
+					</form>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+<!-- 商品编辑窗口 -->
+<div id="dd" class="easyui-dialog" title="商品编辑窗口" style="width:400px;height:200px;padding-top:30px"
+    data-options="
+    iconCls:'icon-save',
+    resizable:true,
+    modal:true,
+    closed:true,
+    buttons:'#bb'">
+    <form id="ff">
+ 	<input class="easyui-textbox" name="cname" label="名称"style="width:350px;"><br>
+
+	</form>
+</div>
+<div id="bb">
+	<a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+	<a href="#" class="easyui-linkbutton">放弃</a>
+</div>
+</body>
+</html>

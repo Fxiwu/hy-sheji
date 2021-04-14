@@ -185,16 +185,12 @@ import com.hy.Sheji.dao.ProductMapper;
 		 public List<Area> arequery() {
 			return  am.selectArea();
 		 }
-		 //后台商品管理  product.html 类别选项
-		 @PostMapping("category")
-		 public List<Category> category() {
-			return  pm.category();
-		 }
+		 
 		 
 		//后台商品管理  product.html  图片上传
-		 @ResponseBody
-		 @RequestMapping(value = "uploadImg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-		  //@PostMapping(value="uploadImg",produces = "application/json;charset=UTF-8")	 
+		 //@ResponseBody
+		// @RequestMapping(value = "uploadImg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		   @PostMapping("uploadImg")	 
 		 public Result uploadImg(@RequestParam(value="file",required = false)MultipartFile file){
 			       
 			        //获取文件名

@@ -21,6 +21,7 @@ import com.hy.Sheji.bean.User;
 import com.hy.Sheji.biz.BizException;
 import com.hy.Sheji.biz.CartBiz;
 import com.hy.Sheji.biz.OrderBiz;
+import com.hy.Sheji.biz.UserBiz;
 import com.hy.Sheji.dao.CartMapper;
 
 @RestController
@@ -33,6 +34,9 @@ public class OrderAction {
 	private CartBiz cb;
 	@Resource 
 	private CartMapper cm;
+	
+	@Resource 
+	private UserBiz ub;
 	
 	//jiesuan页面
 	@GetMapping("jiesuan")
@@ -135,5 +139,31 @@ public class OrderAction {
 		}
 		
 		return new Result(0,"失败");
+	}
+	
+	@GetMapping("allOrder")
+	public List<Order> allOrder(@RequestParam(value="uname",required=false) String uname,
+			                    @RequestParam(value="state",required=false) String state) throws BizException {
+	   
+	    Order or=new Order(); 
+	     
+	    System.out.println("uname:"+uname);
+	    if(uname!=null&&uname.isEmpty()==false) {
+	    	if(ub.selectByuName(uname)==null) {
+	    		or.setoUid(-1);
+	    		  return ob.Orderquery(or); 
+	    	}
+	    	int uid=ub.selectByuName(uname).getuId();
+	    	  if(uid>0) {
+	    		  	or.setoUid(uid);
+	    	  }  
+	    }
+	    
+	    if(state!=null&&state.isEmpty()==false) {
+	    	int s=Integer.parseInt(state);
+	    	or.setoState(s);
+	    }
+	    
+		return ob.Orderquery(or);	 
 	}
 }

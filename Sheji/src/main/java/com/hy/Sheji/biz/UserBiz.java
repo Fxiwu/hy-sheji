@@ -13,9 +13,12 @@ public class UserBiz {
 	@Resource
 	private UserMapper um;
 	
-	public User selectByuName(String uName) {
-	     
-		return um.selectByuName(uName);
+	public User selectByuName(String uName) throws BizException {
+		User user=um.selectByuName(uName);
+		/*
+		 * if(user==null) { throw new BizException("没有该用户！"); }
+		 */
+		return user;
 		
 	}
 	

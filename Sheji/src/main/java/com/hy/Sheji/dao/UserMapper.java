@@ -28,4 +28,11 @@ public interface UserMapper {
 	
 	@Select("select * from hy_address where add_uid=#{addUid}")
 	public List<Address> seAddress(int addUid);
+	
+	//
+	@Select("select * from hy_user where u_id=#{uid}")
+	public User selectByuId(String uid);
+	//
+	@Select("select * from hy_address where add_id=#{addid}")
+	public List<Address> selectAddressByaid(int addid);
 }

@@ -14,6 +14,35 @@ public class Order {
 	private Integer oAddid;
 	
 	private List<Orderdetail> ordertail;
+	
+	//back order.html中需要
+	private  Address address;
+	//back order.html中需要
+	private User user;
+	private User user1;
+	 
+	
+	public User getUser1() {
+		return user1;
+	}
+	public void setUser1(User user1) {
+		this.user1 = user1;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	
 	public Integer getoId() {
 		return oId;
 	}

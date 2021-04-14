@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import com.hy.Sheji.bean.Address;
@@ -68,5 +69,13 @@ public class OrderBiz {
 		 return om.updateOrderAddr(addId,  oid);
 	}
 	
+	  //back中 orders.html 中	 
+	public List<Order> Orderquery(Order or){
+	        return om.Orderquery(or);	     	  
+	}
+
+
+	 
+	  
 
 }

@@ -74,9 +74,8 @@ public interface ProductMapper {
  			+ " where p_id=#{pId} </script>")
 	int updatepro(Product pro);
  	
- 	@Select("select * from hy_category")
- 	List<Category> category();
-
+ 	 
+  //后台商品管理  product.html 商品添加
  	@Insert("insert into hy_product values(null,#{pName},"
  			+ "#{price},#{pImg},#{pDesc},now(),#{pCid},#{pHot},#{pAid},#{pGuige})")
 	int insertpro(Product pro);
