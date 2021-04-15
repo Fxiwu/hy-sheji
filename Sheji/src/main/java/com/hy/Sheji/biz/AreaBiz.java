@@ -30,15 +30,20 @@ public class AreaBiz {
     	
     }
 
+      //back 中添加area页面
 	public int insertarea(Area area) {
 		return am.insertarea(area);
 		 
 		
 	}
-
+	 //back 中更新area页面
 	public int updatearea(Area area) {
 		// TODO Auto-generated method stub
 		return am.updatearea( area);
+	}
+	//back 中删除area页面
+	public int  delarea(int aId) {
+		return am.delarea(aId);
 	}
     
 }
