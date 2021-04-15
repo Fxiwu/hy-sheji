@@ -54,44 +54,26 @@
 							});
 		}
 	}
+	
+	//管理员退出登录
+	function exit(){
+		axios.get("../exit").then(res=>{
+			 
+			window.location.href="../../"+res.data.msg;
+			
+		})
+	}
 </script>
 </head>
 <body>
 	<div class="easyui-layout" data-options="fit:true">
-		<div data-options="split:true,   region:'north'" style="height: 40px" id="login">欢迎{{loginedUser.username}} 管理员    
-		<button type="button" ><a @click="logout" >退出 </a></button>
+		<div data-options="split:true,   region:'north'" style="height: 40px" id="login">
+		<p style="margin:8px 30px;float:left">欢迎&nbsp; &nbsp;  管理员   </p> 
+		<button type="button" onclick="exit()" style="margin-left:1000px">退出</button>
 		
-		   </div>
+		</div>
 		   
-		   <script type="text/javascript">
-			var vue1=new Vue({
-				el: "#login",
-				data:{
-					
-					loginedUser : {},
-				},
-				created: function(){
-				
-					axios({
-						url:"../../GetLoginedUserServlet.do"
-					}).then(res=>{
-						this.loginedUser=res.data;
-					});	
-				},
-				methods:{
-					logout(){
-						axios({
-							url:"../../Logout.do"
-						}).then(res=>{
-						//	alert(res.data.code);
-							location.href="../login.html";
-						});		
-					}
-				}
-			})
-		
-		</script>
-		 
+		   
 		<div class="easyui-accordion" data-options="region:'west',split:true,"
 			title="菜单区" style="width: 150px;">
 			<div id="sm" class="easyui-sidemenu" title="基础数据维护"
@@ -100,10 +82,7 @@
 				data:data, 
 				onSelect: selectMenu"
 				style="overflow: auto;"></div>
-			<div title="物流信息查询" data-options="iconCls:'icon-help'"
-				style="padding: 10px;"></div>
-			<div title="财务报表" data-options="iconCls:'icon-search'"
-				style="padding: 10px;"></div>
+			 
 		</div>
 		<div id="tt" class="easyui-tabs"
 			data-options="region:'center',title:'功能区',iconCls:'icon-ok' ,split:true, ">

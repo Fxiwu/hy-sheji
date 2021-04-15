@@ -121,6 +121,8 @@ public class SignAction {
 		if(captcha.equals(realcaptcha)) {
 		    User dbuser = sb.login(user);
  			Result res = new Result(1, "登录成功!", dbuser);
+ 			
+ 			//session
 			session.setAttribute("loginedUser", dbuser);
 			 session.setAttribute("LoginUser", dbuser.getuName());
  
@@ -140,6 +142,15 @@ public class SignAction {
 		}
 		
 	}
+	
+	//退出登录
+		@GetMapping("exit")
+		@ResponseBody
+	    public Result exit(HttpServletRequest request){
+		         request.getSession().removeAttribute("LoginUser");
+		         request.getSession().removeAttribute("loginedUser");
+		         return new Result("sign");
+		      }
 	
 		 
 }

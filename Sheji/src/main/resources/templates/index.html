@@ -18,6 +18,8 @@
 		<link rel="stylesheet" type="text/css" href="css/base.css" />
 		<script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/jquery.SuperSlide.2.1.js"></script>		
+		   <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/axios.min.js"></script>
 	</head>
 	
 	<body>
@@ -45,12 +47,25 @@
 						</li>
 
 						<li>
-							<a href=" ">
-								农家入驻
+							<a th:if="${se}!=null" th:text="退出"  th:onclick="javascript:exit()">
+								 
 							</a>
 						</li>
 					</ul>
 				</div>
+				<script>
+				    function exit(){
+
+	        			axios.get("exit").then(res=>{
+	        				 
+	        				window.location.href=res.data.msg;
+	        				
+	        			})
+				    }
+				    	 
+				    	 
+				     
+				</script>
 				<div class="shopcar-btn clearfix fl">
 					<a href="cart" class="box-s">
 						购物车
