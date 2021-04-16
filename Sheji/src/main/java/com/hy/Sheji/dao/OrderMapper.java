@@ -97,9 +97,9 @@ public interface OrderMapper {
  			+ "<set>"
  			+ "<if test='addAddr!=null'>add_addr=#{addAddr}</if>"
  			+ "</set>"
- 			+ "where add_id=#{addId}"
+ 			+ "where o_id=#{oId}"
  			+ "</script>")
-	public int updateadminordeAddr(String addAddr,int addId);
+	public int updateadminordeAddr(String addAddr,int oId);
  
  	//address
  	 @Select("select * from hy_address where add_id=#{addId}")

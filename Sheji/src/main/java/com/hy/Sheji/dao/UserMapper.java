@@ -3,6 +3,7 @@ package com.hy.Sheji.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -21,7 +22,7 @@ public interface UserMapper {
 	@Results({@Result(column="u_name",property="uName"),
 		      @Result(column="u_id",property="uId"),
 		      @Result(column="u_id",property="address",
-		    		  one=@One(select="com.hy.Sheji.dao.UserMapper.seAddress" ))
+		    		  one=@One(select="com.hy.Sheji.dao.UserMapper.seAddress"))
 		
 	})
 	public User selectAddress(String uName);

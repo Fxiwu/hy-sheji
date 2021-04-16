@@ -152,7 +152,7 @@ public class OrderAction {
 		if(addId>0) {
 			 ob.updateOrderAddr(addId,oid);//更改Order表中的收货地址
 			     //更改adminOrder表中的收货地址
-			  ob.updateadminordeAddr(om.selectAddressById(addId).getAddAddr(),addId) ;
+			  ob.updateadminordeAddr(om.selectAddressById(addId).getAddAddr(),oid) ;
 			                            
 			return new Result(1,"成功");
 		}

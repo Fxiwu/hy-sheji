@@ -70,8 +70,8 @@ public class OrderBiz {
 		 return om.updateOrderAddr(addId,  oid);
 	}
 	//jiesuan界面中确定地址后修改adminordeAddr中收货地址
-		public int updateadminordeAddr(String addAddr,int addId) {
-			 return om.updateadminordeAddr(addAddr,addId);
+		public int updateadminordeAddr(String addAddr,int oId) {
+			 return om.updateadminordeAddr(addAddr,oId);
 		}
 	
 	 
