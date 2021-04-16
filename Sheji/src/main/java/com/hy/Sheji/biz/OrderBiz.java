@@ -93,6 +93,12 @@ public class OrderBiz {
 		  return om.adminOrderquery( or);
 	}
 
+	//back order.html中修改订单信息后保存
+	public int updateadminorder(int oId, String uName, int oState, String addAddr, String addPhone) {
+		// TODO Auto-generated method stub
+		return om.updateadminorder(oId, uName,oState,addAddr,addPhone);
+	}
+ 
 
 	 
 	  

@@ -86,7 +86,7 @@ public interface OrderMapper {
  			+ "select * from hy_adminorder "
  			+ "<where>"
  			+ "<if test='uName!=null'>u_name=#{uName}</if>"
- 			+ "<if test='oState!=null'>o_state=#{oState}</if>"
+ 			+ "<if test='oState!=null'> and o_state=#{oState}</if>"
  			+ "</where>"
  			+ "</script>")
 	public List<AdminOrder> adminOrderquery(AdminOrder or);
@@ -104,6 +104,20 @@ public interface OrderMapper {
  	//address
  	 @Select("select * from hy_address where add_id=#{addId}")
  	  public Address selectAddressById(int addId);
+
+ 	//back order.html中修改订单信息后保存
+ 	@Update("<script>"
+ 			+ "update hy_adminorder"
+ 			+ "<set>"
+ 			+ "<if test='addAddr!=null'>add_addr=#{addAddr}</if>"
+ 			+ "<if test='uName!=null'>,u_name=#{uName}</if>"
+ 			 +"<if test='oState!=null'>,o_state=#{oState}</if>"
+ 			+ "<if test='addPhone!=null'>,add_phone=#{addPhone}</if>"
+ 			 
+ 			+ "</set>"
+ 			+ "where o_id=#{oId}"
+ 			+ "</script>")
+	public int updateadminorder(int oId, String uName, int oState, String addAddr, String addPhone);
 
  
  	  

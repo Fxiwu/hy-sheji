@@ -160,6 +160,7 @@ public class OrderAction {
 		return new Result(0,"失败");
 	}
 	
+	//back adminorder中所有的订单
 	@GetMapping("allOrder")
 	public List<AdminOrder> allOrder(@RequestParam(value="uname",required=false) String uname,
 			                    @RequestParam(value="state",required=false) String state) throws BizException {
@@ -180,4 +181,15 @@ public class OrderAction {
 	    
 		return ob.adminOrderquery(or);	 
 	}
+	
+	//back order.html中修改订单信息后保存
+	@GetMapping("updateadminorder")
+	public Result updateadminorder( int oId,String uName,int oState,String addAddr,String addPhone){
+		ob.updateadminorder( oId, uName,oState,addAddr,addPhone);
+	if(ob.updateadminorder( oId, uName,oState,addAddr,addPhone)>0) {
+		return new Result(1,"修改成功");
+	} 
+	return new Result(0,"修改失败");
+	}
+	   
 }
