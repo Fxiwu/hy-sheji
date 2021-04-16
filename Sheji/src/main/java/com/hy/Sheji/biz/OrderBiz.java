@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import com.hy.Sheji.bean.Address;
+import com.hy.Sheji.bean.AdminOrder;
 import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.Orderdetail;
 import com.hy.Sheji.bean.User;
@@ -64,14 +65,32 @@ public class OrderBiz {
 	}
 
 
-	//jiesuan界面中确定修改收货地址
+	//jiesuan界面中确定地址后修改收货地址
 	public int updateOrderAddr(int addId, int oid) {
 		 return om.updateOrderAddr(addId,  oid);
 	}
+	//jiesuan界面中确定地址后修改adminordeAddr中收货地址
+		public int updateadminordeAddr(String addAddr,int addId) {
+			 return om.updateadminordeAddr(addAddr,addId);
+		}
 	
-	  //back中 orders.html 中	 
-	public List<Order> Orderquery(Order or){
-	        return om.Orderquery(or);	     	  
+	 
+
+     //向adminorder表中添加order中新添加的
+	public int insertadminorder(Order od) {
+		return om.insertadminorder(od);
+		 
+	}
+
+ //back中 orders.html 中展示订单 
+	 //back中 orders.html 中	 
+	public Order OrderByOid(int oid){
+	        return om.OrderByOid(oid);	     	  
+	}
+
+	public List<AdminOrder> adminOrderquery(AdminOrder or) {
+		// TODO Auto-generated method stub
+		  return om.adminOrderquery( or);
 	}
 
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hy.Sheji.bean.AdminOrder;
 import com.hy.Sheji.bean.Cart;
 import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.Orderdetail;
@@ -23,12 +24,16 @@ import com.hy.Sheji.biz.CartBiz;
 import com.hy.Sheji.biz.OrderBiz;
 import com.hy.Sheji.biz.UserBiz;
 import com.hy.Sheji.dao.CartMapper;
+import com.hy.Sheji.dao.OrderMapper;
 
 @RestController
 public class OrderAction {
 
 	@Resource 
 	private OrderBiz ob;
+	
+	@Resource 
+	private OrderMapper om;
 	
 	@Resource 
 	private CartBiz cb;
@@ -78,8 +83,18 @@ public class OrderAction {
 				
 				clist = cb.selectCart(uId); //购物车中信息
 				if(clist.size()>0) {
-					ob.insertOrder(order);//order中进行订单添加
+					int i=ob.insertOrder(order);//order中进行订单添加
 					int oid=order.getoId();
+					if(i>0) { //order表添加成功后向adminorder表中添加相应的订单
+						  
+						Order od=ob.OrderByOid(oid);
+						 
+						ob.insertadminorder(od);
+					}else{
+						return new Result(0,"添加失败");
+					}
+					
+					
 				    session.setAttribute("oid", oid);
 				List<Orderdetail> odlist =new ArrayList<Orderdetail>();
 				 for (Cart str : clist) {
@@ -130,11 +145,15 @@ public class OrderAction {
 		
 	}
 	
+	//jiesuan.html中支付
 	@GetMapping("zhifu")
 	public Result zhifu(@RequestParam(value="addId" ,defaultValue = "0")int addId,@RequestParam(value="oid" ,defaultValue = "0")int oid ) {
 		 
 		if(addId>0) {
-			 ob.updateOrderAddr(addId,oid);
+			 ob.updateOrderAddr(addId,oid);//更改Order表中的收货地址
+			     //更改adminOrder表中的收货地址
+			  ob.updateadminordeAddr(om.selectAddressById(addId).getAddAddr(),addId) ;
+			                            
 			return new Result(1,"成功");
 		}
 		
@@ -142,28 +161,23 @@ public class OrderAction {
 	}
 	
 	@GetMapping("allOrder")
-	public List<Order> allOrder(@RequestParam(value="uname",required=false) String uname,
+	public List<AdminOrder> allOrder(@RequestParam(value="uname",required=false) String uname,
 			                    @RequestParam(value="state",required=false) String state) throws BizException {
 	   
-	    Order or=new Order(); 
+	    AdminOrder or=new AdminOrder(); 
 	     
 	    System.out.println("uname:"+uname);
+	    //查询判断
 	    if(uname!=null&&uname.isEmpty()==false) {
-	    	if(ub.selectByuName(uname)==null) {
-	    		or.setoUid(-1);
-	    		  return ob.Orderquery(or); 
-	    	}
-	    	int uid=ub.selectByuName(uname).getuId();
-	    	  if(uid>0) {
-	    		  	or.setoUid(uid);
-	    	  }  
+	    	or.setuName(uname);
 	    }
 	    
+	    //查询
 	    if(state!=null&&state.isEmpty()==false) {
 	    	int s=Integer.parseInt(state);
 	    	or.setoState(s);
 	    }
 	    
-		return ob.Orderquery(or);	 
+		return ob.adminOrderquery(or);	 
 	}
 }

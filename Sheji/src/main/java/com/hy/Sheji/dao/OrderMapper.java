@@ -13,6 +13,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.hy.Sheji.bean.Address;
+import com.hy.Sheji.bean.AdminOrder;
 import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.Orderdetail;
 
@@ -61,22 +63,48 @@ public interface OrderMapper {
 	public int updateOrderAddr(int addId, int oid);
  	  
  	  //back中 orders.html 中
- 	 @Select("<script>"
- 	 		+ "select * from  hy_order"
- 	 		+ "<where>"
- 	 		+ "<if test='oUid!=null'>o_uid=#{oUid}</if>"
- 	 		+ "<if test='oState!=null'> and o_state=#{oState}</if>"
- 	 		+ "</where>"
- 	 		+ "</script>")
+ 	 @Select("select * from  hy_order where o_id=#{oid}")
  	@Results({@Result(column="o_uid",property="user",
  			          one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId")),
               @Result(column="o_addid",property="address",
-            		   one=@One(select="com.hy.Sheji.dao.UserMapper.selectAddressByaid")),
-            		   @Result(column="o_addid",property="user1",
-            		   one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId"))})
- 	public List<Order> Orderquery(Order or);
+            		   one=@One(select="com.hy.Sheji.dao.UserMapper.selectAddressByaid"))
+            		  })
+ 	public Order OrderByOid(int oid);
+
+ 	 
+ 	@Insert("insert into hy_adminorder (o_id,u_name,add_name,o_total,o_state,o_createtime,"
+ 			+ "add_addr,add_phone) values"
+ 			 
+	  		+ "(#{oId},#{user.uName}," 
+	  		+ "#{address.addName},#{oTotal},"
+	  		+ "#{oState},#{oCreatetime},"
+	  		+ "#{address.addAddr},#{address.addPhone})"
+	  		 )
+	public int insertadminorder(Order od);
+
+ 	@Select("<script>"
+ 			+ "select * from hy_adminorder "
+ 			+ "<where>"
+ 			+ "<if test='uName!=null'>u_name=#{uName}</if>"
+ 			+ "<if test='oState!=null'>o_state=#{oState}</if>"
+ 			+ "</where>"
+ 			+ "</script>")
+	public List<AdminOrder> adminOrderquery(AdminOrder or);
+
+ 	//jiesuan界面中确定地址后修改adminordeAddr中收货地址
+ 	@Update("<script>"
+ 			+ "update hy_adminorder"
+ 			+ "<set>"
+ 			+ "<if test='addAddr!=null'>add_addr=#{addAddr}</if>"
+ 			+ "</set>"
+ 			+ "where add_id=#{addId}"
+ 			+ "</script>")
+	public int updateadminordeAddr(String addAddr,int addId);
  
- 
+ 	//address
+ 	 @Select("select * from hy_address where add_id=#{addId}")
+ 	  public Address selectAddressById(int addId);
+
  
  	  
 }
