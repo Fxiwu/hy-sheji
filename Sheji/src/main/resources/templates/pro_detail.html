@@ -82,7 +82,7 @@
 								</p>
 							</div>
 							<div class="but-box mt30">
-								<button  class="fl orange-but gray-but radius3" onclick="window.location.href='jiesuan.html'" >立即购买</button>
+								<button  class="fl orange-but gray-but radius3" @click="liji()" >立即购买</button>
 								<button  @click="addcart()"   class="fl ml20 orange-but gray-but radius3 "  >加入购物车</button>
 							</div>
 						</div>
@@ -169,6 +169,19 @@
 			    				 alert(res.data.msg);
 			    			 
 			    		})
+		    		},
+		    		liji(){
+		    			axios.get("liji?pId="+this.pId).then(res=>{
+			    			  if(res.data.code==0){
+			    				  alert(res.data.msg);
+			    			  }else{
+			    				  window.location.href="jiesuan";
+			    			  }
+			    			  
+			    			  
+		    				
+		    			 
+		    		})
 		    		}
 		    	}
 		    	

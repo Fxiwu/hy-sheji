@@ -31,6 +31,12 @@ public class OrderBiz {
 		return list;
 		
 	}
+	//查询当前登录用户的默认地址
+		public User selectAddressDef(String uName){
+			User  list=um.selectAddressDef(uName);
+			return list;
+			
+		}
 	
 	
 	//新增Order订单
@@ -70,8 +76,8 @@ public class OrderBiz {
 		 return om.updateOrderAddr(addId,  oid);
 	}
 	//jiesuan界面中确定地址后修改adminordeAddr中收货地址
-		public int updateadminordeAddr(String addAddr,int oId) {
-			 return om.updateadminordeAddr(addAddr,oId);
+		public int updateadminordeAddr(AdminOrder adminOrder,int oId) {
+			 return om.updateadminordeAddr(adminOrder,oId);
 		}
 	
 	 

@@ -90,7 +90,7 @@
                         <script>
                             function jiesuan(sum){
                             	 //orderAction中进行订单添加
-                            	  axios.get("order?sum="+sum).then(res=>{
+                            	  axios.get("order?sum="+sum+"&n=1").then(res=>{
                             		if(res.data.code==1){
                             			location.href="jiesuan";
                             		}

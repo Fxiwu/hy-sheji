@@ -55,20 +55,20 @@
 					     
 						<div  th:each="a:${user.address}" class="consignee-block check-box radius5" >
 							 <div class = "ra">
- 	                              <input id="check" type="radio" v-model="check"  name = "check" th:value="${a.addId}" class = "ra"   ></input>   
+ 	                              <input id="check" type="radio" v-model="check"  name = "check"  th:value="${a.addId}" class = "ra"   ></input>   
 	                          </div>
  
 							<p class="fs14 lh40 clearfix">
 								<span class="fl darkgray"><i class="iconfont fs24">&#xe60e;</i> </span>
-								<span class="fl darkgray" th:text="${a.addName}">夕雾</span>
+								<span class="fl darkgray" th:text="${a.addName}"> </span>
 							</p>
 							<p class="fs14 clearfix lh40">
-							    <span class="fl darkgray"><i class="iconfont fs24">&#xe60c;</i></span>
+							    <span class="fl darkgray"><i class="iconfont fs24"> </i></span>
 								<span class="fl darkgray" th:text="${a.addPhone}">17378787878</span>
 							</p>
 								<p class="fs14 clearfix lh40  ">
 									<span class="fl darkgray"><i class="fl iconfont fs24">&#xe610;</i>
-									<span class="fl address" th:text="${a.addAddr}">湖南省衡阳市珠晖区</span>
+									<span class="fl address" th:text="${a.addAddr}"> </span>
 								</p>
 						
 						  
@@ -156,19 +156,20 @@
 		  		   el:"#jie",
 		  		   data:{
 		  			   check:"1",//默认地址
-		  			 oid:[[${order.oId}]]
+		  			 oid:[[${order.oId}]] 
 		  		   },
 		  		 methods:{
 		  	    	 zhifu(){ 
 		                 
-		                	var addId=this.check;
+		                	var  addId=this.check;
+		                	  
 		                	axios.get("zhifu?addId="+addId+"&oid="+this.oid).then(res=>{
 		                		  
 		                		if(res.data.code==1){
 		                			        alert("支付成功");
-		                					window.location.reload();
+		                					window.location.href="cart";
 		                				}else{
-		                					 alert("支付shibai");
+		                					 alert(res.data.msg);
 		                				}
 		                	})
 		  	       }

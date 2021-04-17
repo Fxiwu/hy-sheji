@@ -17,7 +17,7 @@ public interface UserMapper {
 	@Select("select * from hy_user where u_name=#{uName}")
 	public User selectByuName(String uName);
 	
-	//查询用户收货地址
+	//从User中查询用户收货地址
 	@Select("select * from hy_user where u_name=#{uName}")
 	@Results({@Result(column="u_name",property="uName"),
 		      @Result(column="u_id",property="uId"),
@@ -30,10 +30,26 @@ public interface UserMapper {
 	@Select("select * from hy_address where add_uid=#{addUid}")
 	public List<Address> seAddress(int addUid);
 	
+	//从User中查询用户收货地址的默认地址
+		@Select("select * from hy_user where u_name=#{uName}")
+		@Results({@Result(column="u_name",property="uName"),
+			      @Result(column="u_id",property="uId"),
+			      @Result(column="u_id",property="address",
+			    		  one=@One(select="com.hy.Sheji.dao.UserMapper.seAddressdft"))
+			
+		})
+		public User selectAddressDef(String uName);
+		
+		@Select("select * from hy_address where add_uid=#{addUid} and add_dft=1")
+		public  Address  seAddressdft(int addUid);
+	
+		 
 	//
 	@Select("select * from hy_user where u_id=#{uid}")
 	public User selectByuId(String uid);
-	//
-	@Select("select * from hy_address where add_id=#{addid}")
-	public List<Address> selectAddressByaid(int addid);
+	
+	
+	//更改过List<Address>改为Address,orderAction zhifu中调用
+	@Select("select * from hy_address where add_id=#{addId}")
+	public  Address  selectAddressByaid(int addId);
 }

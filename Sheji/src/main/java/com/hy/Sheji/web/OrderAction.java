@@ -17,6 +17,7 @@ import com.hy.Sheji.bean.AdminOrder;
 import com.hy.Sheji.bean.Cart;
 import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.Orderdetail;
+import com.hy.Sheji.bean.Product;
 import com.hy.Sheji.bean.Result;
 import com.hy.Sheji.bean.User;
 import com.hy.Sheji.biz.BizException;
@@ -25,6 +26,8 @@ import com.hy.Sheji.biz.OrderBiz;
 import com.hy.Sheji.biz.UserBiz;
 import com.hy.Sheji.dao.CartMapper;
 import com.hy.Sheji.dao.OrderMapper;
+import com.hy.Sheji.dao.ProductMapper;
+import com.hy.Sheji.dao.UserMapper;
 
 @RestController
 public class OrderAction {
@@ -43,38 +46,58 @@ public class OrderAction {
 	@Resource 
 	private UserBiz ub;
 	
+	@Resource 
+	private ProductMapper pm;
+	
+	@Resource 
+	private UserMapper um;
+	
 	//jiesuan页面
 	@GetMapping("jiesuan")
-	public Model jiesuan(@RequestParam(value="cId" ,defaultValue = "0") int cId,@RequestParam(value="addId" ,defaultValue = "0") int addId,Model m,HttpSession session) {
+	public Model jiesuan(@RequestParam(value="cId" ,defaultValue = "0") int cId, 
+						//@RequestParam(value="addId" ,defaultValue = "0") int addId,
+			             Model m,HttpSession session) {
 		String uName=(String) session.getAttribute("LoginUser");
 		m.addAttribute("se",uName);
 		if(uName!=null) {   //登录用户的地址信息
 			User user=ob.selectAddress(uName);
 			m.addAttribute("user", user);	 
-		 
-			//判断是否有删除的 ，进行商品种类删除
+		     
+			//判断是否有删除的，进行商品种类删除
 			if(cId!=0) {
 				 int i=cb.deleteByUid(cId);
 				 System.out.println("cId===="+cId);
 			  }
 			int uId=cm.selectUer(uName).getuId();
-		      //关联order orderdetail product三表展示jiesuan中的商品展示
+		     //关联order orderdetail product三表展示jiesuan中的商品展示
  			   int oid=(int) session.getAttribute("oid");
  			  Order  order=ob.selectOrder(oid);
  			  m.addAttribute("order", order);
- 			//删除购物车中相应的订单
-        			cm.deleteBycUid(uId);
+// 			 cm.deleteBycUid(uId);
+        			
 		}
 	return m;
 	}
 	
 	//cart页面进行去结算时,向order表中新增一条
 	@GetMapping("order")
-	public Result addOrder(@RequestParam(value="sum" ,defaultValue = "0.0")double sum,Model m,HttpSession session) {
+	public Result addOrder(@RequestParam(value="sum" ,defaultValue = "0.0")double sum,
+			@RequestParam(value="n" ,defaultValue = "0") int n,//区分直接购买，为购物车界面而来
+			           Model m,HttpSession session) {
 	    
 			String uName=(String) session.getAttribute("LoginUser");
 			int uId=cm.selectUer(uName).getuId();
 			Order order=new Order();
+			/*
+			 * //判断该用户是否有地址 
+			 * 
+			 */
+			 
+
+			if(um.seAddressdft(uId)!=null) //不为空则设置默认地址
+			   { 
+				 order.setoAddid(um.seAddressdft(uId).getAddId()); 
+			   }
 			order.setoTotal(sum);
 			order.setoUid(uId);
 			 
@@ -106,8 +129,12 @@ public class OrderAction {
 					  odlist.add(ordt);
 					System.out.println("rrrrrr"+ordt.getdPid()+" "+ordt.getdCount()+"  "+ordt.getdOid()+"  "+ordt.getdTotal());
 				 }
-				 System.out.println("+++++"+odlist.getClass());
-				 ob.insertOrderdetail(odlist);
+ 				 ob.insertOrderdetail(odlist);
+				 
+				//删除购物车中相应的订单
+	 			  if(n!=0) {
+	 				  cm.deleteBycUid(uId);
+	 			  }
 				return new Result(1,"order表成功添加订单一条订单");
                }
 			} catch (BizException e) {
@@ -115,12 +142,69 @@ public class OrderAction {
 				e.printStackTrace();
 				 
 			} 
-			
-			
-			
-		
+ 	
 			 return new Result(0,"order表添加订单一条订单失败");
 	}
+	
+	@GetMapping("liji")
+	
+	public Result liji(@RequestParam(value="pId" ,required=false ,defaultValue = "0")int pId,Model m,HttpSession session) {
+	    String uName=(String) session.getAttribute("LoginUser");
+				if(uName==null||uName.isEmpty()) {
+					return  new Result(0,"请先登录");
+				}
+			
+			int uId=cm.selectUer(uName).getuId();
+			Product p=pm.selectPro(pId);
+			Order order=new Order();
+			/*
+			 * //判断该用户是否有地址 
+			 * 
+			 */
+			 
+
+			if(um.seAddressdft(uId)!=null) //不为空则设置默认地址
+			   { 
+				 order.setoAddid(um.seAddressdft(uId).getAddId()); 
+			   }
+			order.setoTotal(p.getPrice());
+			order.setoUid(uId);
+			   
+					int i=ob.insertOrder(order);//order中进行订单添加
+					int oid=order.getoId();
+					if(i>0) { //order表添加成功后向adminorder表中添加相应的订单
+						 
+						Order od=ob.OrderByOid(oid);
+						 
+						ob.insertadminorder(od);
+						 
+					}else{
+						 return  new Result(0,"订单添加错误");
+					}
+			        session.setAttribute("oid", oid);
+				List<Orderdetail> odlist =new ArrayList<Orderdetail>();
+				 
+					 Orderdetail ordt=new Orderdetail();
+					 ordt.setdCount(1);
+					 ordt.setdOid(oid);
+					 ordt.setdPid(p.getpId());
+					 ordt.setdTotal(p.getPrice());
+					   
+					 
+					  odlist.add(ordt);
+					  if(ob.insertOrderdetail(odlist)>0) {
+						  return  new Result(1,"Orderdetail添加成功");
+					  }
+					  
+					  
+					  return new Result(0,"立即购买失败");
+				 }
+ 
+				 
+	
+				 
+	
+	
 	
 	//删除订单中的商品
 	@GetMapping("delorder")
@@ -147,17 +231,52 @@ public class OrderAction {
 	
 	//jiesuan.html中支付
 	@GetMapping("zhifu")
-	public Result zhifu(@RequestParam(value="addId" ,defaultValue = "0")int addId,@RequestParam(value="oid" ,defaultValue = "0")int oid ) {
-		 
-		if(addId>0) {
-			 ob.updateOrderAddr(addId,oid);//更改Order表中的收货地址
-			     //更改adminOrder表中的收货地址
-			  ob.updateadminordeAddr(om.selectAddressById(addId).getAddAddr(),oid) ;
-			                            
-			return new Result(1,"成功");
+	public Result zhifu(@RequestParam(value="addId" ,defaultValue = "0")int addId,
+			            @RequestParam(value="oid" ,defaultValue = "0")int oid ,
+			            HttpSession session) {
+		Order or=ob.selectOrder(oid);  //相应的订单
+		int uid=or.getoUid();
+	 
+		if(um.seAddressdft(uid)==null) {
+			 session.setAttribute("flag","kong");
+			// System.out.println("flag"+session.getAttribute("flag"));
+			return new Result(0,"请添加收货地址");
+		}
+		System.out.println("flag"+session.getAttribute("flag"));
+		
+		if(session.getAttribute("flag")=="kong") {//当添加地址后重新设置order中的地址
+			if(um.seAddressdft(uid)!=null) {
+				
+				session.removeAttribute("flag");
+				int addid=um.seAddressdft(uid).getAddId();
+				//修改空地址为默认地址
+				ob.updateOrderAddr(addid,oid);
+				//adminorder中相应改变
+				 AdminOrder ao=new AdminOrder();
+				 ao.setAddAddr(om.selectAddressById(addId).getAddAddr());
+				 ao.setAddName(um.selectAddressByaid(addId).getAddName());
+				 ao.setAddPhone(um.selectAddressByaid(addId).getAddPhone());
+				  ob.updateadminordeAddr(ao,oid) ;
+				 
+			}
+			 
 		}
 		
-		return new Result(0,"失败");
+		
+		
+		if(addId!=1) {
+			 ob.updateOrderAddr(addId,oid);//更改Order表中的收货地址
+			     //更改adminOrder表中的收货地址
+			 
+			 AdminOrder ao=new AdminOrder();
+			 ao.setAddAddr(om.selectAddressById(addId).getAddAddr());
+			 ao.setAddName(um.selectAddressByaid(addId).getAddName());
+			 ao.setAddPhone(um.selectAddressByaid(addId).getAddPhone());
+			  ob.updateadminordeAddr(ao,oid) ;
+			                            
+			return new Result(1,"成功");
+		} 
+		return new Result(1,"成功");
 	}
 	
 	//back adminorder中所有的订单

@@ -22,7 +22,7 @@ public interface OrderMapper {
 
 	//新增订单Order   默认订单状态为0  地址为1
 	  @Insert("insert into hy_order values(null,#{oTotal},"
-	  		+ "now(),0,#{oUid},1)")
+	  		+ "now(),0,#{oUid},#{oAddid})")
 	  @Options(useGeneratedKeys = true,keyProperty = "oId",keyColumn = "o_id")
 	  public int insertOrder(Order order);
 	
@@ -38,7 +38,9 @@ public interface OrderMapper {
   	  @Select("select * from hy_order where o_id=#{oId} and  o_state=0")
   	  @Results({@Result(column="o_id",property="oId"),
   		        @Result(column="o_id",property="ordertail",
-  		       one=@One(select="selectOrderdetail"))
+  		       one=@One(select="selectOrderdetail")),
+  		     @Result(column="o_addid",property="address",
+		       one=@One(select="com.hy.Sheji.dao.UserMapper.selectAddressByaid"))
   		        })
   	  public  Order  selectOrder(int oId);
   	  
@@ -88,6 +90,7 @@ public interface OrderMapper {
  			+ "<if test='uName!=null'>u_name=#{uName}</if>"
  			+ "<if test='oState!=null'> and o_state=#{oState}</if>"
  			+ "</where>"
+ 			+ "order by o_createtime desc"
  			+ "</script>")
 	public List<AdminOrder> adminOrderquery(AdminOrder or);
 
@@ -95,11 +98,13 @@ public interface OrderMapper {
  	@Update("<script>"
  			+ "update hy_adminorder"
  			+ "<set>"
- 			+ "<if test='addAddr!=null'>add_addr=#{addAddr}</if>"
+ 			+ "<if test='adminOrder.addAddr!=null'>add_addr=#{adminOrder.addAddr}</if>"
+ 			+ "<if test='adminOrder.addName!=null'>,add_name=#{adminOrder.addName}</if>"
+ 			+ "<if test='adminOrder.addPhone!=null'>,add_phone=#{adminOrder.addPhone}</if>"
  			+ "</set>"
  			+ "where o_id=#{oId}"
  			+ "</script>")
-	public int updateadminordeAddr(String addAddr,int oId);
+	public int updateadminordeAddr(AdminOrder adminOrder,int oId);
  
  	//address
  	 @Select("select * from hy_address where add_id=#{addId}")
