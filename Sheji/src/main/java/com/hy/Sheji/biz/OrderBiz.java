@@ -62,15 +62,19 @@ public class OrderBiz {
 	public int updateorder(  int oid,double price) {
 		return om.updateorder( oid,price);
 		 
-	}
+	} 
 
        //删除orderdetail中对应的orderdetail
 	public int delod(int pId, int oid) {
 		 
 		return om.delod( pId,oid);
 	}
-
-
+	 
+		 //当total减为0的时候删除adminorder中对应的记录
+		public int deladminorder( int oid) {
+			 
+			return om.deladminorder(oid);
+		}
 	//jiesuan界面中确定地址后修改收货地址
 	public int updateOrderAddr(int addId, int oid) {
 		 return om.updateOrderAddr(addId,  oid);
@@ -93,7 +97,7 @@ public class OrderBiz {
 	public Order OrderByOid(int oid){
 	        return om.OrderByOid(oid);	     	  
 	}
-
+	 //back中 orders.html 中	展现所有的订单 
 	public List<AdminOrder> adminOrderquery(AdminOrder or) {
 		// TODO Auto-generated method stub
 		  return om.adminOrderquery( or);
@@ -105,7 +109,7 @@ public class OrderBiz {
 		return om.updateadminorder(oId, uName,oState,addAddr,addPhone);
 	}
  
-
+    
 	 
 	  
 

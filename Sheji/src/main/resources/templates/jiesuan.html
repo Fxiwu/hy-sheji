@@ -14,7 +14,7 @@
 		<meta name="format-detection" content="telephone=no">
 		<meta name="keywords" content="">
 		<meta name="description" content="">
-		<link rel="stylesheet" type="text/css" href="css/base.css" />
+	    <link rel="stylesheet" type="text/css" href="css/base.css" /> 
 		<link rel="stylesheet" type="text/css" href="css/common.css" />
 		<script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/jquery.SuperSlide.2.1.js"></script>
@@ -36,10 +36,10 @@
 		<div class="navbar clearfix">
 			<div class="content clearfix">
 				<ul>
-					<li ><a href="index.html">首页</a></li>
-					<li><a href="mall.html">商城</a></li>
-					<li><a href="special.html">一市一县</a></li>
-					<li><a href="area.html">助力地区</a></li>
+					<li ><a href="index">首页</a></li>
+					<li><a href="mall">商城</a></li>
+					<li><a href="special">一市一县</a></li>
+					<li><a href="area">助力地区</a></li>
 				</ul>
 			</div>
 		</div>
@@ -53,28 +53,32 @@
 					<div class="title line-bot"><span class="fs18 pl20 ml40 darkgray">收货人地址</span></div>
 					<div class="consignee-box clearfix">
 					     
-						<div  th:each="a:${user.address}" class="consignee-block check-box radius5" >
-							 <div class = "ra">
- 	                              <input id="check" type="radio" v-model="check"  name = "check"  th:value="${a.addId}" class = "ra"   ></input>   
-	                          </div>
- 
+						<div  th:each="a:${user.address}" class="consignee-block check-box check_on  radius5" >
+							  <div class="fs14 clearfix" >
+								   <p class=" clearfix" style="float:left">
+									 
+									<span class="fl darkgray" th:if="${a.addDft}=='1'" th:text="默认地址"> </span>
+								   </p>
+								 <div class = "ra">
+	 	                              <input id="check" type="radio" v-model="check"  name = "check"  th:value="${a.addId}" class = "ra"   ></input>   
+		                          </div>
+                              </div>
 							<p class="fs14 lh40 clearfix">
 								<span class="fl darkgray"><i class="iconfont fs24">&#xe60e;</i> </span>
 								<span class="fl darkgray" th:text="${a.addName}"> </span>
 							</p>
 							<p class="fs14 clearfix lh40">
-							    <span class="fl darkgray"><i class="iconfont fs24"> </i></span>
+							    <span class="fl darkgray"><i class="iconfont fs24"> &#xe60c;</i></span>
 								<span class="fl darkgray" th:text="${a.addPhone}">17378787878</span>
 							</p>
 								<p class="fs14 clearfix lh40  ">
 									<span class="fl darkgray"><i class="fl iconfont fs24">&#xe610;</i>
 									<span class="fl address" th:text="${a.addAddr}"> </span>
 								</p>
-						
-						  
+						    
+						       
 						</div>
-
-						<div class="consignee-block radius5 tc add-info">
+				 	<div class="consignee-block radius5 tc add-info">
 							<a href="javascript:" class="full-db alertbox">
 								<span class="full-db add pt40"></span>
 								<span class="full-db fs14">添加新地址</span>
@@ -126,7 +130,7 @@
 					<div class="shopping-result white-box mt20 clearfix">
 						<a href="index" class="fl fs16 pl10">继续购物>></a>
 						<p class="fr">
-							<button  @click="zhifu()" class="fr orange-but fs20" style="background: #AF1622;border:none">支&nbsp;&nbsp;&nbsp;&nbsp;付</button>
+							<button  @click="zhifu() "  class="fr orange-but fs20" style="background: #AF1622;border:none">支&nbsp;&nbsp;&nbsp;&nbsp;付</button>
 							<span class="fr pr20 fs14 " >总计：<em class="orange fs24" th:if="${od.oTotal}!=null " th:text="'￥'+${od.oTotal}">&nbsp;&nbsp;</em></span>
 						</p>
 					</div>
@@ -137,7 +141,7 @@
              
 			</div>
 		</div>
-		  	<script>
+		 <script>
 		  	 //使用th:onclick来传参并调用js删除指定pId
         	function del(pId,price){
         			this.pId=pId;
@@ -151,7 +155,8 @@
         				
         			})
         		}
-		  	
+		  	 
+        	 
 		  	   var vue=new Vue({
 		  		   el:"#jie",
 		  		   data:{
@@ -163,11 +168,10 @@
 		                 
 		                	var  addId=this.check;
 		                	  
-		                	axios.get("zhifu?addId="+addId+"&oid="+this.oid).then(res=>{
+		                	axios.get("zhifu?addId="+addId+"&oid="+this.oid).then(res=>{0       
 		                		  
 		                		if(res.data.code==1){
-		                			        alert("支付成功");
-		                					window.location.href="cart";
+		                			location.href="fukuan";
 		                				}else{
 		                					 alert(res.data.msg);
 		                				}
@@ -177,63 +181,74 @@
 		  	   }
 		  	 })
 		  	
-		  	</script>
+		 </script>
 		<!--/end-->
 
 		<!--footer star-->
 		<div class="footer clearfix">
 			 <div class="weibu" th:include="index::.weibu">
+			 <div class="banquan clearfix ta-center">
+
+			</div>
 		</div>
 		<!--footer end-->
-
-		<div id="mask">
+		 
+		
+       <div id="mask" >
 			<div class="alert-box radius8">
-				<h3 class="fs20">添加收货地址 <span class="close"></span></h3>
+				<h3 class="fs20">添加收货地址 </h3>
 				<div class="address-form box-s">
-					<form action="">
+					<form action="addaddress" method="post">
 						<p class="mb20 clearfix">
 							<label class="fl">收货人：</label>
-							<input type="text"  value="" placeholder="姓名" class="fl ml5">
+							<input type="text"  name="addName" placeholder="姓名" class="fl ml5">
 							<em class="fl red lh40 ml10">*</em>
 						</p>
 						<p class="mb20 clearfix">
 							<label class="fl">手机：</label>
-							<input type="text" value="" placeholder="手机" class="fl ml5">
+							<input type="text" name="addPhone" placeholder="手机" class="fl ml5">
 							<em class="fl red lh40 ml10">*</em>
 						</p>
 						<p class="mb20 clearfix">
 							<label class="fl">地址：</label>
-							<select name="" id="" class="fl ml5">
-								<option value="0">省份/直辖市</option>
-								<option value="1">安徽省</option>
-							</select>
-							<select name="" id="" class="fl ml5">
-								<option value="0">城市</option>
-								<option value="1">合肥市</option>
-							</select>
-							<select name="" id="" class="fl ml5">
-								<option value="0">区县</option>
-								<option value="1">经开区</option>
-							</select>
-						</p>
+							<input type="text" name="shen" placeholder="省/直辖市"  id="" class="fl ml5" style="width:60px">
+								 
+							</input>
+							<input type="text" name="shi" placeholder="城市"  id="" class="fl ml5" style="width:60px">
+								 
+							</input>
+							<input type="text" name="xian" placeholder="区县"  id="" class="fl ml5" style="width:60px">
+ 							</input>
+ 						</p>
 						<p class="mb20 clearfix">
 							<label class="fl"></label>
-							<input type="text" value="" placeholder="详细地址" class="fl ml5">
+							<input type="text" name="xianxi" placeholder="详细地址" class="fl ml5">
+							<em class="fl red lh40 ml10">*</em>
+						</p>
+						<p class="mb20 clearfix">
+							<label class="fl">设为默认地址</label>
+							<select   name="addDft" class="fl ml5">
+							     <option value="0">否</option>
+							    <option value="1">是</option>
+							   
+							</select>
 							<em class="fl red lh40 ml10">*</em>
 						</p>
 						<p class="mb20 clearfix">
 							<label class="fl">邮政编码：</label>
-							<input type="text" placeholder="邮政编码" value="" class="fl ml5">
+							<input type="text" name="you" placeholder="邮政编码" value="" class="fl ml5">
 						</p>
 						<p class="mb20 clearfix">
 							<label class="fl"></label>
-							<input type="button" value="保存" class="fl orange-but radius3 ml5">
-							<input type="button" value="取消" class="fl gray-but radius3 ml10">
-						</p>
+							<button  onclick="" class="fl orange-but radius3 ml5" style="color: #929292">保&nbsp;&nbsp;存 </button>
+							<button   class="fl orange-but radius3 ml10"   style="color: #929292"> 取&nbsp;&nbsp;消</button>
+						 </p>
 					</form>
 				</div>
 			</div>
-		</div>
+		</div> 
+		 
+		 
 	</body>
 	<script src="js/other.js" type="text/javascript" ></script>
 

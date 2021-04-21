@@ -1,9 +1,14 @@
 package com.hy.Sheji.biz;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.hy.Sheji.bean.Address;
+import com.hy.Sheji.bean.AdminOrder;
+import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.User;
 import com.hy.Sheji.dao.UserMapper;
 
@@ -27,4 +32,20 @@ public class UserBiz {
 		return um.selectAddress(uName);
 		
 	}
+
+	public void addaddress(Address address) {
+		 um.addaddress(address);
+	}
+
+	//修改原本的默认地址为不默认
+	public int setAddressDft(int uId) {
+		// TODO Auto-generated method stub
+		return um.setAddressDft(uId);
+	}
+	
+	 //use_order中个人order展示
+		public List<Order> userorder(int ouid) {
+			// TODO Auto-generated method stub
+			  return um.userorder( ouid);
+		}
 }

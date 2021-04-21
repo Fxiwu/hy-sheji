@@ -219,6 +219,11 @@ public class OrderAction {
 		int i=ob.updateorder( oid,price);
 		int j=ob.delod(pId,oid);
 		if(i>0&&j>0) {
+			//当total减为0的时候删除adminorder中对应的记录
+			if(ob.selectOrder(oid).getoTotal()==0) {
+				 
+				ob.deladminorder(oid);
+			} 
 			return new Result(1,"商品删除成功");
 		}else {
 			//回滚
@@ -279,6 +284,27 @@ public class OrderAction {
 		return new Result(1,"成功");
 	}
 	
+	//fukuan.html中付款成功
+	@GetMapping("fukuan")
+	public Model fukuan(Model m, HttpSession session) {
+		String uName=(String) session.getAttribute("LoginUser");
+		m.addAttribute("se",uName);
+		return m;
+	}
+	
+	//fukuan.html中付款成功数据渲染
+	@GetMapping("fukuan1")
+	public Order fukuan1( HttpSession session) {
+		
+		int oid=(int) session.getAttribute("oid");
+		Order or=ob.selectOrder(oid);  //查询相应的订单
+		om.updatezforder(oid);  //修改order和adminorder为已支付状态
+		om.updatezfadorder(oid);
+ 
+		
+		return or;
+	}
+	
 	//back adminorder中所有的订单
 	@GetMapping("allOrder")
 	public List<AdminOrder> allOrder(@RequestParam(value="uname",required=false) String uname,
@@ -310,5 +336,7 @@ public class OrderAction {
 	} 
 	return new Result(0,"修改失败");
 	}
-	   
+	
+	 
+		   
 }

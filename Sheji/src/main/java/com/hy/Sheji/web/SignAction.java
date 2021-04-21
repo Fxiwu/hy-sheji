@@ -146,9 +146,10 @@ public class SignAction {
 	//退出登录
 		@GetMapping("exit")
 		@ResponseBody
-	    public Result exit(HttpServletRequest request){
+	    public Result exit(HttpServletRequest request,HttpSession session){
 		         request.getSession().removeAttribute("LoginUser");
 		         request.getSession().removeAttribute("loginedUser");
+		        // session.removeAttribute("oid");
 		         return new Result("sign");
 		      }
 	

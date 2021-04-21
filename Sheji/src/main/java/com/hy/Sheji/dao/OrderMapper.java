@@ -35,7 +35,7 @@ public interface OrderMapper {
 	  public int insertOrderdetail(@Param("odlist") List<Orderdetail> odlist);
 	
   	  //查询Order 关联selectOrderdetail
-  	  @Select("select * from hy_order where o_id=#{oId} and  o_state=0")
+  	  @Select("select * from hy_order where o_id=#{oId} ")
   	  @Results({@Result(column="o_id",property="oId"),
   		        @Result(column="o_id",property="ordertail",
   		       one=@One(select="selectOrderdetail")),
@@ -59,7 +59,10 @@ public interface OrderMapper {
  	//删除orderdetail中对应的orderdetail
  	  @Delete("delete  from hy_orderdetail where d_oid=#{dOid} and d_pid=#{dPid}")
 	public int delod(int dPid, int dOid);
-
+ 	 
+ 	//当total减为0的时候删除adminorder中对应的记录
+ 	 @Delete("delete  from hy_adminorder where o_id=#{oId} ")
+ 	public int deladminorder( int oId);  
  	//jiesuan界面中确定修改收货地址
  	  @Update("update hy_order set o_addid=#{addId} where o_id=#{oid}")
 	public int updateOrderAddr(int addId, int oid);
@@ -124,6 +127,21 @@ public interface OrderMapper {
  			+ "</script>")
 	public int updateadminorder(int oId, String uName, int oState, String addAddr, String addPhone);
 
+   
+ 	 //user_order中更改order表ostate
+	  @Update("update hy_order set o_state=4 where o_id=#{oid}")
+	public int updateoState( int oid);
  
+	//user_order中更改adminorder表中ostate
+	  @Update("update hy_adminorder set  o_state=4 where o_id=#{oid}")
+	public int updateadminorderOstate( int oid);
+	  
+	//付款中更改order表ostate
+	  @Update("update hy_order set o_state=1 where o_id=#{oid}")
+	public int updatezforder( int oid);
+ 
+	//user_order中更改adminorder表中ostate
+	  @Update("update hy_adminorder set  o_state=1 where o_id=#{oid}")
+	public int updatezfadorder( int oid);
  	  
 }
