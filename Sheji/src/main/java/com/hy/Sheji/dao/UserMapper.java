@@ -3,6 +3,7 @@ package com.hy.Sheji.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.One;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
@@ -43,7 +44,7 @@ public interface UserMapper {
 		})
 		public User selectAddressDef(String uName);
 		
-		//默认地址   order中调用  useraction中addaddress调用
+		//默认地址   order中调用  useraction中addaddress\ modfydft调用
 		@Select("select * from hy_address where add_uid=#{addUid} and add_dft=1")
 		public  Address  seAddressdft(int addUid);
 	
@@ -60,7 +61,15 @@ public interface UserMapper {
 	//添加地址
 	@Insert("insert into hy_address values("
 			+ "null,#{addUid},#{addAddr},#{addPhone},#{addName},#{addDft})")
-	public void addaddress(Address address);
+	public int addaddress(Address address);
+	
+	//删除地址 useraction 中delAddr
+		@Delete("delete hy_address  where add_id=#{addId}")
+		public int delAddr(int addId);
+	
+	//设为默认地址 useraction 中modfydft
+	@Update("update hy_address set add_dft=1 where add_id=#{addId}")
+	public int modfydft(int addId);
 
 	//修改原本的默认地址为不默认 useraction中addaddress调用
 	@Update("update hy_address set add_dft=0 where add_uid=#{uId}")

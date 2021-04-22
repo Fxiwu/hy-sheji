@@ -60,6 +60,7 @@ public class UserAction {
 		if(um.seAddressdft(uId)!=null&&address.getAddDft()==1) {
 		   //修改原本的默认地址为不默认
 			 ub.setAddressDft(uId);
+			 
 			}
 		 
 		address.setAddUid(uId);
@@ -106,5 +107,54 @@ public class UserAction {
 		
 		 
 	}
+	
+	@GetMapping("user_address")
+	public Model useraddress(Model m, HttpSession session)  {
+		
+		String uName= (String) session.getAttribute("LoginUser");
+		  m.addAttribute("se",uName);
+ 
+		  //通过user的uname查出对应的uId的所有Address
+		User user= ub.selectAddress(uName);
+		m.addAttribute("user", user);
+		return m;
+	}
+	
+	//user_address中del modfydft
+	@GetMapping("delAddr")
+	@ResponseBody
+	public Result delAddr(int addId) {
+		Address add= um.selectAddressByaid(addId);
+		if(add.getAddDft()==1) {
+			return new Result(0,"请设置其他地址为默认地址！");
+		}else {
+			if(um.delAddr(addId)>0) {
+				return new Result(1,"删除成功！");
+			}
+		}
+		return new Result(0,"删除失败！");
+
+	}
+	//user_address中modfydft
+		@GetMapping("modfydft")
+		@ResponseBody
+		public Result modfydft(int addId,int addUid) {
+			if(um.seAddressdft(addUid)!=null) {
+			 
+				int i=ub.setAddressDft(addUid);//修改原本默认地址为不默认
+			 
+			   if(i>0) {
+				   um.modfydft(addId);
+				   return new Result(1,"修改成功！");
+			   }else {
+				   return new Result(0,"修改失败！");
+			   }
+			}else {
+				um.modfydft(addId);
+			   return new Result(1,"修改成功！");
+			}
+			 
+			 
+		}
 	 
 }
