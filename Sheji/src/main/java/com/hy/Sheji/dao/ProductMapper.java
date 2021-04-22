@@ -79,6 +79,10 @@ public interface ProductMapper {
  	@Insert("insert into hy_product values(null,#{pName},"
  			+ "#{price},#{pImg},#{pDesc},now(),#{pCid},#{pHot},#{pAid},#{pGuige})")
 	int insertpro(Product pro);
+ 	
+ 	//suosou
+ 	@Select("select * from hy_product where p_name like '%${txt}%'")
+ 	List<Product> SuoProduct(String txt);
 }
 
   
