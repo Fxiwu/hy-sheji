@@ -62,11 +62,10 @@
 							分类：
 						</p>
 						<div   class="right clearfix fl">
-							<ul>
-								<a href="mall?#1" @click="fenlei(1)"><li >特 产</li></a>
-								<a href="mall?#2" @click="fenlei(2)"><li >水果</li></a>
-								<a href="mall?#3" @click="fenlei(3)"><li >蔬菜</li></a>
-								<a href="mall?#4" @click="fenlei(4)"><li >农产</li></a>
+							<ul th:each="cl :${clist}">
+								<a th:href="'mall?#'+${cl.pcId}" @click="fenlei()">
+								<li th:text="${cl.pcName}">特 产</li></a>
+								 
 							</ul>
 						</div>
 						 	 
@@ -139,8 +138,8 @@
 							   },
 							  
 							  methods: {
-								   fenlei(i){
-								         this.pCid=i;
+								   fenlei(){
+								         this.pCid=location.hash.substr(1);
 								         axios.get("category?pCid="+this.pCid).then(res=>{
 								            this.mclist=res.data;
 								         }) 

@@ -65,7 +65,7 @@
 							<td>
 
 								<p class="o-goods-info ml20 clearfix pt10 pb10">
-									<a href="#" class="fl"><span><img th:src="${cl.product.pImg}" alt=""></span></a>
+									<a th:href="'pro_detail?#'+${cl.product.pId}" class="fl"><span><img th:src="${cl.product.pImg}" alt=""></span></a>
 									<span class="fl tit mt5 ml10" th:text="${cl.product.pName}"></span>
 								</p>
 							</td>

@@ -24,9 +24,9 @@ public class specialAction {
       SpecialBiz sb;
        
        @GetMapping("special")
-       public List<Area> index(Model m,HttpSession session) {
+       public List<Area> special(Model m,HttpSession session) {
 			//special页面展示
-       	List<Area> slist=sb.index();
+       	List<Area> slist=sb.selspecial();
         m.addAttribute("se",session.getAttribute("LoginUser"));
 
        	m.addAttribute("slist",slist);

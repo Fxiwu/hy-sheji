@@ -15,36 +15,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hy.Sheji.bean.Category;
 import com.hy.Sheji.bean.Product;
 import com.hy.Sheji.biz.MallBiz;
+import com.hy.Sheji.dao.CategoryMapper;
 
 @RestController
  public class MallAction {
 	
 	  @Resource
 	  private MallBiz mb;
+	  
+	  @Resource
+	  private CategoryMapper cm;
 	 
+	  //mall 
 	  @GetMapping ("mall") 
 		public ModelAndView Mall(ModelAndView mav ,HttpSession session) {
-		  List<Product> mlist=mb.Mall();
+		 
 		  mav.addObject("se",session.getAttribute("LoginUser"));
+		  
+		   List<Product> mlist=mb.Mall(); //展示cid为1的商品
+		   List<Category> clist=cm.category();
 			mav.addObject("mall", mlist);
+			mav.addObject("clist", clist);
 			mav.setViewName("mall");
 			return mav;
 		}	
-		
+	//mall界面中category方法
 	  @GetMapping ("category")
-		public List<Product> Category(@RequestParam(value="pCid" ,defaultValue = "1") int pCid) {
+		public List<Product> CategoryProduct(@RequestParam(value="pCid" ,defaultValue = "1") int pCid) {
 	
 		//商城mall商品界面分展示
-		  System.out.println("+=============");
-     	  System.out.println(pCid);
-     	 System.out.println("=============");
+		 
 
 			List<Product> mclist=mb.Category(pCid);
-			for ( int  i =  0 ;i < mclist.size();i++){
-			     System.out.println(mclist.get(i).getpCid());
-			}
+			/*
+			 * for ( int i = 0 ;i < mclist.size();i++){
+			 * System.out.println(mclist.get(i).getpCid()); }
+			 */
 		   return mclist; 
 		}
 		

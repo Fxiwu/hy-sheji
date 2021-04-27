@@ -104,9 +104,15 @@ public class OrderBiz {
 	}
 
 	//back order.html中修改订单信息后保存
-	public int updateadminorder(int oId, String uName, int oState, String addAddr, String addPhone) {
+	public int updateadminorder(int oId, String addName, int oState, String addAddr, String addPhone) {
 		// TODO Auto-generated method stub
-		return om.updateadminorder(oId, uName,oState,addAddr,addPhone);
+		return om.updateadminorder(oId, addName,oState,addAddr,addPhone);
+	}
+	//back order.html中修改订单信息后 相应改变order表的ostate
+	public int updateorderState(int oId, int oState) {
+		// TODO Auto-generated method stub
+		return om.updateorderState(oId,oState);
+		
 	}
  
     

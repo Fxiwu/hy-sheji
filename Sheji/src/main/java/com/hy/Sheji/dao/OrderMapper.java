@@ -118,21 +118,21 @@ public interface OrderMapper {
  			+ "update hy_adminorder"
  			+ "<set>"
  			+ "<if test='addAddr!=null'>add_addr=#{addAddr}</if>"
- 			+ "<if test='uName!=null'>,u_name=#{uName}</if>"
+ 			+ "<if test='addName!=null'>,add_name=#{addName}</if>"
  			 +"<if test='oState!=null'>,o_state=#{oState}</if>"
  			+ "<if test='addPhone!=null'>,add_phone=#{addPhone}</if>"
  			 
  			+ "</set>"
  			+ "where o_id=#{oId}"
  			+ "</script>")
-	public int updateadminorder(int oId, String uName, int oState, String addAddr, String addPhone);
+	public int updateadminorder(int oId, String addName, int oState, String addAddr, String addPhone);
 
    
- 	 //user_order中更改order表ostate
+ 	 //user_order中更改order表ostate 确认收货
 	  @Update("update hy_order set o_state=4 where o_id=#{oid}")
 	public int updateoState( int oid);
  
-	//user_order中更改adminorder表中ostate
+	//user_order中更改adminorder表中ostate 确认收货
 	  @Update("update hy_adminorder set  o_state=4 where o_id=#{oid}")
 	public int updateadminorderOstate( int oid);
 	  
@@ -143,5 +143,9 @@ public interface OrderMapper {
 	//user_order中更改adminorder表中ostate
 	  @Update("update hy_adminorder set  o_state=1 where o_id=#{oid}")
 	public int updatezfadorder( int oid);
+	 
+	//back order.html中修改订单信息后 相应改变order表的ostate
+	@Update("update hy_order set o_state=#{oState} where o_id=#{oId}")
+	public int updateorderState(int oId, int oState);
  	  
 }

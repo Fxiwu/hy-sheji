@@ -20,7 +20,7 @@ public class SpecialBiz {
      SpecialMapper am;
       
      
-      public List<Area> index() {
+      public List<Area> selspecial() {
 			//special页面展示
       	List<Area> slist=am.selectArea();
       	return slist;

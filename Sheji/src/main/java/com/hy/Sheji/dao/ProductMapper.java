@@ -17,7 +17,7 @@ import com.hy.Sheji.bean.Product;
 public interface ProductMapper {
 
 	//首页商城精选商品展示
-	@Select("select * from hy_product where p_hot=1")
+	@Select("select * from hy_product where p_hot=1 order by p_createtime desc limit 0,9 ")
 	List<Product> selectIndexhot();
 	
 	//产品详情+地区展示
@@ -30,7 +30,7 @@ public interface ProductMapper {
 		 })
 		Product selectPro(int pId);
 	 //product_detail喜欢模块
-	@Select("select * from hy_product where p_hot=1 order by p_createtime desc limit 0,3 ;")
+	@Select("select * from hy_product where p_hot=1 order by p_createtime desc limit 0,5 ")
 	List<Product> selectLike();
 	
 	//查询商品

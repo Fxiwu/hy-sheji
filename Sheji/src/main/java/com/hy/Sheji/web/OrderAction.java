@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hy.Sheji.bean.Address;
 import com.hy.Sheji.bean.AdminOrder;
 import com.hy.Sheji.bean.Cart;
 import com.hy.Sheji.bean.Order;
@@ -61,6 +62,10 @@ public class OrderAction {
 		m.addAttribute("se",uName);
 		if(uName!=null) {   //登录用户的地址信息
 			User user=ob.selectAddress(uName);
+			  if(um.seAddressdft(user.getuId())!=null) {//默认地址
+					m.addAttribute("addrid",um.seAddressdft(user.getuId()).getAddId());	 
+			  };
+			
 			m.addAttribute("user", user);	 
 		     
 			//判断是否有删除的，进行商品种类删除
@@ -266,10 +271,8 @@ public class OrderAction {
 			}
 			 
 		}
-		
-		
-		
-		if(addId!=1) {
+		int addddft=um.seAddressdft(uid).getAddId();//用户的默认地址id
+		if(addId!=uid) {
 			 ob.updateOrderAddr(addId,oid);//更改Order表中的收货地址
 			     //更改adminOrder表中的收货地址
 			 
@@ -278,10 +281,14 @@ public class OrderAction {
 			 ao.setAddName(um.selectAddressByaid(addId).getAddName());
 			 ao.setAddPhone(um.selectAddressByaid(addId).getAddPhone());
 			  ob.updateadminordeAddr(ao,oid) ;
-			                            
-			return new Result(1,"成功");
 		} 
-		return new Result(1,"成功");
+		   //修改order和adminorder为已支付状态
+	 if(om.updatezforder(oid)>0&&om.updatezfadorder(oid)>0) {
+		 return new Result(1,"支付成功");
+	 }else {
+		 return new Result(0,"支付失败");
+	 }
+		
 	}
 	
 	//fukuan.html中付款成功
@@ -298,10 +305,7 @@ public class OrderAction {
 		
 		int oid=(int) session.getAttribute("oid");
 		Order or=ob.selectOrder(oid);  //查询相应的订单
-		om.updatezforder(oid);  //修改order和adminorder为已支付状态
-		om.updatezfadorder(oid);
- 
-		
+		 
 		return or;
 	}
 	
@@ -329,9 +333,10 @@ public class OrderAction {
 	
 	//back order.html中修改订单信息后保存
 	@GetMapping("updateadminorder")
-	public Result updateadminorder( int oId,String uName,int oState,String addAddr,String addPhone){
-		ob.updateadminorder( oId, uName,oState,addAddr,addPhone);
-	if(ob.updateadminorder( oId, uName,oState,addAddr,addPhone)>0) {
+	public Result updateadminorder( int oId,String addName,int oState,String addAddr,String addPhone){
+		ob.updateadminorder( oId, addName,oState,addAddr,addPhone);
+	if(ob.updateadminorder( oId, addName,oState,addAddr,addPhone)>0) {
+		 ob.updateorderState(oId,oState);
 		return new Result(1,"修改成功");
 	} 
 	return new Result(0,"修改失败");

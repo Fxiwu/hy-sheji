@@ -70,7 +70,7 @@
 						<div class="ctent clearfix mt20 over3" th:text="${#strings.abbreviate(s.aJieshao,150)}"> 
 							现有猕猴桃基地3390亩、蚕桑基地4200亩、烟草基地8000亩、油茶基地4000亩、牧草基地3500亩、虎杖等中药材基地7200亩，共带动2万多农民务工就业，成为该县精准脱贫的强大引擎。该县“矿老板”和工商企业主转型创办农业种植、养殖等特色产业开发的企业达100多家，在他们带动下，全县形成了优质稻米14万亩、药材3万亩、蔬菜10万亩、特色水果2万亩、烟叶2.4万亩、油茶12万亩、桑叶1.45万亩、湘西黄牛2万头、生猪16万头、乳鸽50万羽、竹鼠5万只、鲟鱼30万尾等特色种养规模。......
 						</div>
-						<a href="area-detail.html" class=" liaojie" style="color: #88000b">》》》了解地区</a>
+						<a th:href="'area_detail?#'+${s.aId}" class=" liaojie" style="color: #88000b">》》》了解地区</a>
 						<a th:href="'special_detail?#'+${s.aId}" class="jinru ra3 transition" >
 							进入专场>
 						</a> 

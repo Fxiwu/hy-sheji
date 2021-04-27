@@ -66,38 +66,7 @@ import com.hy.Sheji.dao.ProductMapper;
 				return p;
 			}	
 	 
-	  //向购物车中添加商品
-	  @GetMapping ("addcart") 
-		public Result addcart(@RequestParam(value="pId" ,defaultValue ="0") int pId,HttpSession session ) {
-		 String uName=(String) session.getAttribute("LoginUser");
-		 int uId = 0;
-		 if(uName!=null) {
-			    uId=cm.selectUer(uName).getuId();
-		   }else {
-			   return new Result(0,"请先登录");
-		   }
-		  if(pId>0) {
-			  if(cb.selectupId(uId, pId)>0) {  //判断购物车中产品是否已经添加
-				 int i= cb.addupdate(uId, pId);
-				  if(i>0) {
-						return new Result(1,"添加购物车成功");
-					}
-			  }else {
-				  Cart cart=new Cart();
-				cart.setcCount(1);
-				cart.setcPid(pId);
-				cart.setcUid(uId);
-				int i=cb.addCart(cart);
-				if(i>0) {
-					return new Result(1,"添加购物车成功");
-				}
-				return new Result(0,"添加失败");
-			  }
-				
-			}
-		return new Result(0,"失败");
-				
-			}
+	  
 		   
 	//后台商品管理 product.html全部商品展示
 	 @GetMapping("productquery")
@@ -183,6 +152,7 @@ import com.hy.Sheji.dao.ProductMapper;
 		 //后台商品管理  product.html 地区选项
 		 @PostMapping("arequery")
 		 public List<Area> arequery() {
+			 
 			return  am.selectArea();
 		 }
 		 

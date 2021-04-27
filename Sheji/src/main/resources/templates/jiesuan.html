@@ -60,7 +60,8 @@
 									<span class="fl darkgray" th:if="${a.addDft}=='1'" th:text="默认地址"> </span>
 								   </p>
 								 <div class = "ra">
-	 	                              <input id="check" type="radio" v-model="check"  name = "check"  th:value="${a.addId}" class = "ra"   ></input>   
+	 	                              <input id="check" type="radio" v-model="check"  name = "check"  th:value="${a.addId}" class = "ra"   checked  ></input>   
+ 		                          
 		                          </div>
                               </div>
 							<p class="fs14 lh40 clearfix">
@@ -159,7 +160,7 @@
 		  	   var vue=new Vue({
 		  		   el:"#jie",
 		  		   data:{
-		  			   check:"1",//默认地址
+		  			   check:[[${addrid}]],//默认地址
 		  			 oid:[[${order.oId}]] 
 		  		   },
 		  		 methods:{

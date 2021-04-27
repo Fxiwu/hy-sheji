@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>订单管理</title>
+<title>后台订单管理</title>
 <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
@@ -117,8 +117,8 @@ function query(){
 <div class="easyui-layout" data-options="fit:true">
 	<div data-options="region:'north'" style="height: 50px;">
 		<div style="height: 50px; margin: 10px">
-		<input class="easyui-textbox" label="用户名" style="width:200px" id="uname">
-		<select id="cc" class="easyui-combobox" name="dept" style="width:200px;">
+		<input class="easyui-textbox" label="用户名" style="width:200px" id="uname">&nbsp;&nbsp;
+		<select id="cc" class="easyui-combobox" label="支付状态"  name="dept" style="width:200px;">
 	  	    <option ></option>
 			    <option value="0">未支付</option>
 			    <option value="1">已支付</option>
@@ -150,6 +150,7 @@ function query(){
 				<tr>
 					<th data-options="field:'oId', width:30">订单号</th>
 					<th data-options="field:'uName', width:60 ">用户名</th>
+					<th data-options="field:'addName', width:60 ">收货人名</th>
 					<th data-options="field:'oTotal', width:60">总金额</th>
 					<th data-options="field:'oState', width:60,formatter:fmtstatus">支付状态</th>
 					<th data-options="field:'oCreatetime', width:120">下单时间</th>
@@ -170,8 +171,8 @@ function query(){
 				modal:true,
 				closed:true">
 			<form action="#" id="ff" enctype="multipart/form-data method="post">
-			 	<input class="easyui-textbox"  id="o" name="oId" label="订单号 "  readonly="readonly">
-			 	<input class="easyui-textbox" name="uName" label="用户名" ><br><br>
+			 	<input class="easyui-textbox"  id="o" name="oId" label="订单号 "  readonly="readonly"><br><br>
+			 	<input class="easyui-textbox" name="addName" label="收货人名" ><br><br>
 			 	<select id="stat" class="easyui-combobox" name="oState" label="订单状态" style="width:200px;">
 					    <option value="0">未支付</option>
 					    <option value="1">已支付</option>
