@@ -24,13 +24,14 @@
 
 <body>
 <!--header star-->
+<div id="fl">
 <div class="header clearfix">
  <div th:insert="index::.toubu"></div>
  <div class="bottom clearfix">
 
-		<div class="search clearfix fr ra5">
-			<input type="text" class="fl" name="" id="" value="" placeholder="请输入您要搜索的内容" />
-			<input type="button" name="" id="" value="搜索" class="fl box-s" />
+		<div class="search clearfix fr ra5" id="s">
+			<input type="text" class="fl" value="" id="sou"  placeholder="请输入您要搜索的内容" />
+			<input type="button"  value="搜索"  @click="sousuo()" class="fl box-s" />
 		</div>
 	</div>
 </div>
@@ -48,14 +49,14 @@
 	</div>
 </div>
 <!--navbar end-->
-
+   
 <!--mall star-->
 <div class="mall clearfix">
 
 
 	<!--sales star-->
 	<div class="sales clearfix">
-		<div id="fl" class="content clearfix">
+		<div  class="content clearfix">
 				<div class="listed clearfix box-s">
 					<div class="list clearfix fl">
 						<p class="bt fl">
@@ -73,7 +74,7 @@
 
 				</div>
 
-			<div class="bottom clearfix">
+			<div class="bottom clearfix" id="f1">
                <ul> 
                  <li   v-for="mc in mclist">
 					<div class="list clearfix transition">
@@ -97,64 +98,146 @@
 					</li>
 				</ul>
 				</div>
-     <div class="bottom clearfix">
-               <ul    v-if="pCid==0"> 
-                 <li th:each="p:${mall}">
-					<div class="list clearfix transition">
-						<div class="tu clearfix">
-							<a th:href="'pro_detail?#'+${p.pId}">
-								<img th:src="${p.pImg}"/>
-							</a>
-							<span></span>
-						</div>
-						<div class="xia clearfix box-s">
-							<p class="bt over"  th:text="${p.pName}">
-								
-							</p>
-							<div class="price clearfix">
-								<span class="fl" th:text="'￥'+${p.price}"  ></span>
- 
-							</div>
-						</div>
-					</li>
-				</ul>
-				</div>
-				 
+    
+				  <!--所搜结果显示  -->  
+	<div class="sales clearfix" v-if="p!=0">
+	  <div class="content clearfix"> 
+		<div class="bottom clearfix">
+               <ul> 
+                  <li v-for="p in plist"> 
+					     <div class="list clearfix transition">
+					        <div class="tu clearfix">
+						      <a :href="'pro_detail?#'+p.pId">  
+						        <img :src="p.pImg"/>
+						        <span></span>
+					          </a> 
+					        </div>
+						   <div class="xia clearfix box-s">
+						         <p class="bt over" >{{p.pName}}</p>
+						      
+						      <div class="price clearfix">
+							     <span class="fl" >￥{{p.price}} </span>
+							      <a :href="'pro_detail?#'+p.pId" class="goumai fr ra3 transition">立即购买</a>
+						      </div>
+					       </div> 
+						  </div>
+			  
+						</li> 
+						
+				</ul> 
+		
+		</div>
+	   </div>
+	  </div>
+            <div class="page clearfix ta-right">
+                     
+						<a type="button" class="pre box-s"  @click="up()">上一页</a>
+						<span>第{{this.pageNum}}页</span>
+						
+						<a type="button" class="next box-s" @click="down()">下一页</a>
+
+					</div>
 
 
 			</div>
- <script type="text/javascript">
-						   var vue=new Vue({
-							   el:"#fl",
-							   data:{
-								   pCid:0,
-								   mclist:[]
-						   
-							   },
-							   created:function(){
-								   axios.get("mall").then(res=>{
-							             
-							         }) 
-							   },
-							  
-							  methods: {
-								   fenlei(){
-								         this.pCid=location.hash.substr(1);
-								         axios.get("category?pCid="+this.pCid).then(res=>{
-								            this.mclist=res.data;
-								         }) 
-									
-							       }
-								   }
-						   });
-						
-						</script>
-
-
+  
 		</div>
 	</div>
 	<!--sales end-->
 </div>
+
+    <script type="text/javascript">
+     
+    function  exit(){
+
+		axios.get("exit").then(res=>{
+			 
+			window.location.href=res.data.msg;
+			
+		})
+	    }
+						   var vue=new Vue({
+							   el:"#fl",
+							   data:{
+								   pCid:"",
+								   p:0,   /* 作为是否搜索展示的flag*/
+								   mclist:[],
+								  plist:[],/* */
+						          pageNume:"",
+						          pages :""
+						          
+							   },
+							   created:function(){
+								   
+								   this.pCid=location.hash.substr(1);
+								        if(this.pCid==null){
+								        	this.pCid=1;
+								        }
+								         axios.get("Fenlei?pCid="+this.pCid).then(res=>{
+								        	 this.mclist=res.data.list;
+								        	  this.pageNum= res.data.pageNum;//当前页数字
+								        	  this.pages=res.data.pages;//总页数
+								        	 
+								         }) 
+									 
+							   },
+							  
+							  methods: {
+								   fenlei(){
+									   this.p=0;
+								         this.pCid=location.hash.substr(1);
+								         document.getElementById('f1').style.display='block';
+								         axios.get("Fenlei?pCid="+this.pCid).then(res=>{
+								            this.mclist=res.data.list;
+								            this.pageNum= res.data.pageNum;
+								            
+								         }) 
+									
+							       },
+							       sousuo(){
+							    	   this.p=1;
+								    	var txt=document.getElementById("sou").value;
+								    	 axios.get("sou?txt="+txt).then(res=>{
+								    		  if(res.data!=null){
+								    			  document.getElementById('f1').style.display='none';
+								    			 this.plist=res.data;
+								    			 
+								    		  }
+								    	 })
+								    	 
+								       } ,
+								   up(){
+									   this.pCid=location.hash.substr(1);
+									  
+									   this.pageNum=this.pageNum-1;
+									   if(this.pageNum<1){
+										   this.pageNum= 1;
+									   }
+									   axios.get("Fenlei?pCid="+this.pCid+"&pageNum="+this.pageNum).then(res=>{
+								            this.mclist=res.data.list;
+								            
+								         })  
+								   } ,
+								  down(){
+									   this.pCid=location.hash.substr(1);
+									  
+									   this.pageNum=this.pageNum+1;
+									   if(this.pageNum>this.pages){
+										   this.pageNum= this.pages;
+									   }
+									   axios.get("Fenlei?pCid="+this.pCid+"&pageNum="+this.pageNum).then(res=>{
+								            this.mclist=res.data.list;
+								             
+								         })  
+								   } 
+								   }
+								   
+						   });
+						
+						</script>
+
+    
+ 
 <!--mall end-->
 
 <!--footer star-->

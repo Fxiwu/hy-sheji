@@ -25,9 +25,9 @@ public class MallBiz {
      	
      }
 	
-	public List<Product> Category( int cid) {
+	public List<Product> Fenlei( int cid) {
      	//商城mall商品界面分类展示
-     	List<Product> clist=mm.selectCategory(cid);
+     	List<Product> clist=mm.Fenlei(cid);
      	 
      	return clist;
      	

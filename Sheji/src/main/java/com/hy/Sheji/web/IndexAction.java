@@ -33,26 +33,22 @@ public class IndexAction{
         	
         }
         
-		/*
-		 * //sousuo
-		 * 
-		 * @GetMapping("sousuo") public String sousuo(@RequestParam(value="txt"
-		 * ,defaultValue = "null")String txt,Model m,HttpSession session) {
-		 * System.out.println("txt"+txt); session.setAttribute("txt", txt);
-		 * m.addAttribute("se",session.getAttribute("LoginUser"));
-		 * 
-		 * 
-		 * return "sousuo"; }
-		 * 
-		 * @GetMapping("sou")
-		 * 
-		 * @ResponseBody public List<Product> sou(HttpSession session) {
-		 * 
-		 * String txt=(String) session.getAttribute("txt");
-		 * System.out.println("txt"+txt); List<Product> plist=pm.SuoProduct(txt); return
-		 * plist; }
-		 */
-}
+		  
+		 
+		 @GetMapping("sou")
+		 @ResponseBody 
+		 public List<Product> sou(@RequestParam(value="txt" ,defaultValue="null") String txt) {
+		 System.out.println("txt"+txt); 
+		 
+		 if(txt!=null) {
+			  List<Product> plist=pm.SuoProduct(txt);
+			  return plist;
+		 }
+		 
+		     return null;
+		 }
+		  
+ }
          
         
  

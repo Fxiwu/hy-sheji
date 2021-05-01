@@ -8,7 +8,7 @@ jQuery(".banner").slide({
 	trigger: "click"
 });
 
-/*艺术家滚动*/
+/*滚动*/
 jQuery(".scrollBox").slide({
 	titCell: ".list li",
 	mainCell: ".piclist",
@@ -51,7 +51,7 @@ $(".r-suc-info .detail-show").click(function(){
 })
 
 /*放大镜插件*/
-  $(document).ready(function(){
+ /* $(document).ready(function(){
 	  var showproduct = {
 		  "boxid":"showbox",
 		  "sumid":"showsum",
@@ -68,7 +68,7 @@ $(".r-suc-info .detail-show").click(function(){
 		  };//参数定义	  
 	 $.ljsGlasses.pcGlasses(showproduct);//方法调用，务必在加载完后执行
   });
-
+*/
 //产品图片滚动效果
 	jQuery(".proscroll").slide({ mainCell:".prolist", effect:"leftLoop",vis:5, autoPlay:true});
 //商品详情切换

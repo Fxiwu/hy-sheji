@@ -37,9 +37,9 @@ public class CartBiz {
 			return cm.addCart(cart);
 		}
 		//添加购物车中商品的数量
-		public  int addupdate(int cUid,int cPid){
+		public  int addupdate(int cUid,int cPid,int cCount){
 			 
-			return cm.addupdate(cUid,cPid);
+			return cm.addupdate(cUid,cPid,cCount);
 		}
  	    
 		//减少购物车中商品的数量

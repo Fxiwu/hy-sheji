@@ -24,15 +24,16 @@
 	</head>
 
 	<body>
+<div id="ff"> 
 	<!--header star-->
 	<div class="header clearfix">
 		 <div th:include="index::.toubu"></div>
 		<div class="bottom clearfix">
 
-			<div class="search clearfix fr ra5">
-				<input type="text" class="fl" name="" id="" value="" placeholder="请输入您要搜索的内容" />
-				<input type="button" name="" id="" value="搜索" class="fl box-s" />
-			</div>
+			<div class="search clearfix fr ra5" id="s">
+			<input type="text" class="fl" value="" id="sou"  placeholder="请输入您要搜索的内容" />
+			<input type="button"  value="搜索"  @click="sousuo()" class="fl box-s" />
+		</div>
 		</div>
 	</div>
 	<!--header end-->
@@ -52,12 +53,37 @@
 	<!--navbar end-->
 		
 		<!--mall star-->
-		<div class="mall clearfix">
-
+		
 			
 			<!--sales star-->
-			<div class="sales clearfix">
-				<div id="sd" class="content clearfix">
+			 <!--所搜结果显示  -->  
+	<div class="sales clearfix" >
+	  <div class="content clearfix"> 
+		<div class="bottom clearfix">
+               <ul> 
+					  <li v-for="sd in plist">
+						<div class="list clearfix transition">
+							<div class="tu clearfix">
+								<a :href="'pro_detail?#'+sd.pId"><img :src="sd.pImg"/></a>
+								<span></span>
+
+							</div>
+							<div class="xia clearfix box-s">
+								<p class="bt over" >
+									 {{sd.pName}}
+								</p>
+								<div class="price clearfix">
+									<span class="fl">￥{{sd.price}} </span>
+									<a :href="'pro_detail?#'+sd.pId" class="goumai fr ra3 transition">立即购买</a>
+								</div>
+							</div>
+						</div>
+						 </li>
+					 </ul>
+					 </div>
+			   
+			    
+				<div id="sd"  class="content clearfix">
 					<div class="top clearfix">
 						 <p class="p">地区:</p>
 						<p class="p" >{{aShi}}市&nbsp;{{aXian}} </p>
@@ -88,33 +114,14 @@
 					 
 				</div>
 				
-				<script>
-				    var vue=new Vue({
-				    	el:"#sd" ,
-				    	data:{
-				    		aId:"",
-				    		sdlist:[],
-				    		
-				    		aShi:"",
-				    		aXian:""
-				    	},
-				    	 created:
-				    		 function(){
-				    		this.aId=location.hash.substr(1);
-				    		 axios.get("special_details?aId="+this.aId).then(res=>{
-				    			 this.sdlist=res.data;
-				    			 this.aShi=this.sdlist[0].area.aShi;
-				    			 this.aXian=this.sdlist[0].area.aXian;
-				    			  
-					         }) 
-				    	 
-				    		  
-				    		
-				    	}
-				    	
-				    });
-				
-				</script>
+				 <div class="page clearfix ta-right">
+                     
+						<a type="button" class="pre box-s"  @click="up()">上一页</a>
+						<span>第{{this.pageNum}}页</span>
+						
+						<a type="button" class="next box-s" @click="down()">下一页</a>
+
+					</div> 
 			</div>
 			<!--sales end-->
 		</div>
@@ -123,6 +130,84 @@
 	<!--footer star-->
 	<div class="weibu" th:include="index::.weibu">
 		<!--footer end-->
+    </div>
+</div>
+<script>
+
+function  exit(){
+
+	axios.get("exit").then(res=>{
+		 
+		window.location.href=res.data.msg;
+		
+	})
+    }
+				    var vue=new Vue({
+				    	el:"#ff" ,
+				    	data:{
+				    		aId:"",
+				    		sdlist:[],
+				    		plist:[],
+				    		aShi:"",
+				    		aXian:"",
+				    		pageNume:"",
+					        pages :""
+				    	},
+				    	 created:
+				    		 function(){
+				    		this.aId=location.hash.substr(1);
+				    		 axios.get("special_details?aId="+this.aId).then(res=>{
+				    			 this.sdlist=res.data.list;
+				    			 this.aShi=this.sdlist[0].area.aShi;
+				    			 this.aXian=this.sdlist[0].area.aXian;
+				    			 this.pageNum= res.data.pageNum;
+					        	  this.pages=res.data.pages;
+					         }) 
+				    	 
+				    		  
+				    		
+				    	},
+				    	methods:{
+				    		 sousuo(){
+						    	   
+							    	var txt=document.getElementById("sou").value;
+							    	 
+							    	 axios.get("sou?txt="+txt).then(res=>{
+							    		  if(res.data!=null){
+							    			  document.getElementById('sd').style.display='none';
+							    			 this.plist=res.data;
+							    		  }
+							    	 })
+							    	 
+							       } ,
+							       up(){
+							    	   this.aId=location.hash.substr(1);
+									   this.pageNum=this.pageNum-1;
+									   if(this.pageNum<1){
+										   this.pageNum= 1;
+									   }
+									   axios.get("special_details?aId="+this.aId+"&pageNum="+this.pageNum).then(res=>{
+										   this.sdlist=res.data.list;
+								            
+								         })  
+								   } ,
+								  down(){
+									   this.aId=location.hash.substr(1);
+									   this.pageNum=this.pageNum+1;
+									   if(this.pageNum>this.pages){
+										   this.pageNum= this.pages;
+									   }
+									   axios.get("special_details?aId="+this.aId+"&pageNum="+this.pageNum).then(res=>{
+										   this.sdlist=res.data.list;
+								             
+								         })  
+								   } 
+							   }
+				     
+				    	
+				    });
+				
+				</script>
 	</body>
 	<script src="js/other.js" type="text/javascript" ></script>
 </html>

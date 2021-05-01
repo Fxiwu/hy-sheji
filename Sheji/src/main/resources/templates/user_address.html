@@ -106,6 +106,14 @@
 		</div>
 		
 		<script type="text/javascript">
+		function  exit(){
+
+			axios.get("exit").then(res=>{
+				 
+				window.location.href=res.data.msg;
+				
+			})
+		    }
 		   function del(addId){
 			   axios.get("delAddr?addId="+addId).then(res=>{
 				   if(res.data.code==1){

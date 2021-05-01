@@ -76,9 +76,9 @@
 							<div class="p-count fs14 mt20 clearfix">
 								<label class="fl lh40 darkblack">数量：</label>
 								<p class="fl count ml10 clearfix">
-									<a href="javascript:" class="fl fs30 reduction">-</a>
-									<input type="text" value="" class="fl fs16" placeholder="1">
-									<a href="javascript:" class="fl fs30 add">+</a>
+									<a type="button" @click="del" class="fl fs30 reduction">-</a>
+									<input type="text" id="count"  class="fl fs16" value=1>
+									<a type="button" @click="add" class="fl fs30 add">+</a>
 								</p>
 							</div>
 							<div class="but-box mt30">
@@ -134,6 +134,14 @@
 
 		</div>
 		 <script>
+		 function  exit(){
+
+				axios.get("exit").then(res=>{
+					 
+					window.location.href=res.data.msg;
+					
+				})
+			    }
 		    var vue=new Vue({
 		    	el:"#pd",
 		    	data:{
@@ -141,7 +149,7 @@
 		    		p:{},
 		    		aXian:"",
 		    		aShi:"",
-		    		id:""
+		    		id:"" 
 		    	},
 		    	created:
 		    		function(){
@@ -163,8 +171,20 @@
 			    		    console.info(res.data)
 			    		})
 		    		},
+		    		add(){
+		    			 
+		    			document.getElementById("count").value = parseInt(document.getElementById("count").value)+1;
+		    			 
+		    		},
+		    		del(){
+		    			if(document.getElementById("count").value>1){
+		    				document.getElementById("count").value = parseInt(document.getElementById("count").value)-1;
+		    			}
+		    		},
 		    		addcart(){
-		    			axios.get("addcart?pId="+this.pId).then(res=>{
+		    			var cCount=document.getElementById("count").value;
+		    			alert(document.getElementById("count").value);
+		    			axios.get("addcart?pId="+this.pId+"&cCount="+cCount).then(res=>{
 			    			  
 			    				 alert(res.data.msg);
 			    			 

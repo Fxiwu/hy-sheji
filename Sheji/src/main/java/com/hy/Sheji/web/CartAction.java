@@ -65,7 +65,8 @@ public class CartAction {
 	
 	 //向购物车中添加商品
 	  @GetMapping ("addcart") 
-		public Result addcart(@RequestParam(value="pId" ,defaultValue ="0") int pId,HttpSession session ) {
+		public Result addcart(@RequestParam(value="pId" ,defaultValue ="0") int pId,
+				              @RequestParam(value="cCount" ,defaultValue ="0") int cCount,HttpSession session ) {
 		 String uName=(String) session.getAttribute("LoginUser");
 		 int uId = 0;
 		 if(uName!=null) {
@@ -75,13 +76,13 @@ public class CartAction {
 		   }
 		  if(pId>0) {
 			  if(cb.selectupId(uId, pId)>0) {  //判断购物车中产品是否已经添加
-				 int i= cb.addupdate(uId, pId);
+				 int i= cb.addupdate(uId, pId,cCount);
 				  if(i>0) {
 						return new Result(1,"添加购物车成功");
 					}
 			  }else {
 				  Cart cart=new Cart();
-				cart.setcCount(1);
+				cart.setcCount(cCount);
 				cart.setcPid(pId);
 				cart.setcUid(uId);
 				int i=cb.addCart(cart);

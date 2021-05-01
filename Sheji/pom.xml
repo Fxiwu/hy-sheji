@@ -78,6 +78,15 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.8.0</version>
         </dependency>
+        
+        <!-- 分页查询插件启动器 -->
+		 <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+    
+        
  	</dependencies>
 
 	<build>

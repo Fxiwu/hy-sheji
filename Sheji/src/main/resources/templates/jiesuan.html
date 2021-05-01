@@ -142,6 +142,15 @@
 			</div>
 		</div>
 		 <script>
+		 
+		 function  exit(){
+
+				axios.get("exit").then(res=>{
+					 
+					window.location.href=res.data.msg;
+					
+				})
+			    }
 		  	 //使用th:onclick来传参并调用js删除指定pId
         	function del(pId,price){
         			this.pId=pId;

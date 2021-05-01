@@ -29,5 +29,8 @@ public interface SpecialMapper {
 	
 	 @Select("select * from hy_area where a_id=#{pAid}")
 	 Area selArea(int pAid);
+	 //搜索查询
+	 @Select("select * from hy_area where a_shi like '%${txt}%' or a_xian like '%${txt}%' ")
+	List<Area> souaddr(String txt);
 	 
 }

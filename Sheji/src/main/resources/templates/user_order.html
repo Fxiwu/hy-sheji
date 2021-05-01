@@ -126,6 +126,14 @@
 					</table>
 					 
 					 <script>
+					 function  exit(){
+
+							axios.get("exit").then(res=>{
+								 
+								window.location.href=res.data.msg;
+								
+							})
+						    }
 					 
 					  function queren(oId,oState){
 						  

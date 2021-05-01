@@ -34,4 +34,9 @@ public class SpecialBiz {
      	return sdlist;
      	
      }
+
+	public List<Area> souaddr(String txt) {
+		 
+		return am.souaddr( txt);
+	}
 }

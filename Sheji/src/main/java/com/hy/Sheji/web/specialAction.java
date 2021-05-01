@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hy.Sheji.bean.Area;
 import com.hy.Sheji.bean.Product;
 import com.hy.Sheji.biz.SpecialBiz;
@@ -45,11 +47,25 @@ public class specialAction {
        
        @ResponseBody
        @GetMapping("special_details")
-       public List<Product> sdetail1(@RequestParam(value="aId" ,defaultValue ="1") int aId) {
-			//special_detail页面展示
+       public PageInfo<Product>  sdetail1(@RequestParam(value="aId" ,defaultValue ="1") int aId,
+    		                         @RequestParam(value="pageNum", defaultValue="1")int pageNum) {
+		    PageHelper.startPage(pageNum,2);
+    	   //special_detail页面展示
              List<Product> sdlist=sb.sdetail(aId);
+             PageInfo<Product> pageInfo=new PageInfo<>(sdlist);
              
-       	return sdlist;
+       	return pageInfo;
+       	
+       }
+       
+       //地区搜索
+       @ResponseBody
+       @GetMapping("souaddr")
+       public List<Area> souaddr(@RequestParam(value="txt" ,defaultValue ="null") String txt) {
+			//special_detail页面展示
+    	   List<Area> salist=sb.souaddr(txt);
+             
+       	return salist;
        	
        }
        

@@ -70,6 +70,14 @@
 			</div>
 		</div>
 		<script>
+		function  exit(){
+
+			axios.get("exit").then(res=>{
+				 
+				window.location.href=res.data.msg;
+				
+			})
+		    }
 		      var vue=new Vue({
 		    	  el:"#f",
 		    	  data:{

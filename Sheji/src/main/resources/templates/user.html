@@ -55,7 +55,7 @@
 						 
 						
 						<li>
-							<a href="user_address" class="db fs16">修改密码</a>
+							<a href="user_address" class="db fs16">收货地址</a>
 						</li>
 						
 						
@@ -104,9 +104,19 @@
 		<!--/end-->
 
 		<!--footer star-->
-	 <div class="weibu" th:include="index::.weibu">
+	 <div class="weibu" th:include="index::.weibu"></div>
 		<!--footer end-->
+      <script>
+      function  exit(){
 
+  		axios.get("exit").then(res=>{
+  			 
+  			window.location.href=res.data.msg;
+  			
+  		})
+  	    }
+      
+      </script>
 	</body>
 
 </html>

@@ -112,7 +112,14 @@
                 				window.location.reload();
                 			})
                 		}
-                	
+                	function  exit(){
+
+                		axios.get("exit").then(res=>{
+                			 
+                			window.location.href=res.data.msg;
+                			
+                		})
+                	    }
                 	 
                </script>
 		<!--footer star-->

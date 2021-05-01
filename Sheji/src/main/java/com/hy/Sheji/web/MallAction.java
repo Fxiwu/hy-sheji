@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hy.Sheji.bean.Category;
 import com.hy.Sheji.bean.Product;
 import com.hy.Sheji.biz.MallBiz;
@@ -31,30 +33,28 @@ import com.hy.Sheji.dao.CategoryMapper;
 	 
 	  //mall 
 	  @GetMapping ("mall") 
-		public ModelAndView Mall(ModelAndView mav ,HttpSession session) {
+		public Model Mall(Model m ,HttpSession session ) {
 		 
-		  mav.addObject("se",session.getAttribute("LoginUser"));
-		  
-		   List<Product> mlist=mb.Mall(); //展示cid为1的商品
-		   List<Category> clist=cm.category();
-			mav.addObject("mall", mlist);
-			mav.addObject("clist", clist);
-			mav.setViewName("mall");
-			return mav;
+		  m.addAttribute("se",session.getAttribute("LoginUser"));
+		   
+		   List<Category> clist=cm.category();////展示商品类别
+		   
+		   m.addAttribute("clist", clist);
+		   
+			return m;
 		}	
 	//mall界面中category方法
-	  @GetMapping ("category")
-		public List<Product> CategoryProduct(@RequestParam(value="pCid" ,defaultValue = "1") int pCid) {
+	  @GetMapping ("Fenlei")
+		public PageInfo<Product> Fenlei(@RequestParam(value="pCid" ,defaultValue = "1") int pCid ,
+				                    @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
 	
 		//商城mall商品界面分展示
 		 
-
-			List<Product> mclist=mb.Category(pCid);
-			/*
-			 * for ( int i = 0 ;i < mclist.size();i++){
-			 * System.out.println(mclist.get(i).getpCid()); }
-			 */
-		   return mclist; 
+			PageHelper.startPage(pageNum,2);
+			List<Product> mclist=mb.Fenlei(pCid);
+			PageInfo<Product> pageInfo = new PageInfo<>(mclist);
+			  
+		   return pageInfo; 
 		}
 		
 	 
