@@ -76,7 +76,7 @@ public interface UserMapper {
 	public int setAddressDft(int uId);
 
 	 //use_order中个人order展示
-	 @Select("select * from  hy_order where o_uid=#{ouid} order by o_createtime desc limit 0,5 ")
+	 @Select("select * from  hy_order where o_uid=#{ouid} order by o_createtime desc ")
 	 	@Results({@Result(column="o_uid",property="user",
 	 			          one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId")),
 		 		  @Result(column="o_id",property="oId"),

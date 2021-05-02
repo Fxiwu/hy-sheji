@@ -79,7 +79,7 @@
 							<th width="24%" rowspan="2">订单状态</th>
 						</tr>
 					</table>
-				<div th:each="od:${olist}"  > 
+				<div th:each="od:${pageInfo.list}"  > 
 				  
 					<table class="table_1 mt15" th:if="${od.oTotal}!=0" >
 					 
@@ -112,19 +112,50 @@
  							     <p th:if="${od.oState==2}" th:text="未发货"></p> 
  							      <p th:if="${od.oState==3}" th:text="已发货"></p> 
  							       <p th:if="${od.oState==4}" th:text="已收货"></p> 
+ 							        
  							        <p th:if="${od.oState==5}" th:text="已评价"></p> 
  							         <p th:if="${od.oState==6}" th:text="已退"></p> 
      						</td>
 							
 							<td width="12%"   align="center">
-								<a type="button" class="a-sqsh green radius3" th:onclick="javascript:queren([[${od.oId}]],[[${od.oState}]] )">确认收货</a>
+								<a type="button" class="a-sqsh green radius3" th:if="${od.oState}<4"  th:onclick="javascript:queren([[${od.oId}]],[[${od.oState}]] )">确认收货</a>
+								<a type="button" class="a-sqsh green radius3 " id="show"  th:onclick="javascript:comment([[${ord.product.pId}]] )"  th:if="${od.oState}==4" >去评价</a>
+								
 							</td>
 						</tr>
 						 
 						</li>
 					   </ul>
+					   
 					</table>
+					   
+			 	 
+               </div>
+               <div class="page clearfix ta-right">
+                     
+						<a type="button" class="pre box-s"  th:href="@{/user_order(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+						<span th:text="'第'+${pageInfo.pageNum}+'页'"></span>
+						
+						<a type="button" class="next box-s" th:href="@{/user_order(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+
+					</div> 
 					 
+					 <div   id="mask" >
+                              <div class="alert-box radius8 ">
+				               <h3 class="fs20">商品评价 </h3>
+								<form action="">
+									<textarea name="" id="ping" cols="60" rows="10"    placeholder="快来对商品做出评价吧！" style="margin:20px 20px;border:1px solid #D4D4D4"></textarea>
+									<p class="mb20 clearfix">
+									 
+										<label class="fl"></label>
+										<input type="button" value="取消"  th:onclick="javascript:cl()"  class="fl orange-but radius3 ml10"  style="float:right;margin-right:30px;color: #929292" >
+										  
+								 		<input type="button" value="提交评价"  class="fl orange-but radius3 ml10"   style="float:right;margin-right:30px;color: #929292" >
+									</p>
+								</form>
+							</div>
+							</div>
+						 
 					 <script>
 					 function  exit(){
 
@@ -150,17 +181,27 @@
 		        			})
 					  }
 					  
+					  function comment(pId){
+						  document.getElementById("mask").style.display = "block";
+					  }
+					  function cl(){
+						 
+						  document.getElementById("mask").style.display = "none";
+						  document.getElementById("ping").value="";
+					  }
 					 
 					 </script>
-
-			 	 
-               </div>
+               
 			</div>
+			
 		</div>
 		<!--/end-->
 
+                            
+						
+							 
 		<!--footer star-->
-	 <div class="weibu" th:include="index::.weibu">
+	 <div class="weibu" th:include="index::.weibu"></div>
 		<!--footer end-->
 	</body>
 

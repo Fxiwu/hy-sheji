@@ -123,7 +123,32 @@
 								</p>
 							</div>
 							<div class="tab-pal">
-
+                              <div id="postcomments">
+							        <ol class="commentlist" >
+							          <li class="comment-content">
+							            <div class="comment-avatar">
+							             <img class="ph" src="/img/默认头像.jpg" alt="" style="padding-top:0px;"/>
+							             <p>用户用户用户</p><br />
+							             </div>
+							            <div class="comment-main">
+							              
+							                  <span>
+							                     henhap<br> 
+							                      henhap<br>
+							                     
+							                       <p  style="padding-top:5px;"> 2020.01.12</p>
+							                  </span>  
+							                 
+							                   
+							                                         
+							                   
+							                </p>
+							            </div>
+							          </li>
+							             
+							        </ol>
+							        
+ 							 </div>  
 							</div>
 						</div>
 					</div>
@@ -191,7 +216,8 @@
 			    		})
 		    		},
 		    		liji(){
-		    			axios.get("liji?pId="+this.pId).then(res=>{
+		    			var count=document.getElementById("count").value;
+		    			axios.get("liji?pId="+this.pId+"&count="+count).then(res=>{
 			    			  if(res.data.code==0){
 			    				  alert(res.data.msg);
 			    			  }else{

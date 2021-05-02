@@ -153,7 +153,8 @@ public class OrderAction {
 	
 	@GetMapping("liji")
 	
-	public Result liji(@RequestParam(value="pId" ,required=false ,defaultValue = "0")int pId,Model m,HttpSession session) {
+	public Result liji(@RequestParam(value="pId" ,required=false ,defaultValue = "0")int pId,
+			           @RequestParam(value="count" ,required=false ,defaultValue = "1")int count,Model m,HttpSession session) {
 	    String uName=(String) session.getAttribute("LoginUser");
 				if(uName==null||uName.isEmpty()) {
 					return  new Result(0,"请先登录");
@@ -172,7 +173,7 @@ public class OrderAction {
 			   { 
 				 order.setoAddid(um.seAddressdft(uId).getAddId()); 
 			   }
-			order.setoTotal(p.getPrice());
+			order.setoTotal(p.getPrice()*count);
 			order.setoUid(uId);
 			   
 					int i=ob.insertOrder(order);//order中进行订单添加
@@ -190,7 +191,7 @@ public class OrderAction {
 				List<Orderdetail> odlist =new ArrayList<Orderdetail>();
 				 
 					 Orderdetail ordt=new Orderdetail();
-					 ordt.setdCount(1);
+					 ordt.setdCount(count);
 					 ordt.setdOid(oid);
 					 ordt.setdPid(p.getpId());
 					 ordt.setdTotal(p.getPrice());

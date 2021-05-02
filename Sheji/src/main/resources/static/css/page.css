@@ -1,10 +1,65 @@
 /*----------------------------------------------------------------
  index
  * */
-
+/*pro_detail     comment  */
+.commentlist {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	margin-bottom: 10px;
+ 
+}
+.comment-content {
+	    border-bottom: 1px solid #D4D4D4;
+	    height:100px;
+	    font-size: 14px;
+    line-height: 1.4;
+    color: #3F3F3F;
+    word-wrap: break-word;
+	 margin-top:20px; 
+}
+ 
+.comment-avatar {
+	width: 100px;
+	height:100px;
+	  
+	float: left;
+	 
+}
+.comment-avatar .ph{
+	width: 40px;
+	height: 40px;
+	 margin:0 auto;
+}
+.comment-avatar p {
+	margin-top: 10px;
+	margin-bottom: 0;
+	text-align: center;
+    line-height: 1.5;
+    font-color:#000000;
+	 
+}
+.comment-avatar span.time {
+	margin: 0 5px;
+	font-size: 12px;
+	color: #BBB;
+}
+ 
+.comment-main {
+	margin-left: 46px;
+	margin-right: 30px;
+	 
+	line-height: 22px;
+	position: relative;
+	 
+	padding: 0 0 15px;
+	word-wrap: break-word;
+	max-height: 300px;
+	overflow: hidden;
+}
+  
 
 /*banner*/
-
 .banner {
 	width: 90%;
 
