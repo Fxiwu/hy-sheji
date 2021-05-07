@@ -123,7 +123,7 @@ public class SignAction {
  			Result res = new Result(1, "登录成功!", dbuser);
  			
  			//session
-			session.setAttribute("loginedUser", dbuser);
+			session.setAttribute("loginImg", dbuser.getuImg());
 			 session.setAttribute("LoginUser", dbuser.getuName());
  
 			return res;

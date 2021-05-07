@@ -60,9 +60,18 @@ public interface OrderMapper {
  	  @Delete("delete  from hy_orderdetail where d_oid=#{dOid} and d_pid=#{dPid}")
 	public int delod(int dPid, int dOid);
  	 
- 	//当total减为0的时候删除adminorder中对应的记录
+ 	//当total减为0的时候删除adminorder中对应的记录  user_order也用
  	 @Delete("delete  from hy_adminorder where o_id=#{oId} ")
  	public int deladminorder( int oId);  
+ 	 
+ 	//user_order中删除 orderdetail中对应的记录
+ 	 @Delete("delete  from hy_orderdetail where d_oid=#{oId} ")
+ 	public int delorderdetail( int oId);
+ 	 
+ 	//user_order中删除 order中对应的记录  
+ 	 @Delete("delete  from hy_order where o_id=#{oId} ")
+ 	public int delorder( int oId); 
+ 	 
  	//jiesuan界面中确定修改收货地址
  	  @Update("update hy_order set o_addid=#{addId} where o_id=#{oid}")
 	public int updateOrderAddr(int addId, int oid);
@@ -128,24 +137,30 @@ public interface OrderMapper {
 	public int updateadminorder(int oId, String addName, int oState, String addAddr, String addPhone);
 
    
- 	 //user_order中更改order表ostate 确认收货
-	  @Update("update hy_order set o_state=4 where o_id=#{oid}")
-	public int updateoState( int oid);
+ 	 //user_order中更改order表ostate 确认收货  4
+		/*
+		 * @Update("update hy_order set o_state=4 where o_id=#{oid}") public int
+		 * updateoState( int oid);
+		 */
  
-	//user_order中更改adminorder表中ostate 确认收货
-	  @Update("update hy_adminorder set  o_state=4 where o_id=#{oid}")
-	public int updateadminorderOstate( int oid);
-	  
-	//付款中更改order表ostate
-	  @Update("update hy_order set o_state=1 where o_id=#{oid}")
-	public int updatezforder( int oid);
+	//user_order中更改adminorder表中ostate 确认收货  4
+	/*
+	 * @Update("update hy_adminorder set  o_state=4 where o_id=#{oid}") public int
+	 * updateadminorderOstate( int oid);
+	 */
+	//付款中更改order表ostate  1
+	  @Update("update hy_order set o_state=#{oState} where o_id=#{oid}")
+	public int updateoState( int oid,int oState);
  
-	//user_order中更改adminorder表中ostate
-	  @Update("update hy_adminorder set  o_state=1 where o_id=#{oid}")
-	public int updatezfadorder( int oid);
+	//user_order中更改adminorder表中ostate  1
+	  @Update("update hy_adminorder set  o_state=#{oState} where o_id=#{oid}")
+	public int updateaoOstate( int oid,int oState);
 	 
-	//back order.html中修改订单信息后 相应改变order表的ostate
-	@Update("update hy_order set o_state=#{oState} where o_id=#{oId}")
-	public int updateorderState(int oId, int oState);
+	/*
+	 * //back order.html中修改订单信息后 相应改变order表的ostate
+	 * 
+	 * @Update("update hy_order set o_state=#{oState} where o_id=#{oId}") public int
+	 * updateorderState(int oId, int oState);
+	 */
  	  
 }

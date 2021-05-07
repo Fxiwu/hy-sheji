@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.hy.Sheji.bean.Address;
 import com.hy.Sheji.bean.AdminOrder;
+import com.hy.Sheji.bean.Comment;
 import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.User;
 import com.hy.Sheji.dao.UserMapper;
@@ -47,5 +48,15 @@ public class UserBiz {
 		public List<Order> userorder(int ouid) {
 			// TODO Auto-generated method stub
 			  return um.userorder( ouid);
+		}
+		 //use_order中 进行评论
+		public int addComment(Comment comm) {
+			 
+			return  um.addComment(comm);
+		}
+
+		//user中修改头像
+		public int updatTou(String f,int uId) {
+			 return um.updatTou(f,uId);
 		}
 }

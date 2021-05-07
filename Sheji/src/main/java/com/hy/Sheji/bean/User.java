@@ -26,7 +26,9 @@ public class User {
 	
 	private String uPassword;
 	
-	@NotEmpty(message="联系电话不能为空")
+	@NotEmpty(message="手机号码不能为空")
+	@Length(min = 11, max = 11, message = "手机号码只能为11位")
+	@Pattern(regexp = "^[1][3,4,5,6,7,8,9][0-9]{9}$", message = "手机号码格式有误")
  	private String uPhone;
 	private String uSex;
 	private Timestamp uCreatetime;

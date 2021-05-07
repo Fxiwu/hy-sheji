@@ -30,7 +30,7 @@ public class specialAction {
 			//special页面展示
        	List<Area> slist=sb.selspecial();
         m.addAttribute("se",session.getAttribute("LoginUser"));
-
+        m.addAttribute("loginImg",session.getAttribute("loginImg"));
        	m.addAttribute("slist",slist);
        	return slist;
        	
@@ -40,7 +40,7 @@ public class specialAction {
        @GetMapping("special_detail")
        public String sdetail(Model m,HttpSession session) {
            m.addAttribute("se",session.getAttribute("LoginUser"));
- 
+           m.addAttribute("loginImg",session.getAttribute("loginImg"));
        	return "special_detail";
        	
        }

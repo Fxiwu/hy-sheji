@@ -20,6 +20,8 @@
 		<script type="text/javascript" src="js/jquery.SuperSlide.2.1.js"></script>
 	   <script type="text/javascript" src="js/vue.js"></script>
     <script type="text/javascript" src="js/axios.min.js"></script>
+      <script type="text/javascript" src="js/jquery.form.min.js"></script>
+         
 	</head>
 
 	<body>
@@ -94,6 +96,7 @@
 				<!--goodssale-->
 				<div class="goodssale">
 					<div class="wrapper" th:each="od:${order}">
+					     
 						<div class="shopping-list pt40 pb40">
 							<table class="table_1 table_shopping white-box">
 								<tr>
@@ -189,7 +192,21 @@
 		  	  
 		  	   }
 		  	 })
-		  	
+		  	 $(function(){
+	  			   
+	 				$("#form1").ajaxForm(function(data){  
+	 				 
+	 					if(data.code==0){
+	 						alert(data.msg); 
+	 					}
+	 					if(data.code==1){
+	 						window.location.reload();
+	 					}
+	 					 
+	 					 
+	 				});     
+	 			});
+		  	  
 		 </script>
 		<!--/end-->
 
@@ -207,7 +224,7 @@
 			<div class="alert-box radius8">
 				<h3 class="fs20">添加收货地址 </h3>
 				<div class="address-form box-s">
-					<form action="addaddress" method="post">
+					<form id="form1" action="addaddress" method="post">
 						<p class="mb20 clearfix">
 							<label class="fl">收货人：</label>
 							<input type="text"  name="addName" placeholder="姓名" class="fl ml5">
@@ -219,7 +236,7 @@
 							<em class="fl red lh40 ml10">*</em>
 						</p>
 						<p class="mb20 clearfix">
-							<label class="fl">地址：</label>
+							<label class="form1">地址：</label>
 							<input type="text" name="shen" placeholder="省/直辖市"  id="" class="fl ml5" style="width:60px">
 								 
 							</input>
@@ -250,10 +267,19 @@
 						<p class="mb20 clearfix">
 							<label class="fl"></label>
 							<button  onclick="" class="fl orange-but radius3 ml5" style="color: #929292">保&nbsp;&nbsp;存 </button>
-							<button   class="fl orange-but radius3 ml10"   style="color: #929292"> 取&nbsp;&nbsp;消</button>
+							<button    class="fl orange-but radius3 ml10"  th:onclick="javascript:close()" style="color: #929292">取&nbsp;&nbsp;消</button>  
+							 
 						 </p>
 					</form>
+ 				 
 				</div>
+				<script>
+				function close(){
+			  		 alert("dejdie");
+					  document.getElementById("mask").style.display = "none";
+			  
+		  	    }
+				</script>
 			</div>
 		</div> 
 		 

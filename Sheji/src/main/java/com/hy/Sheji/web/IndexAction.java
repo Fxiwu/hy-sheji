@@ -28,7 +28,8 @@ public class IndexAction{
         	List<Product> list=pm.selectIndexhot();
         	m.addAttribute("list",list);
         	m.addAttribute("se",session.getAttribute("LoginUser"));
-            System.out.println(session.getAttribute("LoginUser"));
+        	m.addAttribute("loginImg",session.getAttribute("loginImg"));
+             
         	return m;
         	
         }

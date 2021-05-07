@@ -125,18 +125,20 @@
 							<div class="tab-pal">
                               <div id="postcomments">
 							        <ol class="commentlist" >
-							          <li class="comment-content">
+							          <li class="comment-content"  v-for="c in clist">
 							            <div class="comment-avatar">
-							             <img class="ph" src="/img/默认头像.jpg" alt="" style="padding-top:0px;"/>
-							             <p>用户用户用户</p><br />
+							            
+							             <img class="ph" v-if="c.user.uImg==null" src="/img/默认头像.jpg" alt="" style="padding-top:0px;"/>
+							             <img class="ph" v-if="c.user.uImg!=null" :src="c.user.uImg" alt="" style="padding-top:0px;"/>
+							            
+							             <p>{{c.user.uName}}</p><br />
 							             </div>
 							            <div class="comment-main">
 							              
 							                  <span>
-							                     henhap<br> 
-							                      henhap<br>
-							                     
-							                       <p  style="padding-top:5px;"> 2020.01.12</p>
+							                     {{c.coComm}} 
+							                     	  <p><img id="img"   v-if="c.coImg!=null" :src="c.coImg" alt="" style="padding-top:5px;width:50px;height:50px;"/></p>
+							                       <p  style="padding-top:5px;"> {{c.createtime}}</p>
 							                  </span>  
 							                 
 							                   
@@ -174,7 +176,8 @@
 		    		p:{},
 		    		aXian:"",
 		    		aShi:"",
-		    		id:"" 
+		    		id:"",
+		    	    clist:{}
 		    	},
 		    	created:
 		    		function(){
@@ -183,7 +186,12 @@
 		    			this.p=res.data;
 		    			this.aXian=res.data.area.aXian;
 		    			this.aShi=res.data.area.aShi;
-		    		    console.info(res.data)
+		    		    console.info(res.data);
+		    		});
+		    		axios.get("pro_detail_comment?pId="+this.pId).then(res=>{
+		    			
+		    			this.clist=res.data;
+		    		    console.info(res.data);
 		    		})
 		    	},
 		    	methods:{

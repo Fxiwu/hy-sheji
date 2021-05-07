@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 
 import com.hy.Sheji.bean.Category;
+import com.hy.Sheji.bean.Comment;
 import com.hy.Sheji.bean.Product;
 
 public interface ProductMapper {
@@ -32,6 +33,16 @@ public interface ProductMapper {
 	 //product_detail喜欢模块
 	@Select("select * from hy_product where p_hot=1 order by p_createtime desc limit 0,5 ")
 	List<Product> selectLike();
+	
+	 //product_detail 中商品评价
+		@Select("select * from hy_comment where co_pid=#{pId}  order by createtime desc")
+		@Results({
+			 
+			 @Result(column="co_aid",property="pAid"),
+			 @Result(column="co_uid",property="user",
+					 one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId" ))
+		 })
+	List<Comment> SelectComm(int pId);
 	
 	//查询商品
 		@Select("select * from hy_product where p_id=#{pId}")

@@ -111,7 +111,7 @@ public class OrderBiz {
 	//back order.html中修改订单信息后 相应改变order表的ostate
 	public int updateorderState(int oId, int oState) {
 		// TODO Auto-generated method stub
-		return om.updateorderState(oId,oState);
+		return om.updateoState(oId,oState);
 		
 	}
  

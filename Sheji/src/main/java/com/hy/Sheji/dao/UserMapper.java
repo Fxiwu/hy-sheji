@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.hy.Sheji.bean.Address;
+import com.hy.Sheji.bean.Comment;
 import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.User;
 
@@ -64,7 +65,7 @@ public interface UserMapper {
 	public int addaddress(Address address);
 	
 	//删除地址 useraction 中delAddr
-		@Delete("delete hy_address  where add_id=#{addId}")
+		@Delete("delete from hy_address where add_id=#{addId}")
 		public int delAddr(int addId);
 	
 	//设为默认地址 useraction 中modfydft
@@ -77,7 +78,8 @@ public interface UserMapper {
 
 	 //use_order中个人order展示
 	 @Select("select * from  hy_order where o_uid=#{ouid} order by o_createtime desc ")
-	 	@Results({@Result(column="o_uid",property="user",
+	 	@Results({@Result(column="o_uid",property="oUid"),
+	 		@Result(column="o_uid",property="user",
 	 			          one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId")),
 		 		  @Result(column="o_id",property="oId"),
 		 		 @Result(column="o_id",property="ordertail",
@@ -86,4 +88,14 @@ public interface UserMapper {
 	            		   one=@One(select="com.hy.Sheji.dao.UserMapper.selectAddressByaid"))
 	            		  })
 	public List<Order> userorder(int ouid);
+	 
+	//use_order中进行评价
+	 @Insert("insert into hy_comment values(null,#{coOid},#{coDid},#{coComm},#{coUid},#{coPid},now(),#{coImg})")
+	public int addComment(Comment comm);
+
+
+	//user中修改头像
+	 @Update("update hy_user set u_img=#{f} where u_id=#{uId}")
+	public int updatTou(String f,int uId);
+	 
 }

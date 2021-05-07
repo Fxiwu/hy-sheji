@@ -60,6 +60,7 @@ public class OrderAction {
 			             Model m,HttpSession session) {
 		String uName=(String) session.getAttribute("LoginUser");
 		m.addAttribute("se",uName);
+		m.addAttribute("loginImg",session.getAttribute("loginImg"));
 		if(uName!=null) {   //登录用户的地址信息
 			User user=ob.selectAddress(uName);
 			  if(um.seAddressdft(user.getuId())!=null) {//默认地址
@@ -77,6 +78,7 @@ public class OrderAction {
 		     //关联order orderdetail product三表展示jiesuan中的商品展示
  			   int oid=(int) session.getAttribute("oid");
  			  Order  order=ob.selectOrder(oid);
+ 			//System.out.println("order::::"+order.getoTotal());
  			  m.addAttribute("order", order);
 // 			 cm.deleteBycUid(uId);
         			
@@ -103,9 +105,10 @@ public class OrderAction {
 			   { 
 				 order.setoAddid(um.seAddressdft(uId).getAddId()); 
 			   }
+		//	System.out.println("sum:::::"+sum);
 			order.setoTotal(sum);
 			order.setoUid(uId);
-			 
+			System.out.println("order.setoTotal(sum):::::"+order.getoTotal()); 
 		    List<Cart> clist;
 			try {
 				
@@ -132,7 +135,7 @@ public class OrderAction {
 					 ordt.setdPid(str.getProduct().getpId());
 					 ordt.setdTotal(str.getProduct().getPrice()*str.getcCount());
 					  odlist.add(ordt);
-					System.out.println("rrrrrr"+ordt.getdPid()+" "+ordt.getdCount()+"  "+ordt.getdOid()+"  "+ordt.getdTotal());
+				//	System.out.println("rrrrrr"+ordt.getdPid()+" "+ordt.getdCount()+"  "+ordt.getdOid()+"  "+ordt.getdTotal());
 				 }
  				 ob.insertOrderdetail(odlist);
 				 
@@ -174,6 +177,7 @@ public class OrderAction {
 				 order.setoAddid(um.seAddressdft(uId).getAddId()); 
 			   }
 			order.setoTotal(p.getPrice()*count);
+			//System.out.println("p.getPrice()*count:::"+p.getPrice()*count);
 			order.setoUid(uId);
 			   
 					int i=ob.insertOrder(order);//order中进行订单添加
@@ -284,7 +288,7 @@ public class OrderAction {
 			  ob.updateadminordeAddr(ao,oid) ;
 		} 
 		   //修改order和adminorder为已支付状态
-	 if(om.updatezforder(oid)>0&&om.updatezfadorder(oid)>0) {
+	 if(om.updateoState(oid,1)>0&&om.updateaoOstate(oid,1)>0) {
 		 return new Result(1,"支付成功");
 	 }else {
 		 return new Result(0,"支付失败");
@@ -297,6 +301,7 @@ public class OrderAction {
 	public Model fukuan(Model m, HttpSession session) {
 		String uName=(String) session.getAttribute("LoginUser");
 		m.addAttribute("se",uName);
+		m.addAttribute("loginImg",session.getAttribute("loginImg"));
 		return m;
 	}
 	

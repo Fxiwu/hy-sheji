@@ -78,7 +78,7 @@
 											<input type="text"  class="yanzheng" v-model="captcha" id="captcha" name="captcha"    >
 											
 											<img id="captchaImage" class="captchaImage" src="getCode"
-											 title="点击更换验证码"  onclick="this.src='getCode?'+(new Date()).getTime();" style="height: 30px; width:100px">
+											 title="点击更换验证码"  onclick="this.src='getCode?'+(new Date()).getTime();" style="height: 35px; width:130px">
  										</span>
 							</td>
 						</tr>
@@ -127,7 +127,7 @@
 				  },
 				  methods:{ 
 					 sign(){
-						 alert("ada");
+						 
 					  var params = new URLSearchParams();
 		       				params.append("uName", this.user.uName);
 		       				params.append("uPassword", this.user.uPassword); 
@@ -135,7 +135,7 @@
 		       				params.append("captcha", this.captcha); 
 		       		
 		       				axios.post( "login",params).then( res => {
-		       					alert(res.data.code);
+		       					 
 						 if(res.data.code==1){
 							 if(isRememberUsername.checked==true)  
 							    {		//记住用户名和密码 存储localStorage，key值：username，value：用户名  

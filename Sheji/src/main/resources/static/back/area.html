@@ -105,13 +105,13 @@ function fmtImg(value, row, index) {
 	 	var url = "../../uploadImg";
 	 	 
 	 	var fd = new FormData(ff);	
-	 	alert("fd"+fd);
+	 	 
 	 
 	 		axios.post(url, fd).then(res=>{
 	 		
 	 		
 	 		if(res.data.code){
-	 			alert(res.data.code);
+	 			//alert(res.data.code);
 	 				// upImg 是原生的 html 控件对象
 	 			 if(res.data.data.indexOf("/")!=0){
 	 				// 不以 / 开头的图片
@@ -119,7 +119,7 @@ function fmtImg(value, row, index) {
 	 			} else { 
 	 				// 以 / 开头的图片( 上传的图片 )
 	 				upImg.src = res.data.data;
-	 			alert(upImg.src);
+	 			//alert(upImg.src);
 	 		}
 	 		// tbImg 是Easyui的 控件对象
 	 				$("#tbImg").textbox('setValue',res.data.data);
@@ -212,7 +212,7 @@ function fmtImg(value, row, index) {
 			    <input class="easyui-textbox" name="aId" id='aId' label="  编号" readonly="readonly"><br><br>	 
 		        <input class="easyui-textbox" name="aShi" id='aShi' label="  市"><br><br>
  		 	    <input class="easyui-textbox" name="aXian" id='aXian' label="  县"><br><br>
-		 		<input class="easyui-textbox" name="aImg"  label="  地区图片地址" id="tbImg"  ><br><br>
+		 		<input class="easyui-textbox" name="aImg"  label="地区图片地址" id="tbImg"  ><br><br>
 		 		<input class="easyui-filebox" label="选择" id="file" name="file"
 		 			data-options="onChange:upload" ><br>
 		 

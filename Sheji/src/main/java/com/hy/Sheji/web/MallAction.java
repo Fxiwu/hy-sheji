@@ -36,7 +36,7 @@ import com.hy.Sheji.dao.CategoryMapper;
 		public Model Mall(Model m ,HttpSession session ) {
 		 
 		  m.addAttribute("se",session.getAttribute("LoginUser"));
-		   
+		  m.addAttribute("loginImg",session.getAttribute("loginImg")); 
 		   List<Category> clist=cm.category();////展示商品类别
 		   
 		   m.addAttribute("clist", clist);
@@ -50,7 +50,7 @@ import com.hy.Sheji.dao.CategoryMapper;
 	
 		//商城mall商品界面分展示
 		 
-			PageHelper.startPage(pageNum,2);
+			PageHelper.startPage(pageNum,5);
 			List<Product> mclist=mb.Fenlei(pCid);
 			PageInfo<Product> pageInfo = new PageInfo<>(mclist);
 			  

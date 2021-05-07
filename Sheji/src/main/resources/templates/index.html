@@ -40,8 +40,13 @@
 					<ul class="clearfix fl">
 						<li>
 							 
-							<a href="user" class="fl" th:if="${se}!=null" th:text="${se}"></a>
 							 
+							<a href="user" class="fl" th:if="${se}!=null" >
+							   <img  th:if="${loginImg}==null"  src="img/默认头像.jpg" alt="" style="width:30px;height:30px" />
+							  <img  th:if="${loginImg}!=null" th:src="${loginImg}" alt="" style="width:30px;height:30px" />
+							
+							</a> 
+							<a href="user" class="fl" th:if="${se}!=null" th:text="${se}" style="margin-left:5px"></a>
 						   <a href="sign" class="fl" th:if="${se}==null" th:text="登录"></a>
 							
 							

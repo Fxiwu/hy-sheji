@@ -92,6 +92,7 @@
                             	 //orderAction中进行订单添加
                             	  axios.get("order?sum="+sum+"&n=1").then(res=>{
                             		if(res.data.code==1){
+                            			alert("sum:"+sum);
                             			location.href="jiesuan";
                             		}
                             		

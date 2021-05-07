@@ -36,6 +36,7 @@ public class CartAction {
 		  }
 		uName=(String) session.getAttribute("LoginUser");
 		m.addAttribute("se",uName);
+		m.addAttribute("loginImg",session.getAttribute("loginImg"));
 		try {  //若用户已登陆，则通过uName来获取uId
 			if(uName!=null) {
 				int uId=cm.selectUer(uName).getuId();

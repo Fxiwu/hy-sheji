@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hy.Sheji.bean.Area;
 import com.hy.Sheji.bean.Cart;
 import com.hy.Sheji.bean.Category;
+import com.hy.Sheji.bean.Comment;
 import com.hy.Sheji.bean.Product;
 import com.hy.Sheji.bean.Result;
 import com.hy.Sheji.biz.CartBiz;
@@ -52,6 +53,7 @@ import com.hy.Sheji.dao.ProductMapper;
 		public Model pro_detail(Model m,HttpSession session) {
 		 List<Product> like=pm.selectLike();
 	        m.addAttribute("se",session.getAttribute("LoginUser"));
+	        m.addAttribute("loginImg",session.getAttribute("loginImg"));
 		         m.addAttribute("like", like);  //产品详情界面喜欢模块数据渲染
 				return m;
 			}	
@@ -65,7 +67,14 @@ import com.hy.Sheji.dao.ProductMapper;
 			 
 				return p;
 			}	
-	 
+	//产品详情界面数据传递
+	  @GetMapping ("pro_detail_comment") 
+		public List<Comment> SelectComm(@RequestParam(value="pId" ,defaultValue ="1") int pId ) {
+			
+		  List<Comment> clist=pm.SelectComm(pId);
+			 
+				return clist;
+			}	
 	  
 		   
 	//后台商品管理 product.html全部商品展示

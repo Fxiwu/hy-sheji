@@ -20,7 +20,10 @@
 		<script type="text/javascript" src="js/jquery.SuperSlide.2.1.js"></script>
 			<script type="text/javascript" src="js/vue.js"></script>
         <script type="text/javascript" src="js/axios.min.js"></script>
+         <script type="text/javascript" src="js/jquery.form.min.js"></script>
+         
 		
+		 
 		 
 	</head>
 
@@ -98,7 +101,7 @@
 						<tr  >
 							<td width="30%">
 								<p class="clearfix o-goods-info">
-									<a href="#" class="fl"><span><img th:src="${ord.product.pImg}" alt=""></span></a>
+									<a  th:href="'pro_detail?#'+${ord.product.pId}" class="fl"><span><img th:src="${ord.product.pImg}" alt=""></span></a>
 									<span class="fl tit "  > </span>
 								</p>
 							</td>
@@ -118,20 +121,72 @@
      						</td>
 							
 							<td width="12%"   align="center">
-								<a type="button" class="a-sqsh green radius3" th:if="${od.oState}<4"  th:onclick="javascript:queren([[${od.oId}]],[[${od.oState}]] )">确认收货</a>
-								<a type="button" class="a-sqsh green radius3 " id="show"  th:onclick="javascript:comment([[${ord.product.pId}]] )"  th:if="${od.oState}==4" >去评价</a>
-								
+								<a type="button" class="a-sqsh green radius3" th:if="${od.oState}<1"    th:onclick="javascript:del([[${od.oId}]])">删除订单</a>
+								<a type="button" class="a-sqsh green radius3" th:if="${od.oState>=1&&od.oState<4}"    th:onclick="javascript:queren([[${od.oId}]],[[${od.oState}]] )">确认收货</a>
+								<a type="button" class="a-sqsh green radius3 " id="show"  th:onclick="javascript:comment([[${ord.product.pId}]],[[${od.oId}]],[[${ord.dId}]] )"  th:if="${od.oState}==4" >去评价</a>
+								 
 							</td>
 						</tr>
-						 
+						  
 						</li>
 					   </ul>
 					   
 					</table>
-					   
-			 	 
+					 <div   id="mask" >
+                              <div class="alert-box radius8 ">
+				               <h3 class="fs20">商品评价 </h3>
+								<form  id="form1" action="addComment" method="post">
+									<textarea  id="ping" name="coComm" cols="60" rows="10"    placeholder="快来对商品做出评价吧！" style="margin:20px 20px;border:1px solid #D4D4D4"></textarea>
+									<p class="mb20 clearfix">
+									 
+										<label class="fl"></label>
+										<input name="coUid" id="coUid" th:value="${od.oUid}"  hidden/>
+										<input name="coDid" id="coDid"   hidden/>
+										<input name="coOid" id="coOid"   hidden />
+										<input name="coPid" id="coPid"   hidden />
+										<input type="button" value="取消"   th:onclick="javascript:cl()"  class="fl orange-but radius3 ml10"  style="float:right;margin-right:30px;color: #929292">
+									 	<img id="img"  src="img/icon_add.png" alt="" style="width:80px;height:80px;margin-left:20px"/>
+
+										<span class="fileinput-button" style="margin-top:5px">
+						            	    <span>上传图片</span>
+						            		
+                                            <input type="file" id="file"  name="file" onchange="i(this)"/>
+						               </span>
+								 		<button   class="fl orange-but radius3 ml10"   style="float:right;margin-right:30px;color: #929292" >提交评价</button>
+									</p>
+								</form>
+							</div>
+							
+							<script>
+							  function i(a){
+						    	  
+							      	var url = null;  
+							      	var fileObj = document.getElementById("file").files[0];
+							      	if (window.createObjcectURL != undefined) {  
+							      	    url = window.createOjcectURL(fileObj);  
+							      	} else if (window.URL != undefined) {  
+							      	    url = window.URL.createObjectURL(fileObj);  
+							      	} else if (window.webkitURL != undefined) {  
+							      	    url = window.webkitURL.createObjectURL(fileObj);  
+
+							      	}
+							      	 document.getElementById("img").src=url;
+							      
+							       }
+								 $(function(){
+									   
+										$("#form1").ajaxForm(function(data){  
+										 
+												alert(data.msg); 
+												window.location.reload();
+											 
+										});     
+									});
+							</script>
+							</div> 
+			 	   
                </div>
-               <div class="page clearfix ta-right">
+                   <div class="page clearfix ta-right">
                      
 						<a type="button" class="pre box-s"  th:href="@{/user_order(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
 						<span th:text="'第'+${pageInfo.pageNum}+'页'"></span>
@@ -140,21 +195,7 @@
 
 					</div> 
 					 
-					 <div   id="mask" >
-                              <div class="alert-box radius8 ">
-				               <h3 class="fs20">商品评价 </h3>
-								<form action="">
-									<textarea name="" id="ping" cols="60" rows="10"    placeholder="快来对商品做出评价吧！" style="margin:20px 20px;border:1px solid #D4D4D4"></textarea>
-									<p class="mb20 clearfix">
-									 
-										<label class="fl"></label>
-										<input type="button" value="取消"  th:onclick="javascript:cl()"  class="fl orange-but radius3 ml10"  style="float:right;margin-right:30px;color: #929292" >
-										  
-								 		<input type="button" value="提交评价"  class="fl orange-but radius3 ml10"   style="float:right;margin-right:30px;color: #929292" >
-									</p>
-								</form>
-							</div>
-							</div>
+					  
 						 
 					 <script>
 					 function  exit(){
@@ -181,14 +222,35 @@
 		        			})
 					  }
 					  
-					  function comment(pId){
+					  function comment(pId,oid,did){
 						  document.getElementById("mask").style.display = "block";
+						  document.getElementById("coDid").value=did;
+						  document.getElementById("coOid").value=oid;
+						  document.getElementById("coPid").value=pId;
 					  }
+					  
+					  
+					  
 					  function cl(){
 						 
 						  document.getElementById("mask").style.display = "none";
 						  document.getElementById("ping").value="";
 					  }
+					  
+					  function del(oid){
+						  axios.get("delOrder?oId="+oid).then(res=>{
+		        				 
+							  if(res.data.code==0){
+		        					alert(res.data.msg);
+		        				}
+		        				if(res.data.code==1){
+		        					alert(res.data.msg);
+		        					window.location.reload();
+		        				}
+		        				
+		        			})
+					  }
+					  
 					 
 					 </script>
                

@@ -31,6 +31,7 @@ public class AreaAction {
 			//area页面展示
          List<Area> alist= ab.area();
          m.addAttribute("se",session.getAttribute("LoginUser"));
+         m.addAttribute("loginImg",session.getAttribute("loginImg"));
          m.addAttribute("alist", alist);
        	return m;
        	
@@ -41,7 +42,7 @@ public class AreaAction {
        public String areadet(HttpSession session,Model m) {
 			//area_detail页面展示
            m.addAttribute("se",session.getAttribute("LoginUser"));
-
+           m.addAttribute("loginImg",session.getAttribute("loginImg"));
        	return "area_detail";
        	
        }
