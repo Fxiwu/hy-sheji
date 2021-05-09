@@ -14,6 +14,7 @@ public class Product {
 	private Integer pHot;
 	private Integer pAid;
 	private String  pGuige;
+	private Integer pKucun;
 	
 	private Area area;
 	private Category category;
@@ -91,6 +92,12 @@ public class Product {
 	}
 	public void setpGuige(String pGuige) {
 		this.pGuige = pGuige;
+	}
+	public Integer getpKucun() {
+		return pKucun;
+	}
+	public void setpKucun(Integer pKucun) {
+		this.pKucun = pKucun;
 	}
 	 
 	 

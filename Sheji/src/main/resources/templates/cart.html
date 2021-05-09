@@ -71,9 +71,10 @@
 							</td>
 							<td th:text="${cl.product.price}"></td>
 							<td>
+							   
 								<p th:text="${cl.cCount}"></p>
 							</td>
-							<td><span class="orange" th:text="${cl.product.price*cl.cCount}" ></span></td>
+							<td><span class="orange" id="numbers"  th:text="${#numbers.formatDecimal((cl.product.price*cl.cCount),1,'COMMA',2,'POINT')}"  ></span></td>
 							<td>
 								<button th:value="${cl.cId}" style="border:none"   th:onclick="javascript:del([[${cl.cId}]])" ><i class="iconfont fs26">&#xe60b;</i></button>
 							</td>
@@ -88,6 +89,7 @@
 						</p>
 					</div>
                         <script>
+                        
                             function jiesuan(sum){
                             	 //orderAction中进行订单添加
                             	  axios.get("order?sum="+sum+"&n=1").then(res=>{

@@ -1,5 +1,7 @@
 package com.hy.Sheji.web;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,9 @@ public class OrderAction {
 			  if(um.seAddressdft(user.getuId())!=null) {//默认地址
 					m.addAttribute("addrid",um.seAddressdft(user.getuId()).getAddId());	 
 			  };
+			  if(um.seAddressdft(user.getuId())==null) {//默认地址
+					m.addAttribute("addrid",0);	 
+			  };
 			
 			m.addAttribute("user", user);	 
 		     
@@ -108,7 +113,7 @@ public class OrderAction {
 		//	System.out.println("sum:::::"+sum);
 			order.setoTotal(sum);
 			order.setoUid(uId);
-			System.out.println("order.setoTotal(sum):::::"+order.getoTotal()); 
+			//System.out.println("order.setoTotal(sum):::::"+order.getoTotal()); 
 		    List<Cart> clist;
 			try {
 				
@@ -135,6 +140,7 @@ public class OrderAction {
 					 ordt.setdPid(str.getProduct().getpId());
 					 ordt.setdTotal(str.getProduct().getPrice()*str.getcCount());
 					  odlist.add(ordt);
+					  pm.updateKucun(ordt.getdPid(), ordt.getdCount());
 				//	System.out.println("rrrrrr"+ordt.getdPid()+" "+ordt.getdCount()+"  "+ordt.getdOid()+"  "+ordt.getdTotal());
 				 }
  				 ob.insertOrderdetail(odlist);
@@ -159,6 +165,7 @@ public class OrderAction {
 	public Result liji(@RequestParam(value="pId" ,required=false ,defaultValue = "0")int pId,
 			           @RequestParam(value="count" ,required=false ,defaultValue = "1")int count,Model m,HttpSession session) {
 	    String uName=(String) session.getAttribute("LoginUser");
+	    DecimalFormat df = new DecimalFormat("##0.00");
 				if(uName==null||uName.isEmpty()) {
 					return  new Result(0,"请先登录");
 				}
@@ -176,8 +183,11 @@ public class OrderAction {
 			   { 
 				 order.setoAddid(um.seAddressdft(uId).getAddId()); 
 			   }
+			System.out.println("p.getPrice()"+p.getPrice());
+			 
+             
 			order.setoTotal(p.getPrice()*count);
-			//System.out.println("p.getPrice()*count:::"+p.getPrice()*count);
+			
 			order.setoUid(uId);
 			   
 					int i=ob.insertOrder(order);//order中进行订单添加
@@ -198,8 +208,8 @@ public class OrderAction {
 					 ordt.setdCount(count);
 					 ordt.setdOid(oid);
 					 ordt.setdPid(p.getpId());
-					 ordt.setdTotal(p.getPrice());
-					   
+					 ordt.setdTotal(p.getPrice()*count);
+					 pm.updateKucun(ordt.getdPid(), ordt.getdCount());  
 					 
 					  odlist.add(ordt);
 					  if(ob.insertOrderdetail(odlist)>0) {
@@ -226,8 +236,12 @@ public class OrderAction {
 		int oid=(int) session.getAttribute("oid");
 		 //设置回滚点
         savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
-		int i=ob.updateorder( oid,price);
+		int i=ob.updateorder( oid,price*om.selectOrderdetail(oid).getdCount());
+		//修改商品库存
+		 
+		 pm.addKucun(pId,om.selectOrderdetail(oid).getdCount());
 		int j=ob.delod(pId,oid);
+		  
 		if(i>0&&j>0) {
 			//当total减为0的时候删除adminorder中对应的记录
 			if(ob.selectOrder(oid).getoTotal()==0) {

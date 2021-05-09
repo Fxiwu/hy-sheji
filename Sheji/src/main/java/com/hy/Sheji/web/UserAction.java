@@ -30,6 +30,7 @@ import com.hy.Sheji.bean.User;
 import com.hy.Sheji.biz.BizException;
 import com.hy.Sheji.biz.UserBiz;
 import com.hy.Sheji.dao.OrderMapper;
+import com.hy.Sheji.dao.ProductMapper;
 import com.hy.Sheji.dao.UserMapper;
 
 @Controller
@@ -43,6 +44,9 @@ public class UserAction {
 	
 	@Resource
 	private OrderMapper om;
+
+	@Resource
+	private ProductMapper pm;
 
 	
 	@GetMapping("user")
@@ -81,13 +85,16 @@ public class UserAction {
 		}
 //		System.out.println("shen:::"+shen);
 		int uId=ub.selectByuName(uName).getuId();
-		//判断是否有默认地址，没有该地址则为默认地址
+		//判断是否有默认地址，有则原有的默认地址为非默认
 		if(um.seAddressdft(uId)!=null&&address.getAddDft()==1) {
 		   //修改原本的默认地址为不默认
 			 ub.setAddressDft(uId);
 			 
 			}
-		 
+		//没有该地址则为默认地址
+		if(um.seAddressdft(uId)==null) {
+			address.setAddDft(1);
+		}
 		address.setAddUid(uId);
 		address.setAddAddr(shen+shi+xian+xianxi);
 		
@@ -187,6 +194,8 @@ public class UserAction {
       savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
 		  int m= om.deladminorder(oId);
 		  int n= om.delorder(oId);
+		//修改商品库存
+			 pm.addKucun(om.selectOrderdetail(oId).getdPid(),om.selectOrderdetail(oId).getdCount());
 		  int k= om.delorderdetail(oId);
 		   if(m>0&&n>0&&k>0) {
 			   return new Result(1,"删除成功！");

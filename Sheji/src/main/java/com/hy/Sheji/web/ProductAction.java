@@ -110,6 +110,7 @@ import com.hy.Sheji.dao.ProductMapper;
 									String	pDesc , 
 									@RequestParam(value="aId" ,required = false)String aId , 
 									String	 pGuige,   
+									int	 pKucun, 
 									String	 pHot , 
 					           @RequestParam(value="pImg" ,required = false)String	pImg ){
 			int phot=0;
@@ -117,7 +118,7 @@ import com.hy.Sheji.dao.ProductMapper;
 			int a=0;
 			Product pro=new Product();
 			System.out.println("=======");
-			 if(pHot.equals("是") ) {
+			 if(pHot.equals("1") ) {
 				 phot=1;
 			 }
 			 if(cId!=null) {
@@ -138,12 +139,10 @@ import com.hy.Sheji.dao.ProductMapper;
 			pro.setpGuige(pGuige);		
 			pro.setpHot(phot);
 			pro.setpImg(pImg);
-			System.out.println(pro.getpCid());
-			System.out.println(pro.getpAid());
-			System.out.println(pro.getpHot().getClass());
+			pro.setpKucun(pKucun);
 			pro.setpImg(pImg);
 			pro.setPrice(price);
-			
+			 System.out.println("phot"+phot);
 			 if( pId == 0) {
 		 			 pm.insertpro(pro);
 		 			return new Result(1,"商品添加成功!");

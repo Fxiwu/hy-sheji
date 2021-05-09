@@ -81,6 +81,7 @@ public interface ProductMapper {
  			+ ", p_hot=#{pHot}"
  			+ ",p_img=#{pImg}"
  			+ ",price=#{price} "
+ 			+ ",p_kucun=#{pKucun} "
  			+ sql
  			+ " where p_id=#{pId} </script>")
 	int updatepro(Product pro);
@@ -88,12 +89,23 @@ public interface ProductMapper {
  	 
   //后台商品管理  product.html 商品添加
  	@Insert("insert into hy_product values(null,#{pName},"
- 			+ "#{price},#{pImg},#{pDesc},now(),#{pCid},#{pHot},#{pAid},#{pGuige})")
+ 			+ "#{price},#{pImg},#{pDesc},now(),#{pCid},#{pHot},#{pAid},#{pGuige},#{pKucun})")
 	int insertpro(Product pro);
  	
  	//suosou
  	@Select("select * from hy_product where p_name like '%${txt}%'")
  	List<Product> SuoProduct(String txt);
+ 	
+ 	@Update(" update hy_product set p_kucun=p_kucun-#{count} "
+ 			
+ 			+ " where p_id=#{pId} ")
+ 	int updateKucun(int pId,int count);
+
+ 	//当订单删除时，重新添加原有的数量
+@Update(" update hy_product set p_kucun=p_kucun+#{count} "
+ 			
+ 			+ " where p_id=#{pId} ")
+	int addKucun(int pId, int count);
 }
 
   

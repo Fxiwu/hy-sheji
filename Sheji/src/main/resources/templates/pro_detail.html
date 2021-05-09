@@ -60,7 +60,7 @@
 					<div class="fr pro-intro">
 						<div class="pb20 line-bot"> 
 							<h3 class="fs26 darkblack lh50 ellipsis" >{{p.pName}}</h3>
-							<p class="fs14 lh20 over2">{{p.pDesc}}</p>
+							<p class="fs15 lh20 over2">{{p.pDesc}}</p>
 
 							<p class="price pt10 clearfix" ><strong class="fl red fs40"> ¥{{p.price}}</strong></p>
 						</div>
@@ -69,7 +69,7 @@
 								<li><span>发货地 ：</span>{{aShi}}  {{aXian}} </li>
 								<li><span>运 费 ：</span>免运费</li>
 								<li><span>规 格：</span>&nbsp;&nbsp;{{p.pGuige}}</li>
-
+	                            <li><span>库存：</span>&nbsp;&nbsp;{{p.pKucun}}</li>
 							</ul>
 						</div>
 						<div class="pt10">
@@ -201,6 +201,7 @@
 			    			this.p=res.data;
 			    			this.aXian=res.data.area.aXian;
 			    			this.aShi=res.data.area.aShi;
+			    			window.location.reload();
 			    		    console.info(res.data)
 			    		})
 		    		},
@@ -216,7 +217,7 @@
 		    		},
 		    		addcart(){
 		    			var cCount=document.getElementById("count").value;
-		    			alert(document.getElementById("count").value);
+		    			/* alert(document.getElementById("count").value); */
 		    			axios.get("addcart?pId="+this.pId+"&cCount="+cCount).then(res=>{
 			    			  
 			    				 alert(res.data.msg);

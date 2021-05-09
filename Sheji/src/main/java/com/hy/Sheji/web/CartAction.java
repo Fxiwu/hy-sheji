@@ -1,5 +1,6 @@
 package com.hy.Sheji.web;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -38,6 +39,7 @@ public class CartAction {
 		m.addAttribute("se",uName);
 		m.addAttribute("loginImg",session.getAttribute("loginImg"));
 		try {  //若用户已登陆，则通过uName来获取uId
+			 DecimalFormat df = new DecimalFormat("##0.00");
 			if(uName!=null) {
 				int uId=cm.selectUer(uName).getuId();
 				List<Cart> clist=cb.selectCart(uId);
@@ -45,10 +47,15 @@ public class CartAction {
 				m.addAttribute("clist", clist);
 				double sum=0.0;
 				 for (Cart str : clist) {   //算出购物车总金额         
- 			        System.out.println(str.getcCount()*str.getProduct().getPrice());
- 			        sum+=str.getcCount()*str.getProduct().getPrice();
+ 			       
+ 			       double count=str.getcCount();
+ 			    
+ 			       double price=str.getProduct().getPrice();
+ 			        sum+=count*price;
+ 			       
+ 			        System.out.println("sum"+  df.format(sum));
  			    }
-				 m.addAttribute("sum", sum);
+				 m.addAttribute("sum",  df.format(sum));
 		     	
 			}else {
 				Result res=new Result(0,"请先用户登录");
@@ -77,7 +84,8 @@ public class CartAction {
 		   }
 		  if(pId>0) {
 			  if(cb.selectupId(uId, pId)>0) {  //判断购物车中产品是否已经添加
-				 int i= cb.addupdate(uId, pId,cCount);
+				System.out.println("cb.selectupId(uId, pId):"+cb.selectupId(uId, pId));
+				  int i= cb.addupdate(uId, pId,cCount);
 				  if(i>0) {
 						return new Result(1,"添加购物车成功");
 					}

@@ -109,7 +109,7 @@ function fmtImg(value, row, index) {
 		 	}else{
 		 		rows[index].pHot="否";
 		 	}
-		   
+		 	 
 		 	$('#ff').form('load',rows[index]);
   		} else {
   			$('#ff').form('clear');
@@ -129,8 +129,8 @@ function fmtImg(value, row, index) {
  			},
  			
 		  success:res=>{
-			  alert($("#pcate").textbox('getValue')+" "+$("#parea").textbox('getValue'));
-			// 原有的 res ==> 消息, 现在的 res ==> json对象  {  code , msg, data }
+/* 			  alert($("#pcate").textbox('getValue')+" "+$("#parea").textbox('getValue'));
+ */			// 原有的 res ==> 消息, 现在的 res ==> json对象  {  code , msg, data }
  				res = JSON.parse(res);
  				alert(res.msg);
  				if(res.code == 1 ){
@@ -162,7 +162,7 @@ function fmtImg(value, row, index) {
 	 			} else { 
 	 				// 以 / 开头的图片( 上传的图片 )
 	 				upImg.src = res.data.data;
-	 			alert(upImg.src);
+	 			/* alert(upImg.src); */
 	 		}
 	 		// tbImg 是Easyui的 控件对象
 	 				$("#tbImg").textbox('setValue',res.data.data);
@@ -223,6 +223,7 @@ function fmtImg(value, row, index) {
 							<th data-options="field:'category', width:40,formatter:fmtcate">分类</th>
 							<th data-options="field:'area', width:80,formatter:fmtdiqu">地区</th>
 							<th data-options="field:'pGuige', width:40">规格</th>
+							<th data-options="field:'pKucun', width:40">库存</th>
 							<th data-options="field:'pHot', width:30,formatter:fmthot">热卖</th>
 							<th data-options="field:'pCreatetime', width:110 ">上架日期</th>
 							<th data-options="field:'pImg', width:100,align:'center', formatter:fmtImg">图片</th>
@@ -236,7 +237,7 @@ function fmtImg(value, row, index) {
 			</div>
 	 </div>
 	 <div id="dd" class="easyui-dialog" style="width:600px;height:400px"
-				data-options="title:'My Dialog',
+				data-options="title:'修改商品',
 				 buttons:'#bb',
 				modal:true,
 				closed:true">
@@ -257,7 +258,12 @@ function fmtImg(value, row, index) {
 		 		                     formatter:fmtdiqu
 		 		                       "><br> <br>
 		 		<input class="easyui-textbox" name="pGuige" label="  规格"><br><br>
-		 		<input class="easyui-textbox" name="pHot"  label="  热卖" data-options="formatter:fmthot"><br><br>
+		 		<input class="easyui-textbox" name="pKucun" label="  库存"><br><br>
+		 		<select class="easyui-combobox" name="pHot"  label="  热卖" style="width:200px">
+		 		            <option value="0">否</option>
+			                <option value="1">是</option>
+			                 
+		 		</select><br><br>
 		 		<input class="easyui-textbox" name="pImg" label="  图片" id="tbImg"><br><br>
 		 	  <input class="easyui-filebox" label="选择" id="file" name="file"
 		 			data-options="onChange:upload" ><br>

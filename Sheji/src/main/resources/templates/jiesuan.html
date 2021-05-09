@@ -113,8 +113,8 @@
 							 <td  >
 
 								<p class="o-goods-info ml20 clearfix pt10 pb10">
-									<a href="#" class="fl"><span><img th:src="${cl.pImg}" alt=""></span></a>
-									<span class="fl tit mt5 ml10" th:text="${cl.pName}"></span>
+									<a th:href="'pro_detail?#'+${cl.pId}"  class="fl"><span><img th:src="${cl.pImg}" alt=""></span></a>
+									<span class="fl fs18 tit mt5 ml10" th:text="${cl.pName}"></span>
 								</p>
 							</td>
 							<td th:text="${cl.price}"></td>
@@ -236,7 +236,7 @@
 							<em class="fl red lh40 ml10">*</em>
 						</p>
 						<p class="mb20 clearfix">
-							<label class="form1">地址：</label>
+							<label class="form1" style="float:left">地址：</label>
 							<input type="text" name="shen" placeholder="省/直辖市"  id="" class="fl ml5" style="width:60px">
 								 
 							</input>
@@ -248,7 +248,7 @@
  						</p>
 						<p class="mb20 clearfix">
 							<label class="fl"></label>
-							<input type="text" name="xianxi" placeholder="详细地址" class="fl ml5">
+							<input type="text" name="xianxi" placeholder="详细地址" class="fl ml5" style="width:100px">
 							<em class="fl red lh40 ml10">*</em>
 						</p>
 						<p class="mb20 clearfix">
@@ -267,15 +267,15 @@
 						<p class="mb20 clearfix">
 							<label class="fl"></label>
 							<button  onclick="" class="fl orange-but radius3 ml5" style="color: #929292">保&nbsp;&nbsp;存 </button>
-							<button    class="fl orange-but radius3 ml10"  th:onclick="javascript:close()" style="color: #929292">取&nbsp;&nbsp;消</button>  
+							<input  type="button"  value="取消 " class="fl orange-but radius3 ml10"  onclick="cl()" style="color: #929292"> 
 							 
 						 </p>
 					</form>
  				 
 				</div>
 				<script>
-				function close(){
-			  		 alert("dejdie");
+				function cl(){
+			  		  
 					  document.getElementById("mask").style.display = "none";
 			  
 		  	    }

@@ -40,7 +40,7 @@ public interface CartMapper {
 	int addCart(Cart cart);
 	
 	//添加购物车中商品的数量
-	@Update("update hy_cart set c_count=#{cCount} where c_uid=#{cUid} and c_pid=#{cPid}")
+	@Update("update hy_cart set c_count=c_count+#{cCount} where c_uid=#{cUid} and c_pid=#{cPid}")
      int addupdate(int cUid,int cPid,int cCount);
 	
 	//减少购物车中商品的数量

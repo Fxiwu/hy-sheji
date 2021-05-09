@@ -52,7 +52,12 @@ public class AreaAction {
        public Area  adetail(int aId) {
 			//area页面展示
          Area ade=ab.areade(aId) ;
-        
+			/*
+			 * String str=ade.getaJieshao().toString().replace("\n","<br/>").replace(" "
+			 * ,"&nbsp;&nbsp;"); System.out.println(str);
+			 * 
+			 * ade.setaJieshao( str);
+			 */
        	return ade;
        	
        }
