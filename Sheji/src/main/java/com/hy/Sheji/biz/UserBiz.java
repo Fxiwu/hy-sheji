@@ -55,8 +55,8 @@ public class UserBiz {
 			return  um.addComment(comm);
 		}
 
-		//user中修改头像
-		public int updatTou(String f,int uId) {
-			 return um.updatTou(f,uId);
+		//user中修改个人信息
+		public int upUser1(User user) {
+			 return um.upUser1(user);
 		}
 }

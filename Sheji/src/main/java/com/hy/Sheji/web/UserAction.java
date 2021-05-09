@@ -257,32 +257,53 @@ public class UserAction {
 			 
 		}
 		
-		 @PostMapping("upTou")	 
+		@GetMapping("user1")
+		public Model user1(Model m, HttpSession session)  {
+			 String uName= (String) session.getAttribute("LoginUser");
+			  m.addAttribute("se",uName);
+			  m.addAttribute("loginImg",session.getAttribute("loginImg"));
+			  User user=ub.selectByuName(uName); 
+			  m.addAttribute("user",user);
+			  return m;
+		}
+		
+		 @PostMapping("upUser")	 
 		 @ResponseBody
-		 public Result upTou(@RequestParam(value="file",required = false)MultipartFile file,int uId){
-			       
-			        //获取文件名
-			 
-			        String fileName = file.getOriginalFilename();
-			       System.out.println("fileName"+fileName);
-			        //获取文件后缀名
-			        //String suffixName = fileName.substring(fileName.lastIndexOf("."));
-			        //重新生成文件名
-			       // fileName =fileName+suffixName;
-			        System.out.println("fileName:"+fileName);
-			        //指定本地文件夹存储图片
-			        String filePath = "E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/touxiang/";
-			        try {
-			            //将图片保存到static文件夹里
-			        	file.transferTo(new File(filePath+fileName));
-			        	System.out.println("file"+filePath+fileName);
-			        	String f="touxiang/"+fileName;
-			        	 ub.updatTou(f,uId);
-			            return new Result(1,"更改成功",f);
-			        } catch (Exception e) {
-			            e.printStackTrace();
-			            return new Result(0,"更改失败");
-			        } 
-			    }
+		 public Result upUser(@RequestParam(value="file",required = false)MultipartFile file,User user, HttpSession session){
+			        
+			        if(file!=null) {
+			        	  //获取文件名
+				        String fileName = file.getOriginalFilename();
+			        	System.out.println("fileName"+fileName);
+				        //获取文件后缀名
+				        //String suffixName = fileName.substring(fileName.lastIndexOf("."));
+				        //重新生成文件名
+				       // fileName =fileName+suffixName;
+				        System.out.println("fileName:"+fileName);
+				        //指定本地文件夹存储图片
+				        String filePath = "E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/touxiang/";
+				        try {
+				            //将图片保存到static文件夹里
+				        	file.transferTo(new File(filePath+fileName));
+				        	System.out.println("file"+filePath+fileName);
+				        	String f="touxiang/"+fileName;
+				        	user.setuImg(f);
+				        } catch (Exception e) {
+				            e.printStackTrace();
+				            return new Result(0,"图片更改失败");
+				        } 
+				    }
+			        System.out.println("user.getuId():"+user.getuId());
+			        if(ub.upUser1(user)>0) {
+			        	
+			        	session.setAttribute("LoginUser", user.getuName());
+			        	session.setAttribute("loginImg", user.getuImg());
+			        	
+			        	 return new Result(1,"信息修改成功");
+			        }
+			         
+			        return new Result(0,"修改失败");
+			        }
+			        
 	 
 }

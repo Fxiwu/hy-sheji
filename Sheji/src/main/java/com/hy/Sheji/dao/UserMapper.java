@@ -94,8 +94,18 @@ public interface UserMapper {
 	public int addComment(Comment comm);
 
 
-	//user中修改头像
-	 @Update("update hy_user set u_img=#{f} where u_id=#{uId}")
-	public int updatTou(String f,int uId);
+	//user中修改个人信息 
+	 @Update({"<script>"
+	 		+ "update hy_user "
+	 		+ "<set>"
+	 		+ "<if  test='uName!=null'>u_name = #{uName} </if>"
+	 		+ "<if  test='uSex!=null'>,u_sex = #{uSex} </if>"
+	 		+ "<if  test='uPassword!=null'>,u_password = #{uPassword} </if>"
+	 		+ "<if  test='uPhone!=null'>,u_phone = #{uPhone} </if>"
+	 		+ "<if  test='uImg!=null'>,u_img = #{uImg} </if>"
+	 		+ "</set>"
+	 		+ "where u_id=#{uId}"
+	 		+ "</script>"})
+	public int upUser1(User user);
 	 
 }

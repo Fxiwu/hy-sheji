@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta charset='utf-8'>
 		<meta http-equiv="Cache-Control" content="no-siteapp" />
-		<title>个人中心</title>
+		<title>修改个人信息</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<meta http-equiv="Cache-Control" content="no-siteapp">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -50,10 +50,10 @@
 			<div class="wrapper pt40 pb40 clearfix">
 				<div class="fl slide-nav white-box">
 					<ul>
-						<li class="on">
+						<li >
 							<a href="user" class="db fs18">个人信息</a>
 						</li>
-						<li >
+						<li class="on">
 							<a href="user1" class="db fs18">修改个人信息</a>
 						</li>
 						<li>
@@ -70,46 +70,55 @@
 				</div>
 				<div class="fr slide-show white-box">
 					<div class="dark-tit line-bot clearfix">
-						<h3 class="fl fs26">个人信息</h3>
+						<h3 class="fl fs26">修改个人信息</h3>
 					</div>
-					<div class="user-info mt50 clearfix">
-						 
+		         <div class="user-info mt50 clearfix">
+						<form id="form1" action="upUser" method="post" enctype="multipart/form-data">
 							<div class="fl base-info">
 								<ul>
 									<li>
 										<label class="fl l-option">姓名：</label>
-										<p class="fl ml10 " th:text="${user.uName}"></p>
+										<input type="text" name="uName" th:value="${user.uName}" class="fl ml10" placeholder="" style="width:200px;float: left">
 									</li>
-									
+								 
 									<li class="radio-li">
-										<label class="fl l-option">性 别：</label>
-										 <p class="fl ml10" th:text="${user.uSex}"></p>	
+										<label class="fl l-option">性别：</label>
+										<div class="radio-box">
+												<input type="radio"  name="uSex"   th:value="男"  th:checked="${user.uSex}=='男' "><label class="fs14">男</label>
+											<input type="radio"   name="uSex" class="ml10 radio-inline" th:value="女"  th:checked="${user.uSex}=='女'" ><label class="fs14">女</label>
+										</div>
 									</li>
 									<li>
-										<label class="fl l-option">电 话：</label>
-										 <p class="fl ml10" th:text="${user.uPhone}"></p>	
+										<label class="fl l-option">密码：</label>
+										  <input type="password" name="uPassword" th:value="${user.uPassword}" class="fl ml10" style="width:220px;height:35px;border:#F0F0F0;float: left">
 									</li>
-									 <li>
-										<label class="fl l-option">注册时间：</label>
-										 <p class="fl ml10" th:text="${#dates.format(user.uCreatetime,'yyyy-MM-dd')}"></p>	
+									<li>
+										<label class="fl l-option">电话：</label>
+										<input type="text" name="uPhone" th:value="${user.uPhone}" class="fl ml10"  style="width:200px;float: left">
 									</li>
+									 
+									<li class="but-li pl10">
+									<input type="text" name="uId" th:value="${user.uId}" hidden  >
+									<button class="green-but radius3 fs16 ml50" style="width:180px;height:45px;float: left" >保存修改</button></li>
 								</ul>
 							</div>
 							<div class="fr user-photo pr50 mr10">
-							
-							    <form >
-							    
- 							    <p class="photo" style="width:100px;height:100px;" >
+								 <p class="photo" style="width:100px;height:100px;" >
   							    <img id="img" th:if="${user.uImg}==null"  src="img/默认头像.jpg" alt="" style="width:100px;height:100px"    />
   							    <img id="img" th:if="${user.uImg}!=null" th:src="${user.uImg}" alt=""  style="width:100px;height:100px"    />
  							    </p>
-   								 
-							 </form>
+   								   
+			                     <span class="fileinput-button" style="margin-top:10px">
+						            <span style="margin-left:15px">更换头像</span>
+						             
+						            <input type="file" id="file"  name="file" onchange="i(this)"/>
+						             
+						        </span>
+							
 							</div>
-					 
-                            
-					</div>
+						</form>
 
+					</div>
 				</div>
 
 			</div>
@@ -148,7 +157,7 @@
 			$("#form1").ajaxForm(function(data){  
 			 
 					alert(data.msg); 
-					window.location.reload();
+				 window.location.reload(); 
 				 
 			});     
 		});
