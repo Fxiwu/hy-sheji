@@ -64,7 +64,8 @@
 						</p>
 						<div   class="right clearfix fl">
 							<ul th:each="cl :${clist}">
-								<a th:href="'mall?#'+${cl.pcId}" @click="fenlei()">
+								 
+								<a type="button" th:href="@{/mall(pCid=${cl.pcId})}">
 								<li th:text="${cl.pcName}">特 产</li></a>
 								 
 							</ul>
@@ -76,21 +77,21 @@
 
 			<div class="bottom clearfix" id="f1">
                <ul> 
-                 <li   v-for="mc in mclist">
+                 <li   th:each="mc:${pageInfo.list}">
 					<div class="list clearfix transition">
 						<div class="tu clearfix">
-							<a :href="'pro_detail?#'+mc.pId">
-								<img :src="mc.pImg"/>
+							<a th:href="'pro_detail?#'+${mc.pId}">
+								<img th:src="${mc.pImg}"/>
 							</a>
 							<span></span>
 						</div>
 						<div class="xia clearfix box-s">
-							<p class="bt over"  >
-								{{mc.pName}}
+							<p class="bt over"  th:text="${mc.pName}">
+								 
 							</p>
 							<div class="price clearfix">
-								<span class="fl">
-								  ￥{{mc.price}}
+								<span class="fl" th:text="'￥'+${mc.price}">
+								 
 								</span>
  
 							</div>
@@ -129,17 +130,14 @@
 		</div>
 	   </div>
 	  </div>
-            <div class="page clearfix ta-right">
+            <div class="page clearfix ta-right" style="margin-top:10px">
                      
-						<a type="button" class="pre box-s"  @click="up()">上一页</a>
-						<span>第{{this.pageNum}}页</span>
-						
-						<a type="button" class="next box-s" @click="down()">下一页</a>
+						<a type="button" class="pre box-s"  th:href="@{/mall(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,pCid=${param.pCid})}">上一页</a>
+						<span th:text="'第'+${pageInfo.pageNum}+'页'"></span>
+						<span th:text="'共'+${pageInfo.pages}+'页'"></span>
+						<a type="button" class="next box-s" th:href="@{/mall(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages},pCid=${param.pCid})}">下一页</a>
 
 					</div>
-
-
-			</div>
   
 		</div>
 	</div>
@@ -167,33 +165,8 @@
 						          pages :""
 						          
 							   },
-							   created:function(){
+							  methods:{
 								   
-								   this.pCid=location.hash.substr(1);
-								        if(this.pCid==null){
-								        	this.pCid=1;
-								        }
-								         axios.get("Fenlei?pCid="+this.pCid).then(res=>{
-								        	 this.mclist=res.data.list;
-								        	  this.pageNum= res.data.pageNum;//当前页数字
-								        	  this.pages=res.data.pages;//总页数
-								        	 
-								         }) 
-									 
-							   },
-							  
-							  methods: {
-								   fenlei(){
-									   this.p=0;
-								         this.pCid=location.hash.substr(1);
-								         document.getElementById('f1').style.display='block';
-								         axios.get("Fenlei?pCid="+this.pCid).then(res=>{
-								            this.mclist=res.data.list;
-								            this.pageNum= res.data.pageNum;
-								            
-								         }) 
-									
-							       },
 							       sousuo(){
 							    	   this.p=1;
 								    	var txt=document.getElementById("sou").value;
@@ -205,32 +178,8 @@
 								    		  }
 								    	 })
 								    	 
-								       } ,
-								   up(){
-									   this.pCid=location.hash.substr(1);
-									  
-									   this.pageNum=this.pageNum-1;
-									   if(this.pageNum<1){
-										   this.pageNum= 1;
-									   }
-									   axios.get("Fenlei?pCid="+this.pCid+"&pageNum="+this.pageNum).then(res=>{
-								            this.mclist=res.data.list;
-								            
-								         })  
-								   } ,
-								  down(){
-									   this.pCid=location.hash.substr(1);
-									  
-									   this.pageNum=this.pageNum+1;
-									   if(this.pageNum>this.pages){
-										   this.pageNum= this.pages;
-									   }
-									   axios.get("Fenlei?pCid="+this.pCid+"&pageNum="+this.pageNum).then(res=>{
-								            this.mclist=res.data.list;
-								             
-								         })  
-								   } 
-								   }
+								       } 
+							  }
 								   
 						   });
 						

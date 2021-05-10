@@ -33,15 +33,20 @@ import com.hy.Sheji.dao.CategoryMapper;
 	 
 	  //mall 
 	  @GetMapping ("mall") 
-		public Model Mall(Model m ,HttpSession session ) {
+		public Model Mall(Model m ,HttpSession session,
+				@RequestParam(value="pCid" ,defaultValue = "1") int pCid ,
+                @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
 		 
 		  m.addAttribute("se",session.getAttribute("LoginUser"));
 		  m.addAttribute("loginImg",session.getAttribute("loginImg")); 
 		   List<Category> clist=cm.category();////展示商品类别
 		   
 		   m.addAttribute("clist", clist);
-		   
-			return m;
+		   PageHelper.startPage(pageNum,10);
+			List<Product> mclist=mb.Fenlei(pCid);
+			PageInfo<Product> pageInfo = new PageInfo<>(mclist);
+			m.addAttribute("pageInfo", pageInfo);  
+		   return m;
 		}	
 	//mall界面中category方法
 	  @GetMapping ("Fenlei")
