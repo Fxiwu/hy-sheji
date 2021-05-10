@@ -74,7 +74,17 @@
 				<div class="fr slide-show white-box"  >
 					<div class="dark-tit clearfix">
 						<h3 class="fl fs26">我的订单</h3>
-						
+						<p class="fr slide-t-nav">
+							<a th:href="@{/user_order}" class="fs14 radius3">全部订单</a>
+							<a th:href="@{/user_order(state=0)}" class="fs14 radius3">待付款</a>
+							<a th:href="@{/user_order(state=1)}" class="fs14 radius3">待发货</a>
+							<a th:href="@{/user_order(state=2)}" class="fs14 radius3">待收货</a>
+							<a th:href="@{/user_order(state=3)}" class="fs14 radius3">已收货</a>
+							<a th:href="@{/user_order(state=4)}" class="fs14 radius3">待评价</a>
+							<a th:href="@{/user_order(state=5)}" class="fs14 radius3">已评价</a>
+							<a th:href="@{/user_order(state=6)}" class="fs14 radius3">已退货</a>
+						 
+						</p>
 					</div>
 					<table class="table_1" >
 						<tr>
@@ -113,20 +123,25 @@
 							<td width="15%"   align="center" th:text="${od.address.addName}">李东海</td>
 							<td width="12%"   align="center" id="state"  >
 							 
-							    <p th:if="${od.oState==0}" th:text="未支付"></p>
- 							    <p th:if="${od.oState==1}" th:text="已支付"></p>  
- 							     <p th:if="${od.oState==2}" th:text="未发货"></p> 
- 							      <p th:if="${od.oState==3}" th:text="已发货"></p> 
- 							       <p th:if="${od.oState==4}" th:text="已收货"></p> 
+							    <p th:if="${od.oState==0}" th:text="待付款"></p>
+ 							    <p th:if="${od.oState==1}" th:text="待发货"></p>  
+ 							     
+ 							      <p th:if="${od.oState==2}" th:text="待收货"></p> 
+ 							       <p th:if="${od.oState==3}" th:text="已收货"></p> 
  							        
- 							        <p th:if="${od.oState==5}" th:text="已评价"></p> 
+ 							        <p th:if="${od.oState==4}" th:text="待评价"></p> 
+ 							         <p th:if="${od.oState==5}" th:text="已评价"></p> 
  							         <p th:if="${od.oState==6}" th:text="已退"></p> 
      						</td>
 							
-							<td width="12%"   align="center">
-								<a type="button" class="a-sqsh green radius3" th:if="${od.oState}<1"    th:onclick="javascript:del([[${od.oId}]])">删除订单</a>
-								<a type="button" class="a-sqsh green radius3" th:if="${od.oState>=1&&od.oState<4}"    th:onclick="javascript:queren([[${od.oId}]],[[${od.oState}]] )">确认收货</a>
-								<a type="button" class="a-sqsh green radius3 " id="show"  th:onclick="javascript:comment([[${ord.product.pId}]],[[${od.oId}]],[[${ord.dId}]] )"  th:if="${od.oState}==4" >去评价</a>
+							<td width="12%"   align="center">                
+								<a type="button" class="a-sqsh green radius3" th:if="${od.oState==0}"    th:onclick="javascript:del([[${od.oId}]],[[${ord.product.pId}]],[[${ord.dCount}]])">删除订单</a>
+								<a type="button" class="a-sqsh green radius3" th:if="${od.oState==1}"    th:onclick="javascript:caozuo([[${od.oId}]],1,[[${ord.product.pId}]],[[${ord.dCount}]])">提醒发货</a><br/>
+								
+								<a type="button" class="a-sqsh green radius3" th:if="${od.oState==2}"    th:onclick="javascript:caozuo([[${od.oId}]],3,[[${ord.product.pId}]],[[${ord.dCount}]])">确认收货</a><br/><br/>
+								<a type="button" class="a-sqsh green radius3" th:if="${od.oState>=1&&od.oState<3}"    th:onclick="javascript:caozuo([[${od.oId}]],6,[[${ord.product.pId}]],[[${ord.dCount}]])">申请退货</a>
+								
+								<a type="button" class="a-sqsh green radius3 " id="show"  th:onclick="javascript:comment([[${ord.product.pId}]],[[${od.oId}]],[[${ord.dId}]] )"  th:if="${od.oState>=3&&od.oState<5}" >去评价</a>
 								 
 							</td>
 						</tr>
@@ -189,7 +204,7 @@
 							</div> 
 			 	   
                </div>
-                   <div class="page clearfix ta-right">
+                   <div class="page clearfix ta-right" style="margin-top:10px">
                      
 						<a type="button" class="pre box-s"  th:href="@{/user_order(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
 						<span th:text="'第'+${pageInfo.pageNum}+'页'"></span>
@@ -209,16 +224,16 @@
 								
 							})
 						    }
-					 
-					  function queren(oId,oState){
+					  
+					  function caozuo(oId,oState,pId,dCount){
 						  
-						  axios.get("updateoState?oId="+oId+"&oState="+oState).then(res=>{
+						  axios.get("updateoState?oId="+oId+"&oState="+oState+"&pId="+pId+"&dCount="+dCount).then(res=>{
 		        				 
 							  if(res.data.code==0){
 		        					alert(res.data.msg);
 		        				}
 		        				if(res.data.code==1){
-		        					
+		        					alert(res.data.msg);
 		        					window.location.reload();
 		        				}
 		        				
@@ -239,9 +254,9 @@
 						  document.getElementById("mask").style.display = "none";
 						  document.getElementById("ping").value="";
 					  }
-					  
-					  function del(oid){
-						  axios.get("delOrder?oId="+oid).then(res=>{
+					 
+					  function del(oid,pId,dCount){
+						  axios.get("delOrder?oId="+oid+"&pId="+pId+"&dCount="+dCount).then(res=>{
 		        				 
 							  if(res.data.code==0){
 		        					alert(res.data.msg);

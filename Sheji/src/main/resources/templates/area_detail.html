@@ -20,7 +20,14 @@
 		<script type="text/javascript" src="js/jquery.SuperSlide.2.1.js"></script>
 	    <script type="text/javascript" src="js/vue.js"></script>
         <script type="text/javascript" src="js/axios.min.js"></script>
-	    
+	    <style scoped>
+	    .con{
+	         font-size: 14px;
+	           
+	          
+       }
+       
+	    </style>
 	</head>
 
 	<body>
@@ -80,27 +87,31 @@
 							<div class="ctentheight clearfix" id="main2">	
 								<span class="more-button">展开</span>
 								<div class="zhong clearfix">
-									<p>地区介绍：</p>
+									<p class="fs20 ">地区介绍：</p>
 									<span>
-									 {{area.aJieshao}}
+                                       <p v-html="area.aJieshao" class="con"></p> 
+									    
 									</span>
 								</div>
 								<div class="zhong clearfix">
-									<p>地区位置：</p>
+									<p class="fs20">地区位置：</p>
 									 <span>
-									   {{area.aWeizhi}}
+									  <p class="con" v-html="area.aWeizhi"></p>
+									    
 									 </span>
 								</div>
 								<div class="zhong clearfix">
-									<p>地区特色：</p>
-									 <span>
-									   {{area.aTese}}
+									<p class="fs20">地区特色：</p>
+									 <span > 
+									 <p class="con" v-html="area.aTese"></p>
+									    
 									 </span>
 								</div>
 								<div class="zhong clearfix zhonglast">
-									<p>旅游资源：</p>
+									<p class="fs20">旅游资源：</p>
 									  <span>
-									   {{area.aLvyou}}
+									  <p class="con" v-html="area.aLvyou"></p>
+									    
 									 </span>
 								</div>
 							</div>							

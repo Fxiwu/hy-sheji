@@ -131,13 +131,15 @@ function fmtImg(value, row, index) {
 		  success:res=>{
 /* 			  alert($("#pcate").textbox('getValue')+" "+$("#parea").textbox('getValue'));
  */			// 原有的 res ==> 消息, 现在的 res ==> json对象  {  code , msg, data }
- 				res = JSON.parse(res);
+ 				 
+ 				var res = JSON.parse(res);
  				alert(res.msg);
  				if(res.code == 1 ){
  					// 关闭窗口
  					$("#dd").dialog('close');
  					// 刷新表格
  					$('#dg').datagrid("reload");
+ 				
  				}
  				// 否则什么都不做 
 		  }
@@ -148,13 +150,13 @@ function fmtImg(value, row, index) {
 	   function upload(newValue, oldValue){
 	 	var url = "../../uploadImg";
 	  
-	 	var fd = new FormData(ff);	alert("fd"+fd);
+	 	var fd = new FormData(ff);	
 	 
 	 		axios.post(url, fd).then(res=>{
 	 		
 	 		
 	 		if(res.data.code){
-	 			alert(res.data.code);
+	 			 
 	 				// upImg 是原生的 html 控件对象
 	 			 if(res.data.data.indexOf("/")!=0){
 	 				// 不以 / 开头的图片
@@ -224,7 +226,7 @@ function fmtImg(value, row, index) {
 							<th data-options="field:'area', width:80,formatter:fmtdiqu">地区</th>
 							<th data-options="field:'pGuige', width:40">规格</th>
 							<th data-options="field:'pKucun', width:40">库存</th>
-							<th data-options="field:'pHot', width:30,formatter:fmthot">热卖</th>
+ 							<th data-options="field:'pHot', width:30,formatter:fmthot">热卖</th>
 							<th data-options="field:'pCreatetime', width:110 ">上架日期</th>
 							<th data-options="field:'pImg', width:100,align:'center', formatter:fmtImg">图片</th>
 	 						<form action="#" id="menuform">
@@ -243,7 +245,7 @@ function fmtImg(value, row, index) {
 				closed:true">
 			<form action="#" id="ff" enctype="multipart/form-data method="post">
 			 	 
-			 	<input class="easyui-textbox" name="pId" label="  编号" readonly="readonly"><br><br>	 
+			 	<input class="easyui-textbox" name="pId" label="  编号" readonly="readonly" ><br><br>	 
 		        <input class="easyui-textbox" name="pName" label="  名称"><br><br>
 		 		<input class="easyui-combobox" name="cId" label="  分类"  id="pcate"
 		 		       data-options="url:'../../category',
@@ -259,7 +261,7 @@ function fmtImg(value, row, index) {
 		 		                       "><br> <br>
 		 		<input class="easyui-textbox" name="pGuige" label="  规格"><br><br>
 		 		<input class="easyui-textbox" name="pKucun" label="  库存"><br><br>
-		 		<select class="easyui-combobox" name="pHot"  label="  热卖" style="width:200px">
+  		 		<select class="easyui-combobox" name="pHot"  label="  热卖" style="width:200px">
 		 		            <option value="0">否</option>
 			                <option value="1">是</option>
 			                 
@@ -268,7 +270,7 @@ function fmtImg(value, row, index) {
 		 	  <input class="easyui-filebox" label="选择" id="file" name="file"
 		 			data-options="onChange:upload" ><br>
 		 
-		 	 <img src="../img/icon_add.png" height="100px" id="upImg" id="upImg" onclick="filebox_file_id_1.click()"/><br> 
+		 	 <img src="../img/icon_add.png" height="100px"  id="upImg" onclick="filebox_file_id_1.click()"/><br> 
 		 		
  
 		 		 

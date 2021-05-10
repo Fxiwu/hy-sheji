@@ -77,7 +77,14 @@ public interface UserMapper {
 	public int setAddressDft(int uId);
 
 	 //use_order中个人order展示
-	 @Select("select * from  hy_order where o_uid=#{ouid} order by o_createtime desc ")
+	 @Select("<script>"
+	 		+ "select * from  hy_order where o_uid=#{ouid}  "
+	 	
+	 		+ "<if test='state!=-1'>and o_state=#{state}</if>"
+	 		+ "order by o_createtime desc"
+	 		 
+	 	
+	 		+ "</script>")
 	 	@Results({@Result(column="o_uid",property="oUid"),
 	 		@Result(column="o_uid",property="user",
 	 			          one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId")),
@@ -87,7 +94,7 @@ public interface UserMapper {
 	              @Result(column="o_addid",property="address",
 	            		   one=@One(select="com.hy.Sheji.dao.UserMapper.selectAddressByaid"))
 	            		  })
-	public List<Order> userorder(int ouid);
+	public List<Order> userorder(int ouid,int state);
 	 
 	//use_order中进行评价
 	 @Insert("insert into hy_comment values(null,#{coOid},#{coDid},#{coComm},#{coUid},#{coPid},now(),#{coImg})")

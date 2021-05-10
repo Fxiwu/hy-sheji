@@ -102,6 +102,11 @@ public class OrderBiz {
 		// TODO Auto-generated method stub
 		  return om.adminOrderquery( or);
 	}
+	 //back中 orders.html 中	展现所有的订单总数 
+		public int countaord(AdminOrder or) {
+			// TODO Auto-generated method stub
+			  return om.countaord( or);
+		}
 
 	//back order.html中修改订单信息后保存
 	public int updateadminorder(int oId, String addName, int oState, String addAddr, String addPhone) {

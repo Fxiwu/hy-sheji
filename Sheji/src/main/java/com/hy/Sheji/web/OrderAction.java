@@ -3,7 +3,9 @@ package com.hy.Sheji.web;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -331,8 +333,9 @@ public class OrderAction {
 	
 	//back adminorder中所有的订单
 	@GetMapping("allOrder")
-	public List<AdminOrder> allOrder(@RequestParam(value="uname",required=false) String uname,
-			                    @RequestParam(value="state",required=false) String state) throws BizException {
+	public Map<String, Object> allOrder(@RequestParam(value="uname",required=false) String uname,
+			                    @RequestParam(value="state",required=false) String state,
+			                    Integer page,Integer rows) throws BizException {
 	   
 	    AdminOrder or=new AdminOrder(); 
 	     
@@ -348,7 +351,28 @@ public class OrderAction {
 	    	or.setoState(s);
 	    }
 	    
-		return ob.adminOrderquery(or);	 
+	     //查询所有数据
+		 List<AdminOrder> olist=ob.adminOrderquery(or);
+		    //查询总记录数
+		 int count=ob.countaord(or);
+		 //展示分页集合
+		    List<AdminOrder> p = new ArrayList<>();
+		 
+		    for (int i = 0; i < olist.size(); i++)
+		    {
+		        //当前页-1 * 记录数 并且 这条记录是第几页的数据 当前页乘以记录数
+		        //第一次传过来的rows 是10 page是1
+		        if (i >= (page - 1) * rows && i < page * rows)
+		        {
+		            //符合当前页的数据添加到展示分页集合中
+		            p.add(olist.get(i));
+		        }
+		    }
+		    Map<String,Object> result = new HashMap<String,Object>();
+		    result.put("total", count);
+		    result.put("rows", p);
+		    return result;
+		 
 	}
 	
 	//back order.html中修改订单信息后保存

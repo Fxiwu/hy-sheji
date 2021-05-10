@@ -17,6 +17,7 @@ import com.hy.Sheji.bean.Address;
 import com.hy.Sheji.bean.AdminOrder;
 import com.hy.Sheji.bean.Order;
 import com.hy.Sheji.bean.Orderdetail;
+import com.hy.Sheji.bean.Product;
 
 public interface OrderMapper {
 
@@ -105,7 +106,17 @@ public interface OrderMapper {
  			+ "order by o_createtime desc"
  			+ "</script>")
 	public List<AdminOrder> adminOrderquery(AdminOrder or);
-
+ 	
+ 	//查询adminorder对应条件下总数
+ 	@Select("<script>"
+			+ "select count(*) from hy_adminorder"
+			+ "<where>"
+			+ "<if test='uName!=null'>u_name=#{uName}</if>"
+ 			+ "<if test='oState!=null'> and o_state=#{oState}</if>"
+ 			+ "</where>"
+			+ "</script>")
+	int  countaord(AdminOrder or);
+ 	
  	//jiesuan界面中确定地址后修改adminordeAddr中收货地址
  	@Update("<script>"
  			+ "update hy_adminorder"

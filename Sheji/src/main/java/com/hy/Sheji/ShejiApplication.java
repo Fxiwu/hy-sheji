@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.hy.Sheji.web.LoginInterceptor;
@@ -22,9 +23,10 @@ public class ShejiApplication implements WebMvcConfigurer{
 		InterceptorRegistration	ir=registry.addInterceptor(new LoginInterceptor());
 		ir.addPathPatterns("/user","/user_order","/user_address",
 				"/cart","/jiesuan","/fukuan",
-				"/back/manage.html","/addcart","/liji");
+				"/addcart","/liji","/user","/user1");
 	}
 	
+	 
 	public static void main(String[] args) {
 		SpringApplication.run(ShejiApplication.class, args);
 	}

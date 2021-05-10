@@ -1,5 +1,7 @@
 package com.hy.Sheji.bean;
 
+import java.util.Map;
+
 public class Result {
 
 	private int code;//0 失败 1成功
@@ -29,6 +31,7 @@ public class Result {
 		this.data = data;
 	}
 
+	 
 	public int getCode() {
 		return code;
 	}

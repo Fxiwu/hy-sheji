@@ -26,19 +26,19 @@ function fmtOp(value, row, index) {
 //分类格式化方法
 function fmtstatus(uStatus){
 	if(uStatus==0){
-		return "未支付"; 
+		return "待付款"; 
 	} else if(uStatus==1){
-		return "已支付";
+		return "待发货";
 	} else if(uStatus==2){
-		return "未发货";
-	} else if(uStatus==3){
-		return "已发货";
-	}else if(uStatus==4){
+		return "待收货";
+	}else if(uStatus==3){
 		return "已收货";
+	}else if(uStatus==4){
+		return "待评价";
 	}else if(uStatus==5){
 		return "已评价";
 	}else if(uStatus==6){
-		return "已退";
+		return "已退货";
 	}
 	
 	
@@ -120,13 +120,13 @@ function query(){
 		<input class="easyui-textbox" label="用户名" style="width:200px" id="uname">&nbsp;&nbsp;
 		<select id="cc" class="easyui-combobox" label="支付状态"  name="dept" style="width:200px;">
 	  	    <option ></option>
-			    <option value="0">未支付</option>
-			    <option value="1">已支付</option>
-			    <option value="2">未发货</option>
-			    <option value="3">已发货</option>
-			    <option value="4">已收货</option>
-			    <option value="5">已评价</option>
-			     <option value="6">已退</option>
+			   <option value="0">待付款</option>
+					    <option value="1">待发货</option>
+					    <option value="2">待收货</option>
+					    <option value="3">已收货</option>
+					    <option value="4">待评价</option>
+					     <option value="5">已评价</option>
+					     <option value="6">已退货</option>
 		</select>
 		<a  href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload'"
 				onclick="reset()">重置</a>
@@ -174,13 +174,14 @@ function query(){
 			 	<input class="easyui-textbox"  id="o" name="oId" label="订单号 "  readonly="readonly"><br><br>
 			 	<input class="easyui-textbox" name="addName" label="收货人名" ><br><br>
 			 	<select id="stat" class="easyui-combobox" name="oState" label="订单状态" style="width:200px;">
-					    <option value="0">未支付</option>
-					    <option value="1">已支付</option>
-					    <option value="2">未发货</option>
-					    <option value="3">已发货</option>
-					    <option value="4">已收货</option>
-					    <option value="5">已评价</option>
-					     <option value="6">已退</option>
+					   
+					    <option value="0">待付款</option>
+					    <option value="1">待发货</option>
+					    <option value="2">待收货</option>
+					    <option value="3">已收货</option>
+					    <option value="4">待评价</option>
+					     <option value="5">已评价</option>
+					     <option value="6">已退货</option>
 				</select><br><br>
 			 	<input class="easyui-textbox" name="addAddr" label="送货地址 "><br><br> 
 			 	<input class="easyui-textbox" name="addPhone" label="联系电话 "><br><br>

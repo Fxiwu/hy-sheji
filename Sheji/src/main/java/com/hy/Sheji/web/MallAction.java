@@ -50,7 +50,7 @@ import com.hy.Sheji.dao.CategoryMapper;
 	
 		//商城mall商品界面分展示
 		 
-			PageHelper.startPage(pageNum,5);
+			PageHelper.startPage(pageNum,10);
 			List<Product> mclist=mb.Fenlei(pCid);
 			PageInfo<Product> pageInfo = new PageInfo<>(mclist);
 			  

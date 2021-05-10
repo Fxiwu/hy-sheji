@@ -52,12 +52,20 @@ public class AreaAction {
        public Area  adetail(int aId) {
 			//area页面展示
          Area ade=ab.areade(aId) ;
-			/*
-			 * String str=ade.getaJieshao().toString().replace("\n","<br/>").replace(" "
-			 * ,"&nbsp;&nbsp;"); System.out.println(str);
-			 * 
-			 * ade.setaJieshao( str);
-			 */
+			
+			  String aJieshao=ade.getaJieshao().toString().replace("\n","<br/>").replace(" "
+			  ,"&nbsp;&nbsp;"); 
+			  String aLvyou=ade.getaLvyou().toString().replace("\n","<br/>").replace(" "
+					  ,"&nbsp;&nbsp;"); 
+			  String aWeizhi=ade.getaWeizhi().toString().replace("\n","<br/>").replace(" "
+					  ,"&nbsp;&nbsp;"); 
+			  String aTese=ade.getaTese().toString().replace("\n","<br/>").replace(" "
+					  ,"&nbsp;&nbsp;"); 
+			  
+			 ade.setaJieshao( aJieshao);
+			 ade.setaLvyou(aLvyou);
+			 ade.setaWeizhi(aWeizhi);
+			 ade.setaTese(aTese);
        	return ade;
        	
        }

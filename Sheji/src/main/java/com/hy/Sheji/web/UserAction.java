@@ -6,11 +6,13 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +33,9 @@ import com.hy.Sheji.biz.BizException;
 import com.hy.Sheji.biz.UserBiz;
 import com.hy.Sheji.dao.OrderMapper;
 import com.hy.Sheji.dao.ProductMapper;
+import com.hy.Sheji.dao.SignMapper;
 import com.hy.Sheji.dao.UserMapper;
+import com.hy.Sheji.util.Utils;
 
 @Controller
 public class UserAction {
@@ -48,7 +52,9 @@ public class UserAction {
 	@Resource
 	private ProductMapper pm;
 
-	
+	@Resource
+	private SignMapper sm;
+
 	@GetMapping("user")
 	public Model user(Model m, HttpSession session)  {
 		 String uName= (String) session.getAttribute("LoginUser");
@@ -105,13 +111,15 @@ public class UserAction {
 	//用户信息订单模块
 	@GetMapping("user_order")
 	public Model userorder(Model m, 
-			               @RequestParam(value="pageNum",defaultValue="1") int pageNum,HttpSession session)  {
+			               @RequestParam(value="pageNum",defaultValue="1") int pageNum,
+			               @RequestParam(value="state",defaultValue="-1")int state,HttpSession session)  {
 		 String uName= (String) session.getAttribute("LoginUser");
 		  m.addAttribute("se",uName);
 		  m.addAttribute("loginImg",session.getAttribute("loginImg"));
 		 int ouid= ub.selectByuName(uName).getuId();
 		 PageHelper.startPage(pageNum, 5);
-		  List<Order> olist=ub.userorder(ouid);
+		  List<Order> olist=ub.userorder(ouid,state);
+		  System.out.println("state"+state);
 		 PageInfo<Order> pageInfo=new PageInfo<>(olist);
 		   m.addAttribute("pageInfo", pageInfo);
 		  
@@ -123,20 +131,27 @@ public class UserAction {
 	@GetMapping("updateoState")
 	@ResponseBody
 	@Transactional(rollbackFor = Exception.class)
-	public Result updateoState(int oId,int oState)  {
+	public Result updateoState(int oId,int oState,int pId,int dCount)  {
 		Object savePoint = null;
-		 
+		Object savePoint1 = null;
 			//设置回滚点
         savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
-		   if(om.updateoState(oId,4)>0&&om.updateaoOstate(oId,4)>0) {
+        if(oState==1){ 
+        	return new Result(1,"提醒成功");
+        }
+        if(oState==4&&om.updateoState(oId,4)>0&&om.updateaoOstate(oId,4)>0) {
 			    return new Result(1,"确认收货成功");
-		   }else {
+		   }else if(oState==6&&om.updateoState(oId,6)>0&&om.updateaoOstate(oId,6)>0) {
+				 pm.addKucun(pId,dCount);  //库存增加
+
+			   return new Result(1,"申请退货货成功");
+		   }else{
 			 //回滚
 				 TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savePoint);
 			
-			   return new Result(0,"确认收货失败");
+			   return new Result(0,"操作失败");
 		   }
-		 
+		   
 	}
 	
  
@@ -187,7 +202,7 @@ public class UserAction {
 	@GetMapping("delOrder")
 	@Transactional(rollbackFor = Exception.class)
 	@ResponseBody
-	public Result delOrder(int oId)  {
+	public Result delOrder(int oId,int pId,int dCount)  {
 		Object savePoint = null;
 		 
 		//设置回滚点
@@ -195,9 +210,10 @@ public class UserAction {
 		  int m= om.deladminorder(oId);
 		  int n= om.delorder(oId);
 		//修改商品库存
-			 pm.addKucun(om.selectOrderdetail(oId).getdPid(),om.selectOrderdetail(oId).getdCount());
+			
 		  int k= om.delorderdetail(oId);
-		   if(m>0&&n>0&&k>0) {
+		  int z= pm.addKucun(pId,dCount);  //库存增加
+		   if(m>0&&n>0&&k>0&&z>0) {
 			   return new Result(1,"删除成功！");
 		   }else {
 			   TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savePoint);
@@ -269,8 +285,28 @@ public class UserAction {
 		
 		 @PostMapping("upUser")	 
 		 @ResponseBody
-		 public Result upUser(@RequestParam(value="file",required = false)MultipartFile file,User user, HttpSession session){
-			        
+		 public Result upUser(@RequestParam(value="file",required = false)MultipartFile file,
+				                  @Valid User user,Errors errors,HttpSession session){
+			 String uName= (String) session.getAttribute("LoginUser");
+			 User u=ub.selectByuName(uName); 
+			 if(errors.hasErrors()) {
+					 if(Utils.asMap(errors).get("uName")!=null) {
+						  return new Result(0,"请按要求设置用户名");
+					 }
+					 if(Utils.asMap(errors).get("uPassword")!=null) {
+						  return new Result(0,"请按要求设置密码");
+					 }
+					 if(Utils.asMap(errors).get("uPhone")!=null) {
+						  return new Result(0,"电话号码格式不正确");
+					 }
+	 
+				}
+			if((user.getuName().equals(uName)==false)&&sm.ByName(user.getuName())>0) {
+				return new Result(0,"该用户名已注册账户");
+			}
+			if((user.getuPhone().equals(u.getuPhone())==false)&&sm.ByPhone(user.getuPhone())>0) {
+				return new Result(0,"该手机号已注册账户");
+			}
 			        if(file!=null) {
 			        	  //获取文件名
 				        String fileName = file.getOriginalFilename();

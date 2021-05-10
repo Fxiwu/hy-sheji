@@ -93,7 +93,7 @@ public class SignAction {
 		   if(e.getMessage().equals("该用户名已注册账户")) {
 			   m.addAttribute("nameerrors","该用户名已注册账户");
 		   }
-		   if(e.getMessage().equals("该用户名已注册账户")) {
+		   if(e.getMessage().equals("该手机号已注册账户")) {
 			   m.addAttribute("phoneerrors","该手机号已注册");
 		   }
 			 
@@ -123,8 +123,11 @@ public class SignAction {
  			Result res = new Result(1, "登录成功!", dbuser);
  			
  			//session
-			session.setAttribute("loginImg", dbuser.getuImg());
+ 			if(dbuser.getuName().equals("admin")==false) {
+ 				session.setAttribute("loginImg", dbuser.getuImg());
 			 session.setAttribute("LoginUser", dbuser.getuName());
+ 			}
+			
  
 			return res;
 			}else {

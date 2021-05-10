@@ -45,9 +45,9 @@ public class UserBiz {
 	}
 	
 	 //use_order中个人order展示
-		public List<Order> userorder(int ouid) {
+		public List<Order> userorder(int ouid,int state) {
 			// TODO Auto-generated method stub
-			  return um.userorder( ouid);
+			  return um.userorder( ouid,state);
 		}
 		 //use_order中 进行评论
 		public int addComment(Comment comm) {

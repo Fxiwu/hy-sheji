@@ -3,7 +3,10 @@ package com.hy.Sheji.web;
  
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -79,8 +82,9 @@ import com.hy.Sheji.dao.ProductMapper;
 		   
 	//后台商品管理 product.html全部商品展示
 	 @GetMapping("productquery")
-	 public List<Product> productquery(@RequestParam(value="pCid" ,defaultValue ="0") int pCid,
-			       @RequestParam(value="aId" ,defaultValue ="0") int aId){
+	 public Map<String, Object> productquery(@RequestParam(value="pCid" ,defaultValue ="0") int pCid,
+			       @RequestParam(value="aId" ,defaultValue ="0") int aId,
+			       Integer page,Integer rows){
 		 Product product=new Product();
 		 if(pCid!=0) {
 			 product.setpCid(pCid);
@@ -88,7 +92,28 @@ import com.hy.Sheji.dao.ProductMapper;
 		 if(aId!=0) {
 			 product.setpAid(aId);
 		 }
-		 return pm.productquery(product);
+ 
+		    //查询所有数据
+		 List<Product> plist= pm.productquery(product);
+		    //查询总记录数
+		 int count=pm.countpro(product);
+		 //展示分页集合
+		    List<Product> p = new ArrayList<>();
+		 
+		    for (int i = 0; i < plist.size(); i++)
+		    {
+		        //当前页-1 * 记录数 并且 这条记录是第几页的数据 当前页乘以记录数
+		        //第一次传过来的rows 是10 page是1
+		        if (i >= (page - 1) * rows && i < page * rows)
+		        {
+		            //符合当前页的数据添加到展示分页集合中
+		            p.add(plist.get(i));
+		        }
+		    }
+		    Map<String,Object> result = new HashMap<String,Object>();
+		    result.put("total", count);
+		    result.put("rows", p);
+		    return result;
 		 
 	 }
 	//后台商品管理  product.html 商品删除
@@ -112,12 +137,14 @@ import com.hy.Sheji.dao.ProductMapper;
 									String	 pGuige,   
 									int	 pKucun, 
 									String	 pHot , 
+									String	 pDanwei,
 					           @RequestParam(value="pImg" ,required = false)String	pImg ){
-			int phot=0;
+		 
+			 int phot=0;
 			int c=0;
 			int a=0;
 			Product pro=new Product();
-			System.out.println("=======");
+			 
 			 if(pHot.equals("1") ) {
 				 phot=1;
 			 }
@@ -142,7 +169,8 @@ import com.hy.Sheji.dao.ProductMapper;
 			pro.setpKucun(pKucun);
 			pro.setpImg(pImg);
 			pro.setPrice(price);
-			 System.out.println("phot"+phot);
+			pro.setpDanwei(pDanwei);
+			 System.out.println("pDanwei"+pro.getpDanwei());
 			 if( pId == 0) {
 		 			 pm.insertpro(pro);
 		 			return new Result(1,"商品添加成功!");

@@ -62,6 +62,12 @@ public interface ProductMapper {
 				     one=@One(select="com.hy.Sheji.dao.AreaMapper.selectAreaD"))
 		     })
 	List<Product> productquery(Product pro);
+	@Select("<script>"
+			+ "select count(*) from hy_product"
+			+ "<where><if  test='pCid!=null'> and p_cid = #{pCid} </if>"  
+			+" <if  test='pAid!=null'> and p_aid = #{pAid} </if></where>"
+			+ "</script>")
+	int  countpro(Product pro);
 
 	//商品类别
 	@Select("select * from hy_category where pc_id=#{pCid}")	

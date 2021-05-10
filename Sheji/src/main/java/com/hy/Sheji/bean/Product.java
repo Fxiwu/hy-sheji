@@ -15,6 +15,7 @@ public class Product {
 	private Integer pAid;
 	private String  pGuige;
 	private Integer pKucun;
+	private String pDanwei;
 	
 	private Area area;
 	private Category category;
@@ -98,6 +99,12 @@ public class Product {
 	}
 	public void setpKucun(Integer pKucun) {
 		this.pKucun = pKucun;
+	}
+	public String getpDanwei() {
+		return pDanwei;
+	}
+	public void setpDanwei(String pDanwei) {
+		this.pDanwei = pDanwei;
 	}
 	 
 	 

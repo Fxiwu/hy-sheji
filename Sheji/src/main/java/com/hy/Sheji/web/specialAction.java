@@ -49,7 +49,7 @@ public class specialAction {
        @GetMapping("special_details")
        public PageInfo<Product>  sdetail1(@RequestParam(value="aId" ,defaultValue ="1") int aId,
     		                         @RequestParam(value="pageNum", defaultValue="1")int pageNum) {
-		    PageHelper.startPage(pageNum,2);
+		    PageHelper.startPage(pageNum,10);
     	   //special_detail页面展示
              List<Product> sdlist=sb.sdetail(aId);
              PageInfo<Product> pageInfo=new PageInfo<>(sdlist);
