@@ -131,8 +131,7 @@ function fmtImg(value, row, index) {
 	 	var url = "../../upload";
 	 	 
 	 	var fd = new FormData(ff);	
-	 	alert("fd"+fd);
-	 
+	 	
 	 		axios.post(url, fd).then(res=>{
 	 		
 	 		
@@ -145,7 +144,7 @@ function fmtImg(value, row, index) {
 	 			} else { 
 	 				// 以 / 开头的图片( 上传的图片 )
 	 				uphone.src = res.data.data;
-	 			alert(up.src);
+	 			//alert(up.src);
 	 		}
 	 		// tbImg 是Easyui的 控件对象
 	 			    $("#tb").textbox('setValue',res.data.data);

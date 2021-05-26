@@ -49,7 +49,7 @@ public class CartBiz {
 		}		     
 		
 		//删除购物车中的商品类商品
-		public  int deleteByUid(int cId){
+		public  int deleteByCid(int cId){
 	         
 			return cm.deleteByCid(cId);
 		}

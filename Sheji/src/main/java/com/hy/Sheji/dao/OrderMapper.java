@@ -27,7 +27,7 @@ public interface OrderMapper {
 	  @Options(useGeneratedKeys = true,keyProperty = "oId",keyColumn = "o_id")
 	  public int insertOrder(Order order);
 	
-	//新增订单Order对应的Orderdeatil   默认订单状态为0  地址为1
+	//新增订单Order对应的Orderdeatil    
 	  @Insert("<script> insert into hy_orderdetail(d_count,d_total,d_pid,d_oid) values "
 	  		+ "<foreach collection='odlist' item='odlist' separator=','>"
 	  		+ "  (#{odlist.dCount},#{odlist.dTotal}," 

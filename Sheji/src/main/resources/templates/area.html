@@ -62,11 +62,11 @@
 					</div>
 					<div id="sp" class="artist-bottom clearfix">
 					 <ul>
-					   <li th:each="a :${alist}">
+					   <li th:each="a :${pageInfo.list}">
 						<div class="list clearfix fl">
 							<div class="left clearfix fl box-s">
 								<div class="tu clearfix">
-									<img th:src="${a.aPhoto}"/>
+									<img th:src="${a.aPhoto}" style="width:100%;height:100%;background-position: center;background-repeat: no-repeat;background-size: cover"/>
 									 
 								</div>
 							</div>
@@ -85,21 +85,21 @@
 					</ul> 
 					 
 				</div>
-				
+				  
 				<div  class="artist-bottom clearfix">
 					 <ul>
 					   <li v-if="salist!=null" v-for="a in salist">
 						<div class="list clearfix fl">
 							<div class="left clearfix fl box-s">
 								<div class="tu clearfix">
-									<img  :src=" a.aPhoto "/>
+									<img  :src=" a.aPhoto " style="width:100%;height:100%;background-position: center;background-repeat: no-repeat;background-size: cover"/>
 									 
 								</div>
 							</div>
 							<div class="right clearfix fl">
 								<span class="tit" >地区：{{a.aShi}}市{{a.aXian}}县 </span>
 								<div class="bottom clearfix box-s fl over4" >
-								{{a.aJieshao}}
+								{{a.aJieshao.substring(0,150)}}.....
 								</div>
 							</div>
 							<a th:href="'area_detail?#'+a.aId" class="ck-btn ra3 transition">
@@ -110,7 +110,16 @@
 					</ul> 
 					 
 				</div>
+				 <div class="page clearfix ta-right" style="margin-top:10px" th:if="salist!=null">
+                     
+						<a type="button" class="pre box-s"  th:href="@{/area(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+						<span th:text="'第'+${pageInfo.pageNum}+'页'"></span>
+						<span th:text="'共'+${pageInfo.pages}+'页'"></span>
+						<a type="button" class="next box-s" th:href="@{/area(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+
+			    </div> 
 			</div>
+			  
 			<!--artist end-->
 			
 		</div>

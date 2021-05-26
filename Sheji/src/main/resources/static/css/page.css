@@ -811,16 +811,19 @@
 
 
 .sales .content .bottom {
+	 
 	width: 100%;
-	margin-top: 25px;
+    
+     padding-left:100px;
+	margin-top:25px;
 }
 /*商品框*/
 .sales .content .bottom .list {
-	width: 200px;
-	height:250px;
+	width: 220px;
+	height:270px;
 	float: left;
-	margin-bottom: 10px;
-	margin-right: 18px;
+	margin-bottom: 20px;
+	margin-right: 25px;
 	background-color: #fff;
 	padding: 12px 10px;
 	border: 1px solid #d3d3d3;
@@ -838,8 +841,8 @@
 }
 /*图片设置*/
 .sales .content .bottom .list .tu {
-	width: 200px;
-	height: 200px;
+	width: 220px;
+	height: 220px;
 	text-align: center;
 	font-size: 0;
 	position: relative;
@@ -853,6 +856,8 @@
 }
 
 .sales .content .bottom .list .tu img {
+	width: auto;
+	height: auto;
 	max-height: 100%;
 	max-width: 100%;
 	vertical-align: middle;

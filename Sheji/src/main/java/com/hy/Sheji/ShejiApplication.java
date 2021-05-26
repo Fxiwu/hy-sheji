@@ -16,14 +16,13 @@ import com.hy.Sheji.web.LoginInterceptor;
 @MapperScan("com.hy.Sheji")
 public class ShejiApplication implements WebMvcConfigurer{
 
-	@Override   //拦截器注册方法  参数：拦截器注册器
+	@Override   //拦截器注册方法 拦截器注册器
 	public void addInterceptors(InterceptorRegistry registry) {
 		 
 		WebMvcConfigurer.super.addInterceptors(registry);
 		InterceptorRegistration	ir=registry.addInterceptor(new LoginInterceptor());
 		ir.addPathPatterns("/user","/user_order","/user_address",
-				"/cart","/jiesuan","/fukuan",
-				"/addcart","/liji","/user","/user1");
+				"/cart","/jiesuan","/fukuan","/liji","/user","/user1");
 	}
 	
 	 
@@ -31,5 +30,11 @@ public class ShejiApplication implements WebMvcConfigurer{
 		SpringApplication.run(ShejiApplication.class, args);
 	}
 
-	 
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    	registry.addResourceHandler("/touxiang/**").addResourceLocations("file:E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/touxiang/");
+     	registry.addResourceHandler("/comment/**").addResourceLocations("file:E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/comment/");
+
+	}
+  
 }

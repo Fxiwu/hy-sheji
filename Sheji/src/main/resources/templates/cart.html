@@ -26,13 +26,6 @@
 	<!--header star-->
 	<div class="header clearfix">
 		  <div th:insert="index::.toubu"></div>
-		<div class="bottom clearfix">
-
-			<div class="search clearfix fr ra5">
-				<input type="text" class="fl" name="" id="" value="" placeholder="请输入您要搜索的内容" />
-				<input type="button" name="" id="" value="搜索" class="fl box-s" />
-			</div>
-		</div>
 	</div>
 	<!--header end-->
 
@@ -74,7 +67,7 @@
 							   
 								<p th:text="${cl.cCount}"></p>
 							</td>
-							<td><span class="orange" id="numbers"  th:text="${#numbers.formatDecimal((cl.product.price*cl.cCount),1,'COMMA',2,'POINT')}"  ></span></td>
+							<td><span class="orange" id="numbers"  th:text="${#numbers.formatDecimal((cl.product.price*cl.cCount),2,'COMMA',2,'POINT')}"  ></span></td>
 							<td>
 								<button th:value="${cl.cId}" style="border:none"   th:onclick="javascript:del([[${cl.cId}]])" ><i class="iconfont fs26">&#xe60b;</i></button>
 							</td>

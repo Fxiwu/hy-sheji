@@ -89,7 +89,6 @@ public class UserAction {
 		if(xian.isEmpty()||xian.trim()==null) {
 			return new Result(0,"地址不完整");	
 		}
-//		System.out.println("shen:::"+shen);
 		int uId=ub.selectByuName(uName).getuId();
 		//判断是否有默认地址，有则原有的默认地址为非默认
 		if(um.seAddressdft(uId)!=null&&address.getAddDft()==1) {
@@ -139,7 +138,7 @@ public class UserAction {
         if(oState==1){ 
         	return new Result(1,"提醒成功");
         }
-        if(oState==4&&om.updateoState(oId,4)>0&&om.updateaoOstate(oId,4)>0) {
+        if(oState==3&&om.updateoState(oId,3)>0&&om.updateaoOstate(oId,3)>0) {
 			    return new Result(1,"确认收货成功");
 		   }else if(oState==6&&om.updateoState(oId,6)>0&&om.updateaoOstate(oId,6)>0) {
 				 pm.addKucun(pId,dCount);  //库存增加
@@ -163,11 +162,7 @@ public class UserAction {
 			 //获取文件名
 	        String fileName = file.getOriginalFilename();
 	       System.out.println("fileName"+fileName);
-	        //获取文件后缀名
-	        //String suffixName = fileName.substring(fileName.lastIndexOf("."));
-	        //重新生成文件名
-	       // fileName =fileName+suffixName;
-	        System.out.println("fileName:"+fileName);
+	        
 	        //指定本地文件夹存储图片
 	        String filePath = "E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/comment/";
 	        try {
@@ -185,7 +180,7 @@ public class UserAction {
 		  if(comm.getCoComm().isEmpty()||comm.getCoComm().trim()==null) {
 			  return new Result(0,"评论不能为空！！");
 		  }
-		  System.out.println("kkklklklkl"+comm.getCoImg());
+		  
 		  int i=ub.addComment(comm);
 		  if(i>0) {
 			 int m= om.updateaoOstate(comm.getCoOid(), 5);//将订单状态改为已评价状态
@@ -311,11 +306,7 @@ public class UserAction {
 			        	  //获取文件名
 				        String fileName = file.getOriginalFilename();
 			        	System.out.println("fileName"+fileName);
-				        //获取文件后缀名
-				        //String suffixName = fileName.substring(fileName.lastIndexOf("."));
-				        //重新生成文件名
-				       // fileName =fileName+suffixName;
-				        System.out.println("fileName:"+fileName);
+				         
 				        //指定本地文件夹存储图片
 				        String filePath = "E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/touxiang/";
 				        try {

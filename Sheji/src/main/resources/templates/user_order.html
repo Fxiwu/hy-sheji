@@ -89,7 +89,7 @@
 					<table class="table_1" >
 						<tr>
 							<th width="30%">商品信息</th>
-							<th width="16%">单价（元）</th>
+							<th width="16%">价格（元）</th>
 							<th width="15%">数量</th>
 							<th width="15%">收货人</th>
 							<th width="24%" rowspan="2">订单状态</th>
@@ -109,16 +109,16 @@
 							</th>
 						</tr> 
 						
-					  <ul  >
+					  <ul >
 					     <li th:each="ord:${od.ordertail}" > 
-						<tr  >
+						<tr >
 							<td width="30%">
 								<p class="clearfix o-goods-info">
 									<a  th:href="'pro_detail?#'+${ord.product.pId}" class="fl"><span><img th:src="${ord.product.pImg}" alt=""></span></a>
 									<span class="fl tit "  > </span>
 								</p>
 							</td>
-							<td width="16%" align="center" th:text="'￥'+${ord.product.price}">1100</td>
+							<td width="16%" align="center" th:text="'￥'+${ord.dTotal}">1100</td>
 							<td width="15%" align="center" th:text="${ord.dCount}"></td>
 							<td width="15%"   align="center" th:text="${od.address.addName}">李东海</td>
 							<td width="12%"   align="center" id="state"  >

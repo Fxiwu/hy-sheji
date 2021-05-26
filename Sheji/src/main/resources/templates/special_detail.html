@@ -64,7 +64,7 @@
 					  <li v-for="sd in plist">
 						<div class="list clearfix transition">
 							<div class="tu clearfix">
-								<a :href="'pro_detail?#'+sd.pId"><img :src="sd.pImg"/></a>
+								<a :href="'pro_detail?#'+sd.pId"><img :src="sd.pImg"/ style="width:100%;height:100%;background-position: center;background-repeat: no-repeat;background-size: cover"></a>
 								<span></span>
 
 							</div>
@@ -94,7 +94,7 @@
 					  <li v-for="sd in sdlist">
 						<div class="list clearfix transition">
 							<div class="tu clearfix">
-								<a :href="'pro_detail?#'+sd.pId"><img :src="sd.pImg"/></a>
+								<a :href="'pro_detail?#'+sd.pId"><img :src="sd.pImg" style="width:100%;height:100%;background-position: center;background-repeat: no-repeat;background-size: cover"/></a>
 								<span></span>
 
 							</div>
@@ -117,8 +117,8 @@
 				 <div class="page clearfix ta-right">
                      
 						<a type="button" class="pre box-s"  @click="up()">上一页</a>
-						<span>第{{this.pageNum}}页</span>
-						
+						<span>第{{this.pageNum}}页</span>&nbsp;&nbsp;
+						<span>共{{this.pages}}页</span>
 						<a type="button" class="next box-s" @click="down()">下一页</a>
 
 					</div> 

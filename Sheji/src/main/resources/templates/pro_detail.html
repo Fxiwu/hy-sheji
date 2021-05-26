@@ -52,7 +52,7 @@
 				<div class="main-pro-info white-box  clearfix">
 					<div class="fangda clearfix fl">
 						<p class="showpage">
-					       <img :src="p.pImg">
+					       <img :src="p.pImg" style="width:100%;height:100%;background-position: center;background-repeat: no-repeat;background-size: cover">
 						</p>
 						
 						</div>
@@ -100,7 +100,7 @@
 						<div class="title"><strong class="fs16 white">大家都喜欢</strong></div>
 						<ul class="likelist">
 							<li th:each="l:${like}">
-								<a th:href="'pro_detail?#'+${l.pId}"  @click="change()" class="db pic"><span><img th:src="${l.pImg}" alt=""/></span></a>
+								<a th:href="'pro_detail?#'+${l.pId}"  @click="change()" class="db pic"><span><img th:src="${l.pImg}" style="width:100%;height:100%;background-position: center;background-repeat: no-repeat;background-size: cover" alt=""/></span></a>
 								<a th:href="'pro_detail?#'+${l.pId}"  @click="change()" class="full-db tit darkblack ellipsis" th:text="${l.pName}">衡东特产三樟青黄贡椒</a>
 								<strong class="full-db red"><em class="fs12">¥</em>65.00</strong>
 							</li>

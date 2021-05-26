@@ -46,7 +46,7 @@ public class SignAction {
 	    //利用图片工具生成图片
 	    //第一个参数是生成的验证码，第二个参数是生成的图片
 	    Object[] objs = VerifyUtil.createImage();
-	    //将验证码存入Session
+	    
 	    session.setAttribute("captcha",objs[0]);
 
 	    //将图片输出给浏览器
@@ -150,8 +150,8 @@ public class SignAction {
 		@GetMapping("exit")
 		@ResponseBody
 	    public Result exit(HttpServletRequest request,HttpSession session){
-		         request.getSession().removeAttribute("LoginUser");
-		         request.getSession().removeAttribute("loginedUser");
+		        // request.getSession().removeAttribute("LoginUser");
+		      //  request.getSession().removeAttribute("loginedUser");
 		        // session.removeAttribute("oid");
 		         return new Result("sign");
 		      }

@@ -1,5 +1,7 @@
 server:
     pott: 8080
+    maxPostSize: -1
+    maxHttpHeaderSize: 102400
     
 spring:
   datasource:

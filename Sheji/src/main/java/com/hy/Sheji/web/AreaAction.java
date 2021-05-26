@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hy.Sheji.bean.Area;
+import com.hy.Sheji.bean.Product;
 import com.hy.Sheji.bean.Result;
 import com.hy.Sheji.biz.AreaBiz;
 
@@ -27,12 +30,17 @@ public class AreaAction {
 	   AreaBiz ab;
        
        @GetMapping("area")
-       public Model area(Model m,HttpSession session) {
+       public Model area(Model m,HttpSession session,
+    		   @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
 			//area页面展示
-         List<Area> alist= ab.area();
+        
          m.addAttribute("se",session.getAttribute("LoginUser"));
          m.addAttribute("loginImg",session.getAttribute("loginImg"));
-         m.addAttribute("alist", alist);
+         
+         PageHelper.startPage(pageNum,5);
+         List<Area> alist= ab.area();
+		PageInfo<Area> pageInfo =new PageInfo<>(alist);
+		m.addAttribute("pageInfo", pageInfo);  
        	return m;
        	
        }
@@ -50,7 +58,7 @@ public class AreaAction {
        @ResponseBody
        @GetMapping("adetail")
        public Area  adetail(int aId) {
-			//area页面展示
+			//area_detail页面展示
          Area ade=ab.areade(aId) ;
 			
 			  String aJieshao=ade.getaJieshao().toString().replace("\n","<br/>").replace(" "
@@ -79,18 +87,13 @@ public class AreaAction {
 			 
 			        String fileName = file1.getOriginalFilename();
 			       System.out.println("fileName"+fileName);
-			        //获取文件后缀名
-			        //String suffixName = fileName.substring(fileName.lastIndexOf("."));
-			        //重新生成文件名
-			       // fileName =fileName+suffixName;
-			        System.out.println("fileName:"+fileName);
-			        //指定本地文件夹存储图片
+			        
 			        String filePath = "E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/areaimg/";
 			        try {
 			            //将图片保存到static文件夹里
 			        	file1.transferTo(new File(filePath+fileName));
 			        	System.out.println("file"+filePath+fileName);
-			        	//JSON.toJSONString(fileName);
+			        	
 			            return new Result(1,"上传成功","areaimg/"+fileName);
 			        } catch (Exception e) {
 			            e.printStackTrace();

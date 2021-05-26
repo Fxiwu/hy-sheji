@@ -42,26 +42,27 @@ import com.hy.Sheji.dao.CategoryMapper;
 		   List<Category> clist=cm.category();////展示商品类别
 		   
 		   m.addAttribute("clist", clist);
-		   PageHelper.startPage(pageNum,10);
+		   PageHelper.startPage(pageNum,8);
 			List<Product> mclist=mb.Fenlei(pCid);
 			PageInfo<Product> pageInfo = new PageInfo<>(mclist);
 			m.addAttribute("pageInfo", pageInfo);  
 		   return m;
 		}	
-	//mall界面中category方法
-	  @GetMapping ("Fenlei")
-		public PageInfo<Product> Fenlei(@RequestParam(value="pCid" ,defaultValue = "1") int pCid ,
-				                    @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
-	
-		//商城mall商品界面分展示
-		 
-			PageHelper.startPage(pageNum,10);
-			List<Product> mclist=mb.Fenlei(pCid);
-			PageInfo<Product> pageInfo = new PageInfo<>(mclist);
-			  
-		   return pageInfo; 
-		}
-		
-	 
+		/*
+		 * //mall界面中category方法
+		 * 
+		 * @GetMapping ("Fenlei") public PageInfo<Product>
+		 * Fenlei(@RequestParam(value="pCid" ,defaultValue = "1") int pCid ,
+		 * 
+		 * @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
+		 * 
+		 * //商城mall商品界面分展示
+		 * 
+		 * PageHelper.startPage(pageNum,10); List<Product> mclist=mb.Fenlei(pCid);
+		 * PageInfo<Product> pageInfo = new PageInfo<>(mclist);
+		 * 
+		 * return pageInfo; }
+		 * 
+		 */
 
 }

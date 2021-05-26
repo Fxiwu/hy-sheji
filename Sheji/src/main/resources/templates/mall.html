@@ -81,9 +81,9 @@
 					<div class="list clearfix transition">
 						<div class="tu clearfix">
 							<a th:href="'pro_detail?#'+${mc.pId}">
-								<img th:src="${mc.pImg}"/>
+								<img th:src="${mc.pImg}"  style="width:100%;height:100%;background-position: center;background-repeat: no-repeat;background-size: cover"/>
 							</a>
-							<span></span>
+							 
 						</div>
 						<div class="xia clearfix box-s">
 							<p class="bt over"  th:text="${mc.pName}">
@@ -93,7 +93,7 @@
 								<span class="fl" th:text="'￥'+${mc.price}">
 								 
 								</span>
- 
+                                   <a th:href="'pro_detail?#'+${mc.pId}" class="goumai fr ra3 transition">立即购买</a>
 							</div>
 						</div>
 					</li>
@@ -130,7 +130,7 @@
 		</div>
 	   </div>
 	  </div>
-            <div class="page clearfix ta-right" style="margin-top:10px">
+            <div class="page clearfix ta-right" style="margin-top:10px" v-if="p==0">
                      
 						<a type="button" class="pre box-s"  th:href="@{/mall(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1,pCid=${param.pCid})}">上一页</a>
 						<span th:text="'第'+${pageInfo.pageNum}+'页'"></span>
@@ -144,7 +144,16 @@
 	<!--sales end-->
 </div>
 
-    <script type="text/javascript">
+<!--mall end-->
+
+<!--footer star-->
+<div class="weibu" th:include="index::.weibu">
+	
+</div>
+<!--footer end-->
+</div>
+</body>
+<script type="text/javascript">
      
     function  exit(){
 
@@ -182,20 +191,7 @@
 							  }
 								   
 						   });
-						
-						</script>
-
-    
- 
-<!--mall end-->
-
-<!--footer star-->
-<div class="weibu" th:include="index::.weibu">
-	
-</div>
-<!--footer end-->
-
-</body>
+ </script>
 
 <script src="js/other.js" type="text/javascript" ></script>
 </html>

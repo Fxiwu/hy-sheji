@@ -49,7 +49,7 @@ import com.hy.Sheji.dao.ProductMapper;
 	 @Resource 
 	 private CartBiz cb; 
 	 
-	 @Resource   //来获取登录的用户
+	 @Resource    
 		private CartMapper cm;
 	 
 	 @GetMapping ("pro_detail") //产品详情界面
@@ -203,18 +203,12 @@ import com.hy.Sheji.dao.ProductMapper;
 			 
 			        String fileName = file.getOriginalFilename();
 			       System.out.println("fileName"+fileName);
-			        //获取文件后缀名
-			        //String suffixName = fileName.substring(fileName.lastIndexOf("."));
-			        //重新生成文件名
-			       // fileName =fileName+suffixName;
-			        System.out.println("fileName:"+fileName);
-			        //指定本地文件夹存储图片
+			        
 			        String filePath = "E:/github/hy-sheji/hy-sheji/Sheji/src/main/resources/static/upload/";
 			        try {
 			            //将图片保存到static文件夹里
 			        	file.transferTo(new File(filePath+fileName));
 			        	System.out.println("file"+filePath+fileName);
-			        	//JSON.toJSONString(fileName);
 			            return new Result(1,"上传成功","upload/"+fileName);
 			        } catch (Exception e) {
 			            e.printStackTrace();

@@ -26,13 +26,17 @@ public class specialAction {
       SpecialBiz sb;
        
        @GetMapping("special")
-       public List<Area> special(Model m,HttpSession session) {
+       public  PageInfo<Area> special(Model m,HttpSession session,
+    		   @RequestParam(defaultValue = "1",value = "pageNum")Integer pageNum) {
 			//special页面展示
-       	List<Area> slist=sb.selspecial();
+        
         m.addAttribute("se",session.getAttribute("LoginUser"));
         m.addAttribute("loginImg",session.getAttribute("loginImg"));
-       	m.addAttribute("slist",slist);
-       	return slist;
+        PageHelper.startPage(pageNum,5);
+    	List<Area> alist=sb.selspecial();
+		PageInfo<Area> pageInfo =new PageInfo<>(alist);
+		m.addAttribute("pageInfo", pageInfo); 
+       	return pageInfo;
        	
        }
        
@@ -49,7 +53,7 @@ public class specialAction {
        @GetMapping("special_details")
        public PageInfo<Product>  sdetail1(@RequestParam(value="aId" ,defaultValue ="1") int aId,
     		                         @RequestParam(value="pageNum", defaultValue="1")int pageNum) {
-		    PageHelper.startPage(pageNum,10);
+		    PageHelper.startPage(pageNum,8);
     	   //special_detail页面展示
              List<Product> sdlist=sb.sdetail(aId);
              PageInfo<Product> pageInfo=new PageInfo<>(sdlist);

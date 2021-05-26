@@ -32,7 +32,7 @@ public class CartAction {
 	public Model cart(@RequestParam(value="cId" ,defaultValue = "0") int cId,Model m, String uName,HttpSession session) {
 		//判断是否有删除的 
 		if(cId!=0) {
-			 int i=cb.deleteByUid(cId);
+			 int i=cb.deleteByCid(cId);
 			 System.out.println("cId===="+cId);
 		  }
 		uName=(String) session.getAttribute("LoginUser");
@@ -59,8 +59,7 @@ public class CartAction {
 		     	
 			}else {
 				Result res=new Result(0,"请先用户登录");
-				System.out.println("konhkojoio");
-				m.addAttribute("res", res);
+ 				m.addAttribute("res", res);
 			}
 			
 		} catch (BizException e) {

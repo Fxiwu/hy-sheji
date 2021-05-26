@@ -38,7 +38,7 @@ public interface ProductMapper {
 		@Select("select * from hy_comment where co_pid=#{pId}  order by createtime desc")
 		@Results({
 			 
-			 @Result(column="co_aid",property="pAid"),
+				/* @Result(column="co_aid",property="pAid"), */
 			 @Result(column="co_uid",property="user",
 					 one=@One(select="com.hy.Sheji.dao.UserMapper.selectByuId" ))
 		 })

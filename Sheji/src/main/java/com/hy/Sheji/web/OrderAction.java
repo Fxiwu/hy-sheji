@@ -78,7 +78,7 @@ public class OrderAction {
 		     
 			//判断是否有删除的，进行商品种类删除
 			if(cId!=0) {
-				 int i=cb.deleteByUid(cId);
+				 int i=cb.deleteByCid(cId);
 				 System.out.println("cId===="+cId);
 			  }
 			int uId=cm.selectUer(uName).getuId();
@@ -105,9 +105,7 @@ public class OrderAction {
 			/*
 			 * //判断该用户是否有地址 
 			 * 
-			 */
-			 
-
+			 */ 
 			if(um.seAddressdft(uId)!=null) //不为空则设置默认地址
 			   { 
 				 order.setoAddid(um.seAddressdft(uId).getAddId()); 
@@ -222,12 +220,6 @@ public class OrderAction {
 					  return new Result(0,"立即购买失败");
 				 }
  
-				 
-	
-				 
-	
-	
-	
 	//删除订单中的商品
 	@GetMapping("delorder")
 	@Transactional(rollbackFor = Exception.class)
@@ -293,7 +285,7 @@ public class OrderAction {
 			 
 		}
 		int addddft=um.seAddressdft(uid).getAddId();//用户的默认地址id
-		if(addId!=uid) {
+		if(addId!=addddft) {
 			 ob.updateOrderAddr(addId,oid);//更改Order表中的收货地址
 			     //更改adminOrder表中的收货地址
 			 
@@ -313,24 +305,39 @@ public class OrderAction {
 	}
 	
 	//fukuan.html中付款成功
-	@GetMapping("fukuan")
-	public Model fukuan(Model m, HttpSession session) {
-		String uName=(String) session.getAttribute("LoginUser");
-		m.addAttribute("se",uName);
-		m.addAttribute("loginImg",session.getAttribute("loginImg"));
-		return m;
-	}
-	
-	//fukuan.html中付款成功数据渲染
-	@GetMapping("fukuan1")
-	public Order fukuan1( HttpSession session) {
+		@GetMapping("fukuan")
+		public Model fukuan(Model m, HttpSession session) {
+			String uName=(String) session.getAttribute("LoginUser");
+			m.addAttribute("se",uName);
+			m.addAttribute("loginImg",session.getAttribute("loginImg"));
+
+			int oid=(int) session.getAttribute("oid");
+			Order order=ob.selectOrder(oid);  //查询相应的订单
+			 m.addAttribute("order", order);
+			return m;
+		}
 		
-		int oid=(int) session.getAttribute("oid");
-		Order or=ob.selectOrder(oid);  //查询相应的订单
 		 
-		return or;
-	}
+		
 	
+	/*
+	 * //fukuan.html中付款成功
+	 * 
+	 * @GetMapping("fukuan") public Model fukuan(Model m, HttpSession session) {
+	 * String uName=(String) session.getAttribute("LoginUser");
+	 * m.addAttribute("se",uName);
+	 * m.addAttribute("loginImg",session.getAttribute("loginImg")); return m; }
+	 * 
+	 * //fukuan.html中付款成功数据渲染
+	 * 
+	 * @GetMapping("fukuan1") public Order fukuan1( HttpSession session) {
+	 * 
+	 * int oid=(int) session.getAttribute("oid"); Order or=ob.selectOrder(oid);
+	 * //查询相应的订单
+	 * 
+	 * return or; }
+	 */
+		
 	//back adminorder中所有的订单
 	@GetMapping("allOrder")
 	public Map<String, Object> allOrder(@RequestParam(value="uname",required=false) String uname,
@@ -353,15 +360,14 @@ public class OrderAction {
 	    
 	     //查询所有数据
 		 List<AdminOrder> olist=ob.adminOrderquery(or);
-		    //查询总记录数
+		 //查询总记录数
 		 int count=ob.countaord(or);
-		 //展示分页集合
+		 
 		    List<AdminOrder> p = new ArrayList<>();
 		 
 		    for (int i = 0; i < olist.size(); i++)
 		    {
 		        //当前页-1 * 记录数 并且 这条记录是第几页的数据 当前页乘以记录数
-		        //第一次传过来的rows 是10 page是1
 		        if (i >= (page - 1) * rows && i < page * rows)
 		        {
 		            //符合当前页的数据添加到展示分页集合中
